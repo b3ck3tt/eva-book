@@ -1,0 +1,76 @@
+\documentclass[12pt,fleqn,a4paper,oneside]{book}
+
+\usepackage{makeidx}
+\usepackage{graphicx}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{color}
+\usepackage{times}
+
+
+\usepackage[czech]{babel}
+\usepackage[utf8x]{inputenc}
+%\usepackage[T1]{fontenc}     
+
+% \usepackage[utf8x]{inputenc}  % pro unicode UTF-8
+% \usepackage[cp1250]{inputenc} % pro win1250
+% \usepackage[T1]{fontenc}
+%\usepackage{float}
+\floatname{algorithm}{Algoritmus}
+\renewcommand{\listalgorithmname}{Seznam algoritmů}
+\newcommand{\Real}{{\cal R}}
+
+\newcommand{\pozn}[1]{{\textcolor{red}{\sc #1}}}
+%\def\pozn#1{{\textcolor{red}{\sc #1}}}
+
+\makeindex
+
+\frontmatter
+
+\title{EVA -- Přírodou inspirované prohledávací algoritmy}
+\author{Roman Neruda, Martin Pilát\\
+MFF UK
+}
+\date{\includegraphics[width=5cm]{mff_logo.png}}
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% hack, aby nepretekaly cz slova, ktery neumi delit
+\sloppy 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\maketitle
+
+\mainmatter
+
+\chapter{Před úvodem}
+\section{Jak to je?}
+\input{000-teze.tex}
+\section{Jak to bude?}
+\section{Pok pok pokusy}
+\input{001-pokus.tex}
+
+\chapter{Evoluční algoritmy}
+\input{01-evolucni-algoritmy.tex}
+
+\chapter{Genetické algoritmy}
+\input{02-geneticke-algoritmy.tex}
+
+\chapter{Evoluční strategie}
+
+
+
+\backmatter
+
+\tableofcontents
+\printindex
+\listoffigures
+\listoftables
+\listofalgorithms 
+
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{evabook}
+
+\end{document}

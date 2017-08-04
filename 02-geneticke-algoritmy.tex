@@ -1,0 +1,35 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Genetické algoritmy}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\index{Genetický algoritmus}
+
+Genetické algoritmy jsou asi nejznámější součástí evolučních výpočtů a v~různých obměnách se používají hlavně při řešení optimalizačních úloh. Je zajímavé, že původní Hollandovou motivací při návrhu genetického algoritmu bylo studovat vlastnosti přírodou inspirované adaptace~\cite{Holland:1992}. Velká část původní literatury byla věnována popisu principů, jak genetický algoritmus pracuje při hledání řešení úlohy. Zajímavé jsou paralely s matematickým problémem dvourukého bandity, který je příkladem na udržování optimální rovnováhy mezi explorací a exploatací. 
+
+Nejjednodušší varianta genetického algoritmu pracuje s binárními jedinci, to znamená, že parametry řešené úlohy je nutno vždy zakódovat jako binární řetězce. Tento přístup je výhodný z hlediska jednoduchosti použitých operátorů, ale binární zakódování na druhou stranu nemusí být nejvhodnější reprezentací problému. Způsob fungování jednoduchého genetického algoritmu je také poměrně jednoduchý. Algoritmus přechází mezi populacemi řešení tak, že nová populace zcela nahradí předchozí. Výběr rodičů je často realizován tzv. ruletovou selekcí, která vybírá jedince náhodně~s pravděpodobností výběru úměrné jejich fitness. Rekombinačním operátorem je jednobodové křížení, které náhodně zvolí stejnou pozici v rodičích a vyměňí jejich části. Pravděpodobnost uskutečnění operace křížení je jedním z parametrů programu a obvykle je poměrně vysoká (0,5 i více). Mutace provádí drobné lokální změny tak, že prochází jednotlivé bity řetězce a každý bit s~velmi malou pravděpodobností změní. Pravděpodobnost mutace je typicky nastavena, tak aby došlo průměrně ke změně jednoho bitu v populaci (oblíbená dolní mez) nebo v jedinci (horní mez). 
+
+\begin{algorithm}
+\caption{Schéma Hollandova gentického algoritmu}
+\label{obrga}
+\begin{algorithmic}
+\Procedure{Jednoduchý genetický algoritmus}{} 
+\State $t \gets 0$
+\State \emph{Inicializuj} populaci $P_t$ $N$ náhodně vygenerovanými binárními jedinci délky $n$
+\State \emph{Ohodnoť} jedince v populaci $P_t$
+\While{neplatí \emph{kritérium ukončení}}
+\For{$i \gets 1, \dots, N/2$}
+\State 	vyber z $P_t$ 2 rodiče \emph{Ruletovou selekcí}
+\State 	S pravděpodobností $p_C$ \emph{Zkřiž} rodiče
+\State 	S pravděpodobností $p_M$ \emph{Mutuj} potomky
+\State 	\emph{Ohodnoť} potomky
+\State  Přidej potomky do $P_{t+1}$
+\EndFor
+\State 	Zahoď $P_t$
+\State $t \gets t+1$
+\EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+Ruletovou selekci si dle metafory můžeme představit tak, že kolo rulety rozdělíme na výseče odpovídající velikostí hodnotám fitness jedinců a při výběru pak $n$ krát vhodíme kuličku. Často používaným vylepšením ruletové selekce je tzv. stochastický univerzální výběr, který hodí kuličku do rulety jen jednou a další jedince vybírá deterministicky posunem pozice kuličky o $1/n$. Tento výběr pro malá $n$ lépe aproximuje ideální počty zastoupení jedinců v další generaci. Dalšími varianty rodičovské selekce nepracují s absolutními hodnotami fitness, ale vybírají náhodně v závislosti na pořadí jedince v populaci setříděné podle fitness, což zanedbává absolutní rozdíly mezi hodnotami. Další variantou rodičovské selekce je tzv $k$-turnaj, kdy nejprve vybereme $k$ jedinců náhodně a z nich pak vybereme nejlepšího. 
+
+V současnosti se oblast genetických algoritmů neomezuje jen na binární kódování jedinců, časté je celočíselné, permutační nebo reálné kódování, která ale vyžadují specifické operace křížení a mutace~\cite{Michalewicz:1996, Mitchell:1996}. O některých se zmíníme dále. 

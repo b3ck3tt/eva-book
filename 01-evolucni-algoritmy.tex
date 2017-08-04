@@ -1,0 +1,46 @@
+\index{Evoluční algoritmus}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Evoluce, geny a DNA}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Obecné schéma evolučního algoritmu}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Oblast evolučních výpočtů či algoritmů (v angličtině evolutionary computing) zastřešuje několik proudů, které se zpočátku vyvíjely samostatně. Za prehistorii této disciplíny lze považovat Turingovy návrhy na využizí evolučního prohledávání z roku 1948~\cite{Turing:1948} a Bremermannovy první pokusy o implementaci optimalizace pomocí evoluce a rekombinace z roku 1962~\cite{Bremermann:1962}. Během šedesátých let se objevily tři skupiny výzkumníků, kteří nezávisle na sobě vyvíjely a navrhly své varianty použití evolučních principů v informatice. Holland publikoval v roce 1975 svůj návrh genetických algoritmů~\cite{Holland:1992}, \index{Genetický algoritmus}
+zatímco skupina Fogela a spolupracovníků vyvinula metodu nazvanou evoluční programování~\cite{Fogel:1995}. 
+\index{Evoluční programování}
+Nezávisle na nich přišli Rechenberg a Schwefel v Německu na metodu nazvanou evoluční strategie~\cite{Beyer:2002}.
+\index{Evoluční strategie}
+Až do přelomu osmdesátých a devadesátých let existovaly tyto směry bez výraznější interakce, ale poté se spojily do obecnější oblasti evolučních algoritmů. V té době  Koza vytváří metodu genetického programování, Dorigo publikuje disertaci s návrhem mravenčích optimalizačních algoritmů a vznikají první pokusy o aplikaci evoluce na vývoj umělých neuronových sítí. 
+
+U zrodu různých variant evolučních algoritmů stála inspirace přírodními fenomény, konkrétně jde o Darwinovu teorii přírodního výběru a zjednodušené principy genetiky, které poprvé načrtl Mendel. Z genetiky se evoluční algoritmy inspirují diskrétní reprezentací genotypu, z biologické evoluční teorie používají Darwinovu myšlenku o výběru jedinců v prostředí s omezenými zdroji, který závisí na míře přizpůsobení se jedinců danému prostředí.
+
+Základní obecnou myšlenku evolučních algoritmů lze vyjádřit následujícím způsobem. Mějme populaci jedinců v prostředí, které určuje jejich úspěšnost --- fitness. Tito jedinci navzájem soupeří o možnost reprodukce a přežití, která závisí právě na hodnotě fitness. Jde tedy o množinu kandidátů na řešeni problému definovaného prostředím. Způsoby reprezentace jedinců, jejich výběru a rekombinace závisí na konkrétním dialektu evolučních algoritmů, které probereme vzápětí. 
+
+\begin{algorithm}
+\caption{Schéma evolučního algoritmu}
+\label{obreva}
+\begin{algorithmic}
+\Procedure{Evoluční algoritmus}{} 
+\State $t \gets 0$
+\State \emph{Inicializuj} populaci $P_t$ náhodně vygenerovanými jedinci
+\State \emph{Ohodnoť} jedince v populaci $P_t$
+\While{neplatí \emph{kritérium ukončení}}
+\State 	vyber z $P_t$ rodiče \emph{Rodičovskou selekcí}
+\State 	\emph{Rekombinací} rodičů vzniknou potomci
+\State 	\emph{Mutuj} potomky
+\State 	\emph{Ohodnoť} potomky
+\State 	\emph{Enviromentální selekcí} vyber $P_{t+1}$ z $P_t$ a potomků
+\State $t \gets t+1$
+\EndWhile
+%\Until{kritérium ukončení}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+
+Základní princip fungování evolučních algoritmů je tedy následující~\cite{Eiben:2003}. Na začátku algoritmu vygenerujeme (nejčastěji náhodně) první iniciální populaci jedinců. Všechny jedince v populaci ohonotíme ohodnocovací funkcí. Hodnota této funkce určuje šanci výběru jedinců během rodičovské selekce. Vybraní jedinci jsou potom rekombinováni pomocí rekombinačního operátoru, který typicky ze dvou jedinců vytváří jednoho či dva potomky, a pomoci operátoru mutace, který typicky provádí drobné změny jednoho jedince. Tímto postupem si vytvoříme množinu nových kandidátů řešení, a tito noví jedinci potom soutěží s původními jedinci o místo v nové populaci. Výběr jedinců do nové populace (tedy jakési slití rodičů a potomků) má na starosti enviomentální selekce beroucí v úvahu fitness jedinců a připadně další ukazatele jako je například stáří jedinců. Tím je vytvořena nová generace a tento cyklus pokračuje do splnění určitého kritéria ukončení, což je nejčastěji dostatečně dobrý nejlepší jedinec nebo předem určený počet generací.
+

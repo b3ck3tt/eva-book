@@ -1,0 +1,25 @@
+\pozn{skoro to tu muzeme smazat ne?}
+
+\index{Genetický algoritmus}
+
+\begin{algorithm}
+\caption{Schéma evolučního algoritmu}
+\label{obreva}
+\begin{algorithmic}
+\Procedure{Evoluční algoritmus}{} 
+\State $t \gets 0$
+\State \emph{Inicializuj} populaci $P_t$ náhodně vygenerovanými jedinci
+\State \emph{Ohodnoť} jedince v populaci $P_t$
+\While{neplatí \emph{kritérium ukončení}}
+\State 	vyber z $P_t$ rodiče $P'_{t+1}$ \emph{Rodičovskou selekcí}
+\State 	\emph{Rekombinací} rodičů vzniknou potomci $P'_{t+1}$
+\State 	\emph{Mutuj} potomky $P'_{t+1}$
+\State 	\emph{Ohodnoť} potomky $P'_{t+1}$
+\State 	\emph{Enviromentální selekcí} vyber $P_{t+1}$ z $P_t$ a $P'_{t+1}$
+\State $t \gets t+1$
+\EndWhile
+%\Until{kritérium ukončení}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
