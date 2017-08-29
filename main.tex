@@ -1,44 +1,61 @@
-\documentclass[12pt,fleqn,a4paper,oneside]{book}
+\documentclass[a4paper,nofonts,justified]{tufte-book}
 
-\usepackage{makeidx}
 \usepackage{graphicx}
 \usepackage{algorithmicx}
 \usepackage{algpseudocode}
 \usepackage{algorithm}
 \usepackage{color}
-\usepackage{times}
+\usepackage{todonotes}
 
+\usepackage{libertine}
+\usepackage{libertinust1math}
 
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
 \usepackage[czech]{babel}
-\usepackage[utf8x]{inputenc}
-%\usepackage[T1]{fontenc}     
 
-% \usepackage[utf8x]{inputenc}  % pro unicode UTF-8
-% \usepackage[cp1250]{inputenc} % pro win1250
-% \usepackage[T1]{fontenc}
-%\usepackage{float}
+\usepackage[a-2u]{pdfx}
+
+\graphicspath{{./graphics/}}
+
 \floatname{algorithm}{Algoritmus}
 \renewcommand{\listalgorithmname}{Seznam algoritmů}
-\newcommand{\Real}{{\cal R}}
+\newcommand{\Real}{{\ensuremath{\mathcal{R}}}}
 
-\newcommand{\pozn}[1]{{\textcolor{red}{\sc #1}}}
+\newcommand{\pozn}[1]{\todo[inline,color={red!100!green!33},size=\small]{\sc{#1}}}
+\newcommand{\missingref}{\todo[color={red}]{Missing ref.}}
+
 %\def\pozn#1{{\textcolor{red}{\sc #1}}}
 
-\makeindex
+\makeatletter
+\renewcommand{\maketitlepage}{%
+\begingroup%
+\setlength{\parindent}{0pt}
+
+\includegraphics[width=\textwidth]{graphics/logotyp_fakulty1}
+
+\vspace{0.5in}
+
+{\fontsize{24}{24}\selectfont\textit{\@author}\par}
+
+\vspace{1.25in}{\fontsize{36}{54}\selectfont\@title\par}
+
+\vspace{0.5in}{\fontsize{14}{14}\selectfont\textsf{\smallcaps{\@date}}\par}
+
+\vfill{\fontsize{14}{14}\selectfont\textit{\@publisher}\par}
+
+\thispagestyle{empty}
+\endgroup
+}
+\makeatother
 
 \frontmatter
 
-\title{EVA -- Přírodou inspirované prohledávací algoritmy}
-\author{Roman Neruda, Martin Pilát\\
-MFF UK
-}
-\date{\includegraphics[width=5cm]{mff_logo.png}}
+\title{Přírodou inspirované prohledávací algoritmy}
+\author{Roman Neruda, Martin Pilát}
+\date{\today}
 
 \begin{document}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% hack, aby nepretekaly cz slova, ktery neumi delit
-\sloppy 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \maketitle
 
@@ -59,12 +76,9 @@ MFF UK
 
 \chapter{Evoluční strategie}
 
-
-
 \backmatter
 
 \tableofcontents
-\printindex
 \listoffigures
 \listoftables
 \listofalgorithms 
