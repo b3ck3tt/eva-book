@@ -1,14 +1,4 @@
-\documentclass[a4paper,nofonts,justified]{tufte-book}
-
-\usepackage{graphicx}
-\usepackage{algorithmicx}
-\usepackage{algpseudocode}
-\usepackage{algorithm}
-\usepackage{color}
-\usepackage{todonotes}
-
-\usepackage{libertine}
-\usepackage{libertinust1math}
+\documentclass[a4paper,nofonts,nohyper,justified,colorinlistoftodos,hidelinks]{tufte-book}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -16,14 +6,29 @@
 
 \usepackage[a-2u]{pdfx}
 
-\graphicspath{{./graphics/}}
+\usepackage{graphicx}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{pgfplots}
 
+\usepackage{todonotes}
+
+\usepackage{libertine}
+\usepackage{libertinust1math}
+\usepackage{microtype}
+
+\graphicspath{{./graphics/}}
+ 
 \floatname{algorithm}{Algoritmus}
 \renewcommand{\listalgorithmname}{Seznam algoritmů}
 \newcommand{\Real}{{\ensuremath{\mathcal{R}}}}
 
-\newcommand{\pozn}[1]{\todo[inline,color={red!100!green!33},size=\small]{\sc{#1}}}
-\newcommand{\missingref}{\todo[color={red}]{Missing ref.}}
+\newcommand{\pozn}[1]{\todo[inline,color={CornflowerBlue},size=\small]{\sc{#1}}}
+\newcommand{\missingref}{\todo[color={WildStrawberry}]{\textbf{Missing ref.}}}
+\newcommand{\add}[1]{\todo[inline, color={YellowGreen}]{#1}}
 
 %\def\pozn#1{{\textcolor{red}{\sc #1}}}
 
@@ -34,11 +39,8 @@
 
 \includegraphics[width=\textwidth]{graphics/logotyp_fakulty1}
 
-\vspace{0.5in}
-
-{\fontsize{24}{24}\selectfont\textit{\@author}\par}
-
 \vspace{1.25in}{\fontsize{36}{54}\selectfont\@title\par}
+\vspace{0.5in}{\fontsize{24}{24}\selectfont\textit{\@author}\par}
 
 \vspace{0.5in}{\fontsize{14}{14}\selectfont\textsf{\smallcaps{\@date}}\par}
 
@@ -76,12 +78,17 @@
 
 \chapter{Evoluční strategie}
 
+\chapter{Spojitá optimalizace}
+\input{spojita-optimalizace.tex}
+
 \backmatter
 
 \tableofcontents
 \listoffigures
 \listoftables
 \listofalgorithms 
+\setcounter{tocdepth}{1}
+\listoftodos
 
 \nocite{*}
 \bibliographystyle{plain}

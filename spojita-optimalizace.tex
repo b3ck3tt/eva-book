@@ -1,0 +1,36 @@
+%!TEX root = main.tex
+
+Mnoho optimalizačních problémů z běžného života se dá definovat jako optimalizace funkce $$f: \Real^n \to \Real\,.$$ Je proto přirozené, že mnoho výzkumníků se zabývá právě evolučními algoritmy, kterou jsou schopné optimalizovat takové funkce. Problém optimalizace takových funkcí se v literatuře objevuje pod pojmem \emph{spojitá optimalizace}, nebo anglicky \emph{continuous optimization}. Je důležité si uvědomit, že ten pojem vyjadřuje pouze to, že prostor, ve kterém se hledají řešení je spojitý ($\Real^n$), samotná optimalizovaná funkce $f$ být spojitá nemusí.
+
+\section{Vlastnosti funkcí}
+
+Je zřejmé, že některé typy funkcí budou pro evoluční algoritmy lehčí, než jiné. Velký vliv na efektivitu evolučního algoritmu mají především vlastnosti jako multi-modalita, separabilita a podmíněnost. 
+
+Funkce je \emph{multi-modální}, pokud má velké množství lokálních optim. Je zřejmé, že v takovém případě může mít algoritmus problém s uváznutím v lokálním optimu a je potřeba tomu přizpůsobit operátory. Existuje i oblast multi-modální optimalizace, kde je cílem najít co nejvíce různorodých lokálních optim. 
+
+Separabilní funkce jsou naopak pro optimalizaci jednodušší. Jsou to takové funkce, které se dají zapsat pomocí funkcí jedné proměnné. Formálně, funkce $f(x_1, \dots, x_n): \Real^n \to \Real$ je \emph{aditivně separabilní}, pokud se dá zapsat jako součet funkcí $f_1(x_1), \dots, f_n(x_n)$, tj. $f(x_1, \dots, x_n)= \sum_{i=1}^n f(x_i)\,.$ Obdobně můžeme zadefinovat i funkci multiplikativně separabilní. Z hlediska optimalizace je velkou výhodou separabilních funkcí, že se dají optimalizovat po jednotlivých složkách vektoru, tj. optimum můžeme najít tak, že vždy zafixujeme hodnoty $n-1$ parametrů a optimalizujeme jen podle jednoho.
+
+\add{Dopsat definici podmíněnosti}
+
+\begin{marginfigure}
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  axis x line=center,
+  axis y line=center,
+  xmin=-5,   xmax=5,
+  ymin=-5,   ymax=5,
+  xlabel=$x_1$,
+  ylabel=$x_2$,
+  width=\marginparwidth
+]
+  \pgfplotsinvokeforeach{0.2, 0.4, 0.6, 0.8, 1.0}
+  {\draw[red] \pgfextra{
+    \pgfpathellipse{\pgfplotspointaxisxy{0}{0}}
+    {\pgfplotspointaxisdirectionxy{#1*4.5}{#1*1.8}}
+    {\pgfplotspointaxisdirectionxy{0}{#1}}
+  };}
+\end{axis}
+\end{tikzpicture}
+\caption{Příklad špatně podmíněné funkce}
+\end{marginfigure}
