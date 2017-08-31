@@ -10,27 +10,35 @@ Funkce je \emph{multi-modální}, pokud má velké množství lokálních optim.
 
 Separabilní funkce jsou naopak pro optimalizaci jednodušší. Jsou to takové funkce, které se dají zapsat pomocí funkcí jedné proměnné. Formálně, funkce $f(x_1, \dots, x_n): \Real^n \to \Real$ je \emph{aditivně separabilní}, pokud se dá zapsat jako součet funkcí $f_1(x_1), \dots, f_n(x_n)$, tj. $f(x_1, \dots, x_n)= \sum_{i=1}^n f(x_i)\,.$ Obdobně můžeme zadefinovat i funkci multiplikativně separabilní. Z hlediska optimalizace je velkou výhodou separabilních funkcí, že se dají optimalizovat po jednotlivých složkách vektoru, tj. optimum můžeme najít tak, že vždy zafixujeme hodnoty $n-1$ parametrů a optimalizujeme jen podle jednoho.
 
-\add{Dopsat definici podmíněnosti}
-
-\begin{marginfigure}
+\begin{marginfigure}[-4\baselineskip]
 \centering
-\begin{tikzpicture}
-\begin{axis}[
-  axis x line=center,
-  axis y line=center,
-  xmin=-5,   xmax=5,
-  ymin=-5,   ymax=5,
-  xlabel=$x_1$,
-  ylabel=$x_2$,
-  width=\marginparwidth
-]
-  \pgfplotsinvokeforeach{0.2, 0.4, 0.6, 0.8, 1.0}
-  {\draw[red] \pgfextra{
-    \pgfpathellipse{\pgfplotspointaxisxy{0}{0}}
-    {\pgfplotspointaxisdirectionxy{#1*4.5}{#1*1.8}}
-    {\pgfplotspointaxisdirectionxy{0}{#1}}
-  };}
-\end{axis}
-\end{tikzpicture}
-\caption{Příklad špatně podmíněné funkce}
+\input{graphics/tikz/funkce}
+\caption{Příklady různých vlastností funkcí}
+\label{fig:function_examples}
 \end{marginfigure}
+
+Další vlastností, které výrazně ovlivňuje evoluci je podmíněnost funkce. Ta vyjadřuje, jak moc se liší vliv jednotlivých proměnných na hodnotu funkce. Pro kvadratické funkce (u kterých vrstevnice vypadají jako elipsoidy), je jejich podmíněnost druhá odmocnina poměru mezi délkou nejdelší a nejkratší osy elipsoidu. Pokud je podmíněnost funkce velká, říká se, že je funkce špatně podmíněná. Z hlediska evolučního algoritmu je důležité, že by s různým vlivem proměnných na hodnotu funkce měly počítat operátory.
+
+Příklady posledních dvou vlastností vidíme na obrázku \ref{fig:function_examples}, který ukazuje vrstevnice funkcí dvou proměnných. Horní funkce je jednoduchý dvoudimenzionální paraboloid, který je separabilní a dobře podmíněný. Na prostředním obrázku je paraboloid, který má jednu osu delší než druhou a znázorňuje tedy špatnou podmíněnost\footnote{podmíněnost zobrazené funkce jen cca 4.8, nedá se tedy považovat za špatně podmíněnou, objevují se i funkce s podmíněností $10^6$}. Poslední funkce potom kombinuje špatnou podmíněnost s neseparabilitou.
+
+Výše uvedené vlastnosti jsou ty, které nejvíce ovlivňují efektivitu evolučních algoritmů při spojité optimalizaci, nejsou to ale všechny. Některé algoritmy například mohou využívat různé symetrie dané funkce, naopak funkce, které mají své globální optimum jen ve velmi malé oblasti prohledávaného prostoru a jinak jsou konstantní jsou pro evoluci velmi těžké obecně.
+
+\subsection{Kódování pro spojitou optimalizaci}
+
+Jedno z prvních rozhodnutí, které je potřeba udělat při návrhu evolučního algoritmu je výběr kódování jedince. Vzhledem k tomu, že ve spojité optimalizaci pracujeme s vektory reálných čísel, je otázka výběru kódování relativně snadná a jedinci jsou v naprosté většině případů kódování jako vektor typu \code{float} nebo \code{double}.
+
+
+\ask{Existuje pro tohle $\downarrow$ nějaká reference?}
+
+Dalo by se uvažovat i o kódování jedince přímo po vzoru Hollandova genetického algoritmu, tj. binárním vektorem, a používat jednoduchá $n$-bodová křížení a bit-flip mutace, ale taková reprezentace trpí tím, že změna různých bitů v číslech vede k výrazně různým změnám hodnoty (např. změna bitu na konci mantisy vs. změna bitu na začátku exponentu).
+
+\subsection{Operátory pro spojitou optimalizaci}
+
+Pro spojitou optimalizaci můžeme samozřejmě použít stejné operátory jako pro každé jiné vektorové kódování jedince, tedy například $n$-bodové, případně uniformní křížení. Nicméně častěji se používají operátory specializované, které přímo využívají toho, že jedinci jsou vektory čísel.
+
+Jednoduché křížení vektorů například počítá vážený průměr dvou rodičů tak, aby vytvořilo potomka, potomci se tedy spočítají jako
+\begin{align*}
+o_1 & = w*p_1 + (1-w)* p_2\,, \\
+o_2 & = (1-w)*p_1 + w* p_2\,,
+\end{align*}
+kde $p_1$ a $p_2$ jsou rodiče a $w \in (0,1)$ je (případně náhodně) zvolená váha. Ačkoliv se takové křížení relativně často používá hlavně v jednodušších aplikacích, jeho velkou nevýhodou je, že výslední potomci se nikdy nemohou dostat z konvexního obalu počáteční populace.

@@ -13,11 +13,14 @@
 \usepackage{color}
 \usepackage{tikz}
 \usepackage{pgfplots}
+\usepackage{makeidx}
+\usepackage{subfigure}
 
 \usepackage{todonotes}
 
 \usepackage{libertine}
 \usepackage{libertinust1math}
+\usepackage[scaled=0.83]{beramono}
 \usepackage{microtype}
 
 \graphicspath{{./graphics/}}
@@ -29,8 +32,9 @@
 \newcommand{\pozn}[1]{\todo[inline,color={CornflowerBlue},size=\small]{\sc{#1}}}
 \newcommand{\missingref}{\todo[color={WildStrawberry}]{\textbf{Missing ref.}}}
 \newcommand{\add}[1]{\todo[inline, color={YellowGreen}]{#1}}
+\newcommand{\ask}[1]{\todo[inline, color={Peach}]{\textbf{???} #1}}
 
-%\def\pozn#1{{\textcolor{red}{\sc #1}}}
+\newcommand{\code}[1]{\texttt{#1}}
 
 \makeatletter
 \renewcommand{\maketitlepage}{%
@@ -50,6 +54,8 @@
 \endgroup
 }
 \makeatother
+
+\makeindex
 
 \frontmatter
 
@@ -87,6 +93,7 @@
 \listoffigures
 \listoftables
 \listofalgorithms 
+\printindex
 \setcounter{tocdepth}{1}
 \listoftodos
 

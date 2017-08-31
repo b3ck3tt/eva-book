@@ -1,0 +1,61 @@
+%!TEX root = ../../main.tex
+\subfigure[Dobře podmíněná separabilní funkce]{
+  \begin{tikzpicture}
+  \begin{axis}[
+    axis x line=center,
+    axis y line=center,
+    xmin=-5,   xmax=5,
+    ymin=-5,   ymax=5,
+    xlabel=$x_1$,
+    ylabel=$x_2$,
+    width=\marginparwidth
+  ]
+    \pgfplotsinvokeforeach{0.2, 0.4, 0.6, 0.8, 1.0}
+    {\draw[red] \pgfextra{
+      \pgfpathellipse{\pgfplotspointaxisxy{0}{0}}
+      {\pgfplotspointaxisdirectionxy{#1*4.5}{0}}
+      {\pgfplotspointaxisdirectionxy{0}{#1*4.5}}
+    };}
+  \end{axis}
+  \end{tikzpicture}
+}
+\subfigure[Špatně podmíněná funkce]{
+  \begin{tikzpicture}
+  \begin{axis}[
+    axis x line=center,
+    axis y line=center,
+    xmin=-5,   xmax=5,
+    ymin=-5,   ymax=5,
+    xlabel=$x_1$,
+    ylabel=$x_2$,
+    width=\marginparwidth
+  ]
+    \pgfplotsinvokeforeach{0.2, 0.4, 0.6, 0.8, 1.0}
+    {\draw[red] \pgfextra{
+      \pgfpathellipse{\pgfplotspointaxisxy{0}{0}}
+      {\pgfplotspointaxisdirectionxy{#1*4.5}{0}}
+      {\pgfplotspointaxisdirectionxy{0}{#1}}
+    };}
+  \end{axis}
+  \end{tikzpicture}
+}
+\subfigure[Špatně podmíněná a neseparabilní funkce]{
+  \begin{tikzpicture}
+  \begin{axis}[
+    axis x line=center,
+    axis y line=center,
+    xmin=-5,   xmax=5,
+    ymin=-5,   ymax=5,
+    xlabel=$x_1$,
+    ylabel=$x_2$,
+    width=\marginparwidth
+  ]
+    \pgfplotsinvokeforeach{0.2, 0.4, 0.6, 0.8, 1.0}
+    {\draw[red] \pgfextra{
+      \pgfpathellipse{\pgfplotspointaxisxy{0}{0}}
+      {\pgfplotspointaxisdirectionxy{#1*4.5}{#1*1.8}}
+      {\pgfplotspointaxisdirectionxy{0}{#1}}
+    };}
+  \end{axis}
+  \end{tikzpicture}
+}
