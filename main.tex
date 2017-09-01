@@ -27,8 +27,12 @@
  
 \floatname{algorithm}{Algoritmus}
 \renewcommand{\listalgorithmname}{Seznam algoritmů}
-\newcommand{\Real}{{\ensuremath{\mathcal{R}}}}
 
+% mathematical notation
+\newcommand{\Real}{{\ensuremath{\mathcal{R}}}}
+\newcommand{\normal}[2]{\mathcal{N}(#1, #2)}
+
+% todos, comments, ...
 \newcommand{\pozn}[1]{\todo[inline,color={CornflowerBlue},size=\small]{\sc{#1}}}
 \newcommand{\missingref}{\todo[color={WildStrawberry}]{\textbf{Missing ref.}}}
 \newcommand{\add}[1]{\todo[inline, color={YellowGreen}]{#1}}
@@ -89,12 +93,12 @@
 
 \backmatter
 
+\setcounter{tocdepth}{2}
 \tableofcontents
 \listoffigures
 \listoftables
 \listofalgorithms 
 \printindex
-\setcounter{tocdepth}{1}
 \listoftodos
 
 \nocite{*}

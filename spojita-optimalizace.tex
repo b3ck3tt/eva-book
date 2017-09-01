@@ -1,6 +1,17 @@
 %!TEX root = main.tex
 
-Mnoho optimalizačních problémů z běžného života se dá definovat jako optimalizace funkce $$f: \Real^n \to \Real\,.$$ Je proto přirozené, že mnoho výzkumníků se zabývá právě evolučními algoritmy, kterou jsou schopné optimalizovat takové funkce. Problém optimalizace takových funkcí se v literatuře objevuje pod pojmem \emph{spojitá optimalizace}, nebo anglicky \emph{continuous optimization}. Je důležité si uvědomit, že ten pojem vyjadřuje pouze to, že prostor, ve kterém se hledají řešení je spojitý ($\Real^n$), samotná optimalizovaná funkce $f$ být spojitá nemusí.
+Mnoho optimalizačních problémů z běžného života se dá definovat jako optimalizace funkce $$f: D \to \Real\,,$$ kde $D \subseteq \Real^d$. Je proto přirozené, že mnoho výzkumníků se zabývá právě evolučními algoritmy, kterou jsou schopné optimalizovat takové funkce. Problém optimalizace takových funkcí se v literatuře objevuje pod pojmem \emph{spojitá optimalizace}\footnote{anglicky \emph{continuous optimization}}. Je důležité si uvědomit, že název
+ vyjadřuje pouze to, že prostor, ve kterém se hledají řešení je spojitý ($\Real^n$), samotná optimalizovaná funkce $f$ být spojitá nemusí.
+
+Velmi často je definiční obor funkce $D$ $d$-rozměrný interval $$D = [l_1, u_1] \times \dots \times [l_d, u_d]\,,$$ kde $l_i$ a $u_i$ jsou dolní a horní meze pro $i$-tou proměnnou. Objevují se ale i obecnější problémy, kde je $D$ dána pomocí množiny podmínek tvaru $g(\vec{x}) \leq 0$ a $h(\vec{x}) = 0$, pro $g, h: \Real^d \to \Real$.
+
+V této kapitole napřed budeme uvažovat optimalizační problém tvaru 
+\begin{equation*}
+  \begin{aligned}
+  & \underset{x}{\text{min}} & & f(\vec{x}) \\
+  & \text{za podmínek} & & \vec{x} \in [l_1, u_1] \times \dots \times [l_d, u_d]\,. \\
+  \end{aligned}
+\end{equation*}
 
 \section{Vlastnosti funkcí}
 
@@ -10,20 +21,20 @@ Funkce je \emph{multi-modální}, pokud má velké množství lokálních optim.
 
 Separabilní funkce jsou naopak pro optimalizaci jednodušší. Jsou to takové funkce, které se dají zapsat pomocí funkcí jedné proměnné. Formálně, funkce $f(x_1, \dots, x_n): \Real^n \to \Real$ je \emph{aditivně separabilní}, pokud se dá zapsat jako součet funkcí $f_1(x_1), \dots, f_n(x_n)$, tj. $f(x_1, \dots, x_n)= \sum_{i=1}^n f(x_i)\,.$ Obdobně můžeme zadefinovat i funkci multiplikativně separabilní. Z hlediska optimalizace je velkou výhodou separabilních funkcí, že se dají optimalizovat po jednotlivých složkách vektoru, tj. optimum můžeme najít tak, že vždy zafixujeme hodnoty $n-1$ parametrů a optimalizujeme jen podle jednoho.
 
-\begin{marginfigure}[-4\baselineskip]
+Další vlastností, které výrazně ovlivňuje evoluci je podmíněnost funkce. Ta vyjadřuje, jak moc se liší vliv jednotlivých proměnných na hodnotu funkce. Pro kvadratické funkce (u kterých vrstevnice vypadají jako elipsoidy), je jejich podmíněnost druhá odmocnina poměru mezi délkou nejdelší a nejkratší osy elipsoidu. Pokud je podmíněnost funkce velká, říká se, že je funkce špatně podmíněná. Z hlediska evolučního algoritmu je důležité, že by s různým vlivem proměnných na hodnotu funkce měly počítat operátory.
+
+\begin{marginfigure}
 \centering
 \input{graphics/tikz/funkce}
 \caption{Příklady různých vlastností funkcí}
 \label{fig:function_examples}
 \end{marginfigure}
 
-Další vlastností, které výrazně ovlivňuje evoluci je podmíněnost funkce. Ta vyjadřuje, jak moc se liší vliv jednotlivých proměnných na hodnotu funkce. Pro kvadratické funkce (u kterých vrstevnice vypadají jako elipsoidy), je jejich podmíněnost druhá odmocnina poměru mezi délkou nejdelší a nejkratší osy elipsoidu. Pokud je podmíněnost funkce velká, říká se, že je funkce špatně podmíněná. Z hlediska evolučního algoritmu je důležité, že by s různým vlivem proměnných na hodnotu funkce měly počítat operátory.
-
 Příklady posledních dvou vlastností vidíme na obrázku \ref{fig:function_examples}, který ukazuje vrstevnice funkcí dvou proměnných. Horní funkce je jednoduchý dvoudimenzionální paraboloid, který je separabilní a dobře podmíněný. Na prostředním obrázku je paraboloid, který má jednu osu delší než druhou a znázorňuje tedy špatnou podmíněnost\footnote{podmíněnost zobrazené funkce jen cca 4.8, nedá se tedy považovat za špatně podmíněnou, objevují se i funkce s podmíněností $10^6$}. Poslední funkce potom kombinuje špatnou podmíněnost s neseparabilitou.
 
 Výše uvedené vlastnosti jsou ty, které nejvíce ovlivňují efektivitu evolučních algoritmů při spojité optimalizaci, nejsou to ale všechny. Některé algoritmy například mohou využívat různé symetrie dané funkce, naopak funkce, které mají své globální optimum jen ve velmi malé oblasti prohledávaného prostoru a jinak jsou konstantní jsou pro evoluci velmi těžké obecně.
 
-\subsection{Kódování pro spojitou optimalizaci}
+\section{Kódování pro spojitou optimalizaci}
 
 Jedno z prvních rozhodnutí, které je potřeba udělat při návrhu evolučního algoritmu je výběr kódování jedince. Vzhledem k tomu, že ve spojité optimalizaci pracujeme s vektory reálných čísel, je otázka výběru kódování relativně snadná a jedinci jsou v naprosté většině případů kódování jako vektor typu \code{float} nebo \code{double}.
 
@@ -32,13 +43,17 @@ Jedno z prvních rozhodnutí, které je potřeba udělat při návrhu evoluční
 
 Dalo by se uvažovat i o kódování jedince přímo po vzoru Hollandova genetického algoritmu, tj. binárním vektorem, a používat jednoduchá $n$-bodová křížení a bit-flip mutace, ale taková reprezentace trpí tím, že změna různých bitů v číslech vede k výrazně různým změnám hodnoty (např. změna bitu na konci mantisy vs. změna bitu na začátku exponentu).
 
-\subsection{Operátory pro spojitou optimalizaci}
+\section{Operátory pro spojitou optimalizaci}
 
 Pro spojitou optimalizaci můžeme samozřejmě použít stejné operátory jako pro každé jiné vektorové kódování jedince, tedy například $n$-bodové, případně uniformní křížení. Nicméně častěji se používají operátory specializované, které přímo využívají toho, že jedinci jsou vektory čísel.
 
-Jednoduché křížení vektorů například počítá vážený průměr dvou rodičů tak, aby vytvořilo potomka, potomci se tedy spočítají jako
+Tzv. aritmetické křížení vektorů počítá vážený průměr dvou rodičů tak, aby vytvořilo potomka, potomci se tedy spočítají jako
 \begin{align*}
 o_1 & = w*p_1 + (1-w)* p_2\,, \\
 o_2 & = (1-w)*p_1 + w* p_2\,,
 \end{align*}
 kde $p_1$ a $p_2$ jsou rodiče a $w \in (0,1)$ je (případně náhodně) zvolená váha. Ačkoliv se takové křížení relativně často používá hlavně v jednodušších aplikacích, jeho velkou nevýhodou je, že výslední potomci se nikdy nemohou dostat z konvexního obalu počáteční populace.
+
+Mutace pro spojitou optimalizaci se občas rozdělují na dva typy --- ovlivněné a neovlivněné. Neovlivněná mutace generuje novou hodnotu pro složku vektoru nezávisle na aktuální hodnotě, ovlivněná mutace naopak aktuální hodnotu používá. Typickým příkladem neovlivněné mutace je vygenerování nového čísla z daného rozsahu. Ovlivněná mutace typicky přičítá k dané složce vektoru číslo z normálního rozdělení $\normal{\mu}{\sigma^2}$.
+
+Jednou z nevýhod výše uvedeného aritmetického křížení je, že potomci jsou velmi často relativně daleko od svých rodičů a nejsou jim tedy moc podobní. Právě z toho důvodu Deb a Agrawal navrhli simulované binární křížení (SBX)\cite{agrawal1995simulated}.
