@@ -56,4 +56,34 @@ kde $p_1$ a $p_2$ jsou rodiče a $w \in (0,1)$ je (případně náhodně) zvolen
 
 Mutace pro spojitou optimalizaci se občas rozdělují na dva typy --- ovlivněné a neovlivněné. Neovlivněná mutace generuje novou hodnotu pro složku vektoru nezávisle na aktuální hodnotě, ovlivněná mutace naopak aktuální hodnotu používá. Typickým příkladem neovlivněné mutace je vygenerování nového čísla z daného rozsahu. Ovlivněná mutace typicky přičítá k dané složce vektoru číslo z normálního rozdělení $\normal{\mu}{\sigma^2}$.
 
-Jednou z nevýhod výše uvedeného aritmetického křížení je, že potomci jsou velmi často relativně daleko od svých rodičů a nejsou jim tedy moc podobní. Právě z toho důvodu Deb a Agrawal navrhli simulované binární křížení (SBX)\cite{agrawal1995simulated}.
+Jednou z nevýhod výše uvedeného aritmetického křížení je, že potomci jsou velmi často relativně daleko od svých rodičů a nejsou jim tedy moc podobní. Právě z toho důvodu Deb a Agrawal navrhli simulované binární křížení (SBX)\cite{agrawal1995simulated}. Hlavní inspirací pro vytvoření SBX bylo jednobodové křížená binárních řetězců, které reprezentují čísla ve dvojkové soustavě. Při náhodné volbě bodu pro křížení velká část nových potomků je relativně blízko k jednomu z rodičů. Jednobodové křížení má navíc další pěknou vlastnost -- oba potomci jsou stejně daleko od průměru rodičů. 
+
+Cílem SBX je právě simulovat velikosti změn, které se dějí při jednobodovém křížení binárních řetězců. Noví potomci se v SBX křížení spočítají jako 
+$$o_{1,2} = \frac{1}{2}(p_1 + p_2) \pm \frac{1}{2}\beta(p_2 - p_1)\,,$$ kde $p_1$ a $p_2$ jsou rodiče a $\beta$ je náhodné číslo s pravděpodobnostním rozdělením
+$$P(\beta) = \twopartdef{\frac{1}{2} (n+1) \beta^n}{\beta \leq 1}
+                        {\frac{1}{2} (n+1) \frac{1}{\beta^{n+2}}}{\beta>1\,,}$$
+kde $n$ je parametr rozdělení, který určuje, jak často budou hodnoty $\beta$ blízko $1$. Pro vyšší hodnoty $n$ je tato pravděpodobnost vyšší (viz Obrázek~\ref{fig:sbx_beta}). 
+
+\begin{marginfigure}[-12\baselineskip]
+\centering
+\input{graphics/tikz/sbx.tex}
+\caption{Distribuce $\beta$ v SBX křížení pro $n=2$ a $n=10\,.$}
+\label{fig:sbx_beta}
+\end{marginfigure}
+
+Podobnou motivaci jako SBX má i tzv. \emph{polynimální mutace} (PM)\cite{Deb96acombined}. V tomto případě se simuluje velikost změn v bit-flip mutaci binárně kódovaných čísel. To znamená, že nově vytvořený jedinec je s velkou pravděpodobností blízko svému rodiči. Gaussovská mutace se chová podobně, ale u PM je pravděpodobnost malých změn mnohem větší. Nový jedinec se v polynomiální mutaci vytvoří jako 
+$$o = p + \delta \Delta_{max}\,$$ kde $\Delta_{max}$ je maximální velikost mutace a $\delta$ je náhodné číslo z rozdělení $$P(\delta) = \frac{1}{2}(n+1)(1-|\delta|)^n\,, \quad \delta \in (-1, 1)\,.$$ Proměnná $n$ má v tomto případě podobný význam jako u SBX a určuje tvar distribuce. Opět větší hodnota $n$ vede k větší pravděpodobnosti menších změn.
+
+\begin{marginfigure}[-10\baselineskip]
+\centering
+\input{graphics/tikz/pm}
+\caption{Pravděpodobnostní rozdělení $\delta$ v polynomiální mutaci pro $n=2$ a $n=10\,.$}
+\end{marginfigure}
+
+\section{Diferenciální evoluce}
+
+Všechny výše popsané operátory mají jednu zásadní nevýhodu, a tou je, že operují s jedinci po složkách, jsou tedy vhodné především pro separabilní funkce a s neseparabilními si neporadí. \emph{Diferenciální evoluce}\cite{Storn1997} přináší jiný operátor, který tímto problémem netrpí. Řeší ho tím, že se při mutaci k jedinci přičítá rozdíl dvou náhodných jedinců z populace. V prvním kroku je tedy vytvořen nový jedinec v diferenciální evoluci následujícím způsobem: 
+$$o = p_1 + F(p_2 - p_3)\,,$$ kde $p_1$, $p_2$ a $p_3$ jsou rodiče a parametr $F$ určuje, jak velké změny se v mutaci budou dělat. Jeho obvyklá hodnota je kolem $F=0.8$, ale často se objevují hodnoty mezi 0.5 a 1.0, někdy dokonce až 2.0. 
+
+Kromě výše uvedené diferenciální mutace se v diferenciální evoluci používá i uniformní křížení s dalším náhodně zvoleným rodičem. 
+\add{Doplnit popis diferenciální evoluce}

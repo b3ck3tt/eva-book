@@ -1,0 +1,23 @@
+%!TEX root = ../../main.tex
+\begin{tikzpicture}
+  \begin{axis}[
+    axis lines=middle,
+    xmin=0,   xmax=5,
+    ymin=0,   ymax=2,
+    xlabel=$\beta$,
+    ylabel=$P(\beta)$,
+    xtick={0,1,2,3,4,5},
+    ytick={0,1,2},
+    width=\marginparwidth,
+    vasymptote=1,
+    legend pos=north east
+  ]
+  \addplot [domain=0:1,samples=100]{3/2*x^2};
+  \addplot [domain=1:5,samples=100]{3/2*(1/x^4)};
+  \addplot [domain=0:1,samples=100,color=red]{11/2*x^10};
+  \addplot [domain=1:5,samples=100,color=red]{11/2*(1/x^12)};
+  
+  \node[anchor=west,color=red] (n10) at (axis cs:1.1,1.8){$n=10$};
+  \node[anchor=west,color=black] (n2) at (axis cs:1.7,0.3){$n=2$};
+  \end{axis}
+\end{tikzpicture}

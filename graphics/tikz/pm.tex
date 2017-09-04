@@ -1,0 +1,17 @@
+%!TEX root = ../../main.tex
+\begin{tikzpicture}
+  \begin{axis}[
+    axis lines=middle,
+    xmin=-1,   xmax=1,
+    ymin=0, ymax=5,
+    xlabel=$\delta$,
+    ylabel=$P(\delta)$,
+    width=\marginparwidth
+  ]
+  \addplot [domain=-1:1,samples=100]{3/2*(1-abs(x))^2};
+  \addplot [domain=-1:1,samples=100, color=red]{11/2*(1-abs(x))^10};
+  
+  \node[anchor=west,color=red] (n10) at (axis cs:0.08,3){$n=10$};
+  \node[anchor=west,color=black] (n2) at (axis cs:0.35,0.9){$n=2$};
+  \end{axis}
+\end{tikzpicture}
