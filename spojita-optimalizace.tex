@@ -82,8 +82,22 @@ $$o = p + \delta \Delta_{max}\,$$ kde $\Delta_{max}$ je maximální velikost mut
 
 \section{Diferenciální evoluce}
 
-Všechny výše popsané operátory mají jednu zásadní nevýhodu, a tou je, že operují s jedinci po složkách, jsou tedy vhodné především pro separabilní funkce a s neseparabilními si neporadí. \emph{Diferenciální evoluce}\cite{Storn1997} přináší jiný operátor, který tímto problémem netrpí. Řeší ho tím, že se při mutaci k jedinci přičítá rozdíl dvou náhodných jedinců z populace. V prvním kroku je tedy vytvořen nový jedinec v diferenciální evoluci následujícím způsobem: 
-$$o = p_1 + F(p_2 - p_3)\,,$$ kde $p_1$, $p_2$ a $p_3$ jsou rodiče a parametr $F$ určuje, jak velké změny se v mutaci budou dělat. Jeho obvyklá hodnota je kolem $F=0.8$, ale často se objevují hodnoty mezi 0.5 a 1.0, někdy dokonce až 2.0. 
+Všechny výše popsané operátory mají jednu zásadní nevýhodu a tou je, že operují s jedinci po složkách, jsou tedy vhodné především pro separabilní funkce. \emph{Diferenciální evoluce}\cite{Storn1997} přináší jiný přístup, který tímto problémem netrpí. 
 
-Kromě výše uvedené diferenciální mutace se v diferenciální evoluci používá i uniformní křížení s dalším náhodně zvoleným rodičem. 
-\add{Doplnit popis diferenciální evoluce}
+V diferenciální evoluci se jedinec vytváří pomocí jediného operátoru, který v sobě kombinuje jak mutaci, tak křížení. Jeho vstupem jsou hned čtyři jedinci z populace rodičů. Jako rodič $p_4$ se většinou volí postupně všichni jedinci z populace (není tedy volen náhodně), další tři rodiče jsou zvoleny náhodně. Nový jedinec vzniká tak, že se k rodiči $p_3$ přičte rozdíl rodičů $p_2$ a $p_3$ a potom se provede křížení s rodičem $p_4$. Postup se dá zapsat jako 
+$$o^i = \twopartdefotherwise{p_3^i + F(p_1^i-p_2^i)}{r^i < CR \text{ nebo } i = R}
+                   {p_4^i}{\,,}$$
+kde $F$ a $CR$ jsou parametry mutace a křížení, $r_i$ je náhodné číslo z rovnoměrného rozdělení $\uniform{0}{1}$, $R$ je náhodné číslo z množiny $\{1,\dots,d\}$, které zajišťuje, že v každém jedinci alespoň jedna pozice vznikne pomocí první řádky, a $o^i$ a $p_j^i$ značí $i$-tou složku potomka resp. $j$-tého rodiče.
+
+Právě první část definice zajišťuje, že diferenciální evoluce je invariantní vůči rotacím, posunům a škálování prohledávaného prostoru a tedy funguje lépe pro neseparabilní a špatně podmíněné funkce. Pro toto chování je velmi důležitá volba parametru $CR$. Pro vysoké hodnoty $CR$ větší část jedince vzniká právě pomocí rozdílu dvou rodičů, pro nízké hodnoty $CR$ naopak je většina jedince tvořena rodičem $p_4$. Parametr $CR$ se doporučuje nastavovat na nižší hodnoty ($CR=0.2$) pro separabilní funkce a na vyšší hodnoty pro neseparabilní funkce ($CR=0.9$). 
+
+Parametr $F$ určuje, jak velká část rozdílu dvou jedinců se použije a tedy i to, jak velké se při mutaci dělají kroky. Nejčastěji se doporučuje hodnota okolo $F=0.8$, ale vyskytují se nastavení mezi 0.5 a 2.0. Někdy se dokonce $F$ bere jako náhodná hodnota z intervalu $[0.5, 1.0]$. 
+
+Kromě výše uvedeného operátoru se v diferenciální evoluci liší i selekce. Nový potomek se porovnává s rodičem $p_4$ a v populaci se nechá jen lepší z obou. To je i důvod, proč se často rodič $p_4$ nevolí náhodně.
+
+V průběhu let vznikl systém pro klasifikaci různých variant diferenciální evoluce, popsaná verze se dnes nazývá \de{rand}{1}{bin}. Označení vyjadřuje, že se jedná o diferenciální evoluci, kde jsou rodič $p_3$ pro mutaci je volen náhodně, vybírá se jedna dvojice a používá se binomiální křížení. Existuje ale mnoho dalších variant\cite{Mezura-Montes:2006:CSD:1143997.1144086}. Například se místo náhodně zvoleného jedince $p_3$ bere vždy nejlepší jedinec z populace (\de{best}{.}{.}) nebo se bere více dvojic při mutaci. Pro $k$ dvojic potom vypadá operátor v diferenciální evoluci typu \de{.}{k}{.} jako
+$$o^i = \twopartdefotherwise{p_3^i + F\sum_{i=1}^k(p_{1,k}^i-p_{2,k}^i)}{r^i < CR \text{ nebo } i = R}
+                   {p_4^i}{\,,}$$
+kde značení je stejné jako výše. 
+
+Místo binomiálního křížení se občas používá tzv. \emph{exponenciální křížení}. To používá stejný parametr $CR$, ale jiným způsobem. Jedná se vlastně o obdobu jedno- nebo dvou-bodového křížení. Začne se na náhodné pozici v jedinci a kopírují se parametry z druhého jedince, dokud je náhodně zvolené číslo z $\uniform{0}{1}$ menší než $CR$. Pokud se narazí dříve na konec vektoru, pokračuje se znovu od začátku. Varianta s tímto křížením se nazývá \de{.}{.}{exp} a ačkoliv je velmi oblíbená, vysloužila si v poslední době kritiku\cite{Tanabe2014} právě kvůli tomu, že v křížení je větší pravděpodobnost, že se překopírují hodnoty, které jsou na sousedních pozicích a kvůli tomu je algoritmus závislý na pořadí proměnných.
