@@ -1,33 +1,33 @@
 
-Rojové algoritmy mají nìkteré spoleèné rysy s evoluèními algoritmy, jako je populaèní prohledávání, ale jsou charakteistické tím, ¾e kladou dùraz na modelování pohybu populace v prostoru parametrù inspirovaném rùznımi druhy organizace sociálního hmyzu nebo jinıch ¾ivoèichù v hejnech. Poèáteèní vızkum Reynoldse vedl k návrhu jednoduchého lokálního algoritmu tzv. boidù, kteøí velice jednodu¹e a pøekvapivì dobøe modelují organizaci roje a koordinovanı pohyb v nìm. Teprve algoritmus optimalizace rojem èástic (PSO) ale pøinesl vyu¾ití tìchto principù do prohledávacích algoritmù. V souèasnosti existuje celá øada dal¹ích pøibuznıch algoritmù od ant colony optimization pøes umìlé imunitní systémy a¾ ke vèelím algoritmùm \cite{swarm}. 
+RojovÃ© algoritmy majÃ­ nÄ›kterÃ© spoleÄnÃ© rysy s evoluÄnÃ­mi algoritmy, jako je populaÄnÃ­ prohledÃ¡vÃ¡nÃ­, ale jsou charakteistickÃ© tÃ­m, Å¾e kladou dÅ¯raz na modelovÃ¡nÃ­ pohybu populace v prostoru parametrÅ¯ inspirovanÃ©m rÅ¯znÃ½mi druhy organizace sociÃ¡lnÃ­ho hmyzu nebo jinÃ½ch Å¾ivoÄichÅ¯ v hejnech. PoÄÃ¡teÄnÃ­ vÃ½zkum Reynoldse vedl k nÃ¡vrhu jednoduchÃ©ho lokÃ¡lnÃ­ho algoritmu tzv. boidÅ¯, kteÅ™Ã­ velice jednoduÅ¡e a pÅ™ekvapivÄ› dobÅ™e modelujÃ­ organizaci roje a koordinovanÃ½ pohyb v nÄ›m. Teprve algoritmus optimalizace rojem ÄÃ¡stic (PSO) ale pÅ™inesl vyuÅ¾itÃ­ tÄ›chto principÅ¯ do prohledÃ¡vacÃ­ch algoritmÅ¯. V souÄasnosti existuje celÃ¡ Å™ada dalÅ¡Ã­ch pÅ™ibuznÃ½ch algoritmÅ¯ od ant colony optimization pÅ™es umÄ›lÃ© imunitnÃ­ systÃ©my aÅ¾ ke vÄelÃ­m algoritmÅ¯m \cite{swarm}. 
 
-Principem fungování rojovì optimalizace je organizovanı pohyb roje èástic (jedincù) po prostoru parametrù. Ka¾dá èástice je charakterizována svou polohou a vektorem rychlosti. Ka¾dá èastice si také pamatuje ze své historie nejlep¹í místo (ve smyslu hodnoty úèelové funkce), které ona sama v historii nav¹tívila a globální dosud nejlep¹í místo nalezené celım rojem. V ka¾dém kroku pak èástice upraví svou rychlost jako souèet tøi vektorù: souèasné rychlosti, smìru k lokálnimu extrému èastice a smìru ke globálnímu extrému celého roje. Tato suma je vá¾ena dílem vstupními parametry algoritmu nastavovanımi experimentátorem (jde o nelehkı problém závisející na typu dat) a dílem náhodnì vygenreovanımi koeficienty pro ka¾dı krok. 
+Principem fungovÃ¡nÃ­ rojovÄ› optimalizace je organizovanÃ½ pohyb roje ÄÃ¡stic (jedincÅ¯) po prostoru parametrÅ¯. KaÅ¾dÃ¡ ÄÃ¡stice je charakterizovÃ¡na svou polohou a vektorem rychlosti. KaÅ¾dÃ¡ Äastice si takÃ© pamatuje ze svÃ© historie nejlepÅ¡Ã­ mÃ­sto (ve smyslu hodnoty ÃºÄelovÃ© funkce), kterÃ© ona sama v historii navÅ¡tÃ­vila a globÃ¡lnÃ­ dosud nejlepÅ¡Ã­ mÃ­sto nalezenÃ© celÃ½m rojem. V kaÅ¾dÃ©m kroku pak ÄÃ¡stice upravÃ­ svou rychlost jako souÄet tÅ™i vektorÅ¯: souÄasnÃ© rychlosti, smÄ›ru k lokÃ¡lnimu extrÃ©mu Äastice a smÄ›ru ke globÃ¡lnÃ­mu extrÃ©mu celÃ©ho roje. Tato suma je vÃ¡Å¾ena dÃ­lem vstupnÃ­mi parametry algoritmu nastavovanÃ½mi experimentÃ¡torem (jde o nelehkÃ½ problÃ©m zÃ¡visejÃ­cÃ­ na typu dat) a dÃ­lem nÃ¡hodnÄ› vygenreovanÃ½mi koeficienty pro kaÅ¾dÃ½ krok. 
 
 \begin{algorithm}
-\caption{Schéma optimalizace rojem èástic minimalizujících $f:\Real^n\to\Real$}
+\caption{SchÃ©ma optimalizace rojem ÄÃ¡stic minimalizujÃ­cÃ­ch $f:\Real^n\to\Real$}
 \label{obrswarm}
 \begin{algorithmic}
-\Procedure{Optimalizace rojem èástic}{}
-\State $\vec{g} \gets \arg\max_{\vec{y}} f(\vec{y})$ \Comment inicializace globální nejlep¹í pozice
+\Procedure{Optimalizace rojem ÄÃ¡stic}{}
+\State $\vec{g} \gets \arg\max_{\vec{y}} f(\vec{y})$ \Comment inicializace globÃ¡lnÃ­ nejlepÅ¡Ã­ pozice
 \For{$i \gets 1, \dots, l$}
-\State Inicializuj pozici èástice $\vec{x_i}$ náhodnì z rovnomìrného rozdìlení
-\State $\vec{p_i} \gets \vec{x_i}$ \Comment inicializace nejlep¹í známé pozice èástice
+\State Inicializuj pozici ÄÃ¡stice $\vec{x_i}$ nÃ¡hodnÄ› z rovnomÄ›rnÃ©ho rozdÄ›lenÃ­
+\State $\vec{p_i} \gets \vec{x_i}$ \Comment inicializace nejlepÅ¡Ã­ znÃ¡mÃ© pozice ÄÃ¡stice
 \If{$f(\vec{p_i})<f(\vec{g})$}
-\State $\vec{g} \gets \vec{p_i}$ \Comment update globální nejlep¹í pozice
+\State $\vec{g} \gets \vec{p_i}$ \Comment update globÃ¡lnÃ­ nejlepÅ¡Ã­ pozice
 \EndIf
-\State Inicializuj rychlost èástice $\vec{v_i}$ náhodnì z rovnomìrného rozdìlení
+\State Inicializuj rychlost ÄÃ¡stice $\vec{v_i}$ nÃ¡hodnÄ› z rovnomÄ›rnÃ©ho rozdÄ›lenÃ­
 \EndFor
-\While{$\left(f(\vec{x^t})>\mbox{\emph{kritérium ukonèení}}\right)$}
+\While{$\left(f(\vec{x^t})>\mbox{\emph{kritÃ©rium ukonÄenÃ­}}\right)$}
 \For{$i \gets 1, \dots, l$}
-\State 	zvol $r_g$ a $r_p$ z ronvomìrného rozdìlení $U(0,1)$
-\For{$d \gets 1, \dots, n$} \Comment update rychlosti èástice
+\State 	zvol $r_g$ a $r_p$ z ronvomÄ›rnÃ©ho rozdÄ›lenÃ­ $U(0,1)$
+\For{$d \gets 1, \dots, n$} \Comment update rychlosti ÄÃ¡stice
 \State $v_{i,d} \gets \omega v_{i,d} + \varphi_p r_p (p_{i,d} - x_{i,d}) + \varphi_g r_g (g_{i,d} - x_{i,d})$
 \EndFor
-\State $\vec{x_i} \gets \vec{x_i} + \vec{v_i}$ \Comment update pozice èástice
+\State $\vec{x_i} \gets \vec{x_i} + \vec{v_i}$ \Comment update pozice ÄÃ¡stice
 \If{$f(\vec{x_i})<f(\vec{p_i})$}
-\State $\vec{p_i} \gets \vec{x_i}$ \Comment update nejlep¹í pozice èástice
+\State $\vec{p_i} \gets \vec{x_i}$ \Comment update nejlepÅ¡Ã­ pozice ÄÃ¡stice
 \If{$f(\vec{p_i})<f(\vec{g})$}
-\State $\vec{g} \gets \vec{p_i}$ \Comment update nejlep¹í globální pozice
+\State $\vec{g} \gets \vec{p_i}$ \Comment update nejlepÅ¡Ã­ globÃ¡lnÃ­ pozice
 \EndIf
 \EndIf
 \EndFor
