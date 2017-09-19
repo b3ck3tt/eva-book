@@ -4,22 +4,47 @@ A book in progress.
 Temata pøedná¹ek:
 
 Evoluèní algoritmy
+- first draft, extend literature and history
+
 Jednoduchý genetický algoritmus
-Teorie schémat
+- first draft, extend operators and encodings
+
+Teorie schémat, Teorie EVA podruhé
+- TO DO => teorie GA
+
 Reprezentace a operátory v GA
-Evoluce kooperace
+- spojita optimalizace done
+- add some to GA
+
+Evoluce kooperace, Biologicky vìrnìj¹í evoluce
+- TO DO
+ 
 Evoluèní strategie
-Diferenciální evoluce
+- first draft under construction
+
+Diferenciální evoluce, Tabu search, scatter search, ... ?
+- TO DO
+
 Particle swarm optimization
+- first draft, extend
+ 
 Evoluèní strojové uèení
+- TO DO
+
 Vícekriteriální optimalizace
+- TO DO
+
 Evoluèní kombinatorická optimalizace
-Ladìní, øízení, metaevoluce
-Teorie EVA podruhé
+- TO DO
+
+Ladìní, øízení, metaevoluce, Memetické algoritmy, Dynamické krajiny fitness
+- TO DO
+
 Evoluèní programování
+- first draft, add FSM, Xover
+
 Genetické programování
+- first draft, add more
+
 Neuroevoluce
-Memetické algoritmy
-Dynamické krajiny fitness
-Tabu search, scatter search
-Biologicky vìrnìj¹í evoluce
+- TO DO
