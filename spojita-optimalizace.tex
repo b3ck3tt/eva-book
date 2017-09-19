@@ -1,103 +1,103 @@
 %!TEX root = main.tex
 
-Mnoho optimalizaÄnÃ­ch problÃ©mÅ¯ z bÄ›Å¾nÃ©ho Å¾ivota se dÃ¡ definovat jako optimalizace funkce $$f: D \to \Real\,,$$ kde $D \subseteq \Real^d$. Je proto pÅ™irozenÃ©, Å¾e mnoho vÃ½zkumnÃ­kÅ¯ se zabÃ½vÃ¡ prÃ¡vÄ› evoluÄnÃ­mi algoritmy, kterou jsou schopnÃ© optimalizovat takovÃ© funkce. ProblÃ©m optimalizace takovÃ½ch funkcÃ­ se v literatuÅ™e objevuje pod pojmem \emph{spojitÃ¡ optimalizace}\footnote{anglicky \emph{continuous optimization}}. Je dÅ¯leÅ¾itÃ© si uvÄ›domit, Å¾e nÃ¡zev
- vyjadÅ™uje pouze to, Å¾e prostor, ve kterÃ©m se hledajÃ­ Å™eÅ¡enÃ­ je spojitÃ½ ($\Real^n$), samotnÃ¡ optimalizovanÃ¡ funkce $f$ bÃ½t spojitÃ¡ nemusÃ­.
+Mnoho optimalizaèních problémù z bì¾ného ¾ivota se dá definovat jako optimalizace funkce $$f: D \to \Real\,,$$ kde $D \subseteq \Real^d$. Je proto pøirozené, ¾e mnoho vızkumníkù se zabıvá právì evoluèními algoritmy, kterou jsou schopné optimalizovat takové funkce. Problém optimalizace takovıch funkcí se v literatuøe objevuje pod pojmem \emph{spojitá optimalizace}\footnote{anglicky \emph{continuous optimization}}. Je dùle¾ité si uvìdomit, ¾e název
+ vyjadøuje pouze to, ¾e prostor, ve kterém se hledají øe¹ení je spojitı ($\Real^n$), samotná optimalizovaná funkce $f$ bıt spojitá nemusí.
 
-Velmi Äasto je definiÄnÃ­ obor funkce $D$ $d$-rozmÄ›rnÃ½ interval $$D = [l_1, u_1] \times \dots \times [l_d, u_d]\,,$$ kde $l_i$ a $u_i$ jsou dolnÃ­ a hornÃ­ meze pro $i$-tou promÄ›nnou. ObjevujÃ­ se ale i obecnÄ›jÅ¡Ã­ problÃ©my, kde je $D$ dÃ¡na pomocÃ­ mnoÅ¾iny podmÃ­nek tvaru $g(\vec{x}) \leq 0$ a $h(\vec{x}) = 0$, pro $g, h: \Real^d \to \Real$.
+Velmi èasto je definièní obor funkce $D$ $d$-rozmìrnı interval $$D = [l_1, u_1] \times \dots \times [l_d, u_d]\,,$$ kde $l_i$ a $u_i$ jsou dolní a horní meze pro $i$-tou promìnnou. Objevují se ale i obecnìj¹í problémy, kde je $D$ dána pomocí mno¾iny podmínek tvaru $g(\vec{x}) \leq 0$ a $h(\vec{x}) = 0$, pro $g, h: \Real^d \to \Real$.
 
-V tÃ©to kapitole napÅ™ed budeme uvaÅ¾ovat optimalizaÄnÃ­ problÃ©m tvaru 
+V této kapitole napøed budeme uva¾ovat optimalizaèní problém tvaru 
 \begin{equation*}
   \begin{aligned}
   & \underset{x}{\text{min}} & & f(\vec{x}) \\
-  & \text{za podmÃ­nek} & & \vec{x} \in [l_1, u_1] \times \dots \times [l_d, u_d]\,. \\
+  & \text{za podmínek} & & \vec{x} \in [l_1, u_1] \times \dots \times [l_d, u_d]\,. \\
   \end{aligned}
 \end{equation*}
 
-\section{Vlastnosti funkcÃ­}
+\section{Vlastnosti funkcí}
 
-Je zÅ™ejmÃ©, Å¾e nÄ›kterÃ© typy funkcÃ­ budou pro evoluÄnÃ­ algoritmy lehÄÃ­, neÅ¾ jinÃ©. VelkÃ½ vliv na efektivitu evoluÄnÃ­ho algoritmu majÃ­ pÅ™edevÅ¡Ã­m vlastnosti jako multi-modalita, separabilita a podmÃ­nÄ›nost. 
+Je zøejmé, ¾e nìkteré typy funkcí budou pro evoluèní algoritmy lehèí, ne¾ jiné. Velkı vliv na efektivitu evoluèního algoritmu mají pøedev¹ím vlastnosti jako multi-modalita, separabilita a podmínìnost. 
 
-Funkce je \emph{multi-modÃ¡lnÃ­}, pokud mÃ¡ velkÃ© mnoÅ¾stvÃ­ lokÃ¡lnÃ­ch optim. Je zÅ™ejmÃ©, Å¾e v takovÃ©m pÅ™Ã­padÄ› mÅ¯Å¾e mÃ­t algoritmus problÃ©m s uvÃ¡znutÃ­m v lokÃ¡lnÃ­m optimu a je potÅ™eba tomu pÅ™izpÅ¯sobit operÃ¡tory. Existuje i oblast multi-modÃ¡lnÃ­ optimalizace, kde je cÃ­lem najÃ­t co nejvÃ­ce rÅ¯znorodÃ½ch lokÃ¡lnÃ­ch optim. 
+Funkce je \emph{multi-modální}, pokud má velké mno¾ství lokálních optim. Je zøejmé, ¾e v takovém pøípadì mù¾e mít algoritmus problém s uváznutím v lokálním optimu a je potøeba tomu pøizpùsobit operátory. Existuje i oblast multi-modální optimalizace, kde je cílem najít co nejvíce rùznorodıch lokálních optim. 
 
-SeparabilnÃ­ funkce jsou naopak pro optimalizaci jednoduÅ¡Å¡Ã­. Jsou to takovÃ© funkce, kterÃ© se dajÃ­ zapsat pomocÃ­ funkcÃ­ jednÃ© promÄ›nnÃ©. FormÃ¡lnÄ›, funkce $f(x_1, \dots, x_n): \Real^n \to \Real$ je \emph{aditivnÄ› separabilnÃ­}, pokud se dÃ¡ zapsat jako souÄet funkcÃ­ $f_1(x_1), \dots, f_n(x_n)$, tj. $f(x_1, \dots, x_n)= \sum_{i=1}^n f(x_i)\,.$ ObdobnÄ› mÅ¯Å¾eme zadefinovat i funkci multiplikativnÄ› separabilnÃ­. Z hlediska optimalizace je velkou vÃ½hodou separabilnÃ­ch funkcÃ­, Å¾e se dajÃ­ optimalizovat po jednotlivÃ½ch sloÅ¾kÃ¡ch vektoru, tj. optimum mÅ¯Å¾eme najÃ­t tak, Å¾e vÅ¾dy zafixujeme hodnoty $n-1$ parametrÅ¯ a optimalizujeme jen podle jednoho.
+Separabilní funkce jsou naopak pro optimalizaci jednodu¹¹í. Jsou to takové funkce, které se dají zapsat pomocí funkcí jedné promìnné. Formálnì, funkce $f(x_1, \dots, x_n): \Real^n \to \Real$ je \emph{aditivnì separabilní}, pokud se dá zapsat jako souèet funkcí $f_1(x_1), \dots, f_n(x_n)$, tj. $f(x_1, \dots, x_n)= \sum_{i=1}^n f(x_i)\,.$ Obdobnì mù¾eme zadefinovat i funkci multiplikativnì separabilní. Z hlediska optimalizace je velkou vıhodou separabilních funkcí, ¾e se dají optimalizovat po jednotlivıch slo¾kách vektoru, tj. optimum mù¾eme najít tak, ¾e v¾dy zafixujeme hodnoty $n-1$ parametrù a optimalizujeme jen podle jednoho.
 
-DalÅ¡Ã­ vlastnostÃ­, kterÃ© vÃ½raznÄ› ovlivÅˆuje evoluci je podmÃ­nÄ›nost funkce. Ta vyjadÅ™uje, jak moc se liÅ¡Ã­ vliv jednotlivÃ½ch promÄ›nnÃ½ch na hodnotu funkce. Pro kvadratickÃ© funkce (u kterÃ½ch vrstevnice vypadajÃ­ jako elipsoidy), je jejich podmÃ­nÄ›nost druhÃ¡ odmocnina pomÄ›ru mezi dÃ©lkou nejdelÅ¡Ã­ a nejkratÅ¡Ã­ osy elipsoidu. Pokud je podmÃ­nÄ›nost funkce velkÃ¡, Å™Ã­kÃ¡ se, Å¾e je funkce Å¡patnÄ› podmÃ­nÄ›nÃ¡. Z hlediska evoluÄnÃ­ho algoritmu je dÅ¯leÅ¾itÃ©, Å¾e by s rÅ¯znÃ½m vlivem promÄ›nnÃ½ch na hodnotu funkce mÄ›ly poÄÃ­tat operÃ¡tory.
+Dal¹í vlastností, které vıraznì ovlivòuje evoluci je podmínìnost funkce. Ta vyjadøuje, jak moc se li¹í vliv jednotlivıch promìnnıch na hodnotu funkce. Pro kvadratické funkce (u kterıch vrstevnice vypadají jako elipsoidy), je jejich podmínìnost druhá odmocnina pomìru mezi délkou nejdel¹í a nejkrat¹í osy elipsoidu. Pokud je podmínìnost funkce velká, øíká se, ¾e je funkce ¹patnì podmínìná. Z hlediska evoluèního algoritmu je dùle¾ité, ¾e by s rùznım vlivem promìnnıch na hodnotu funkce mìly poèítat operátory.
 
 \begin{marginfigure}
 \centering
 \input{graphics/tikz/funkce}
-\caption{PÅ™Ã­klady rÅ¯znÃ½ch vlastnostÃ­ funkcÃ­}
+\caption{Pøíklady rùznıch vlastností funkcí}
 \label{fig:function_examples}
 \end{marginfigure}
 
-PÅ™Ã­klady poslednÃ­ch dvou vlastnostÃ­ vidÃ­me na obrÃ¡zku \ref{fig:function_examples}, kterÃ½ ukazuje vrstevnice funkcÃ­ dvou promÄ›nnÃ½ch. HornÃ­ funkce je jednoduchÃ½ dvoudimenzionÃ¡lnÃ­ paraboloid, kterÃ½ je separabilnÃ­ a dobÅ™e podmÃ­nÄ›nÃ½. Na prostÅ™ednÃ­m obrÃ¡zku je paraboloid, kterÃ½ mÃ¡ jednu osu delÅ¡Ã­ neÅ¾ druhou a znÃ¡zorÅˆuje tedy Å¡patnou podmÃ­nÄ›nost\footnote{podmÃ­nÄ›nost zobrazenÃ© funkce jen cca 4.8, nedÃ¡ se tedy povaÅ¾ovat za Å¡patnÄ› podmÃ­nÄ›nou, objevujÃ­ se i funkce s podmÃ­nÄ›nostÃ­ $10^6$}. PoslednÃ­ funkce potom kombinuje Å¡patnou podmÃ­nÄ›nost s neseparabilitou.
+Pøíklady posledních dvou vlastností vidíme na obrázku \ref{fig:function_examples}, kterı ukazuje vrstevnice funkcí dvou promìnnıch. Horní funkce je jednoduchı dvoudimenzionální paraboloid, kterı je separabilní a dobøe podmínìnı. Na prostøedním obrázku je paraboloid, kterı má jednu osu del¹í ne¾ druhou a znázoròuje tedy ¹patnou podmínìnost\footnote{podmínìnost zobrazené funkce jen cca 4.8, nedá se tedy pova¾ovat za ¹patnì podmínìnou, objevují se i funkce s podmínìností $10^6$}. Poslední funkce potom kombinuje ¹patnou podmínìnost s neseparabilitou.
 
-VÃ½Å¡e uvedenÃ© vlastnosti jsou ty, kterÃ© nejvÃ­ce ovlivÅˆujÃ­ efektivitu evoluÄnÃ­ch algoritmÅ¯ pÅ™i spojitÃ© optimalizaci, nejsou to ale vÅ¡echny. NÄ›kterÃ© algoritmy napÅ™Ã­klad mohou vyuÅ¾Ã­vat rÅ¯znÃ© symetrie danÃ© funkce, naopak funkce, kterÃ© majÃ­ svÃ© globÃ¡lnÃ­ optimum jen ve velmi malÃ© oblasti prohledÃ¡vanÃ©ho prostoru a jinak jsou konstantnÃ­ jsou pro evoluci velmi tÄ›Å¾kÃ© obecnÄ›.
+Vı¹e uvedené vlastnosti jsou ty, které nejvíce ovlivòují efektivitu evoluèních algoritmù pøi spojité optimalizaci, nejsou to ale v¹echny. Nìkteré algoritmy napøíklad mohou vyu¾ívat rùzné symetrie dané funkce, naopak funkce, které mají své globální optimum jen ve velmi malé oblasti prohledávaného prostoru a jinak jsou konstantní jsou pro evoluci velmi tì¾ké obecnì.
 
-\section{KÃ³dovÃ¡nÃ­ pro spojitou optimalizaci}
+\section{Kódování pro spojitou optimalizaci}
 
-Jedno z prvnÃ­ch rozhodnutÃ­, kterÃ© je potÅ™eba udÄ›lat pÅ™i nÃ¡vrhu evoluÄnÃ­ho algoritmu je vÃ½bÄ›r kÃ³dovÃ¡nÃ­ jedince. Vzhledem k tomu, Å¾e ve spojitÃ© optimalizaci pracujeme s vektory reÃ¡lnÃ½ch ÄÃ­sel, je otÃ¡zka vÃ½bÄ›ru kÃ³dovÃ¡nÃ­ relativnÄ› snadnÃ¡ a jedinci jsou v naprostÃ© vÄ›tÅ¡inÄ› pÅ™Ã­padÅ¯ kÃ³dovÃ¡nÃ­ jako vektor typu \code{float} nebo \code{double}.
+Jedno z prvních rozhodnutí, které je potøeba udìlat pøi návrhu evoluèního algoritmu je vıbìr kódování jedince. Vzhledem k tomu, ¾e ve spojité optimalizaci pracujeme s vektory reálnıch èísel, je otázka vıbìru kódování relativnì snadná a jedinci jsou v naprosté vìt¹inì pøípadù kódování jako vektor typu \code{float} nebo \code{double}.
 
 
-\ask{Existuje pro tohle $\downarrow$ nÄ›jakÃ¡ reference?}
+\ask{Existuje pro tohle $\downarrow$ nìjaká reference?}
 
-Dalo by se uvaÅ¾ovat i o kÃ³dovÃ¡nÃ­ jedince pÅ™Ã­mo po vzoru Hollandova genetickÃ©ho algoritmu, tj. binÃ¡rnÃ­m vektorem, a pouÅ¾Ã­vat jednoduchÃ¡ $n$-bodovÃ¡ kÅ™Ã­Å¾enÃ­ a bit-flip mutace, ale takovÃ¡ reprezentace trpÃ­ tÃ­m, Å¾e zmÄ›na rÅ¯znÃ½ch bitÅ¯ v ÄÃ­slech vede k vÃ½raznÄ› rÅ¯znÃ½m zmÄ›nÃ¡m hodnoty (napÅ™. zmÄ›na bitu na konci mantisy vs. zmÄ›na bitu na zaÄÃ¡tku exponentu).
+Dalo by se uva¾ovat i o kódování jedince pøímo po vzoru Hollandova genetického algoritmu, tj. binárním vektorem, a pou¾ívat jednoduchá $n$-bodová køí¾ení a bit-flip mutace, ale taková reprezentace trpí tím, ¾e zmìna rùznıch bitù v èíslech vede k vıraznì rùznım zmìnám hodnoty (napø. zmìna bitu na konci mantisy vs. zmìna bitu na zaèátku exponentu).
 
-\section{OperÃ¡tory pro spojitou optimalizaci}
+\section{Operátory pro spojitou optimalizaci}
 
-Pro spojitou optimalizaci mÅ¯Å¾eme samozÅ™ejmÄ› pouÅ¾Ã­t stejnÃ© operÃ¡tory jako pro kaÅ¾dÃ© jinÃ© vektorovÃ© kÃ³dovÃ¡nÃ­ jedince, tedy napÅ™Ã­klad $n$-bodovÃ©, pÅ™Ã­padnÄ› uniformnÃ­ kÅ™Ã­Å¾enÃ­. NicmÃ©nÄ› ÄastÄ›ji se pouÅ¾Ã­vajÃ­ operÃ¡tory specializovanÃ©, kterÃ© pÅ™Ã­mo vyuÅ¾Ã­vajÃ­ toho, Å¾e jedinci jsou vektory ÄÃ­sel.
+Pro spojitou optimalizaci mù¾eme samozøejmì pou¾ít stejné operátory jako pro ka¾dé jiné vektorové kódování jedince, tedy napøíklad $n$-bodové, pøípadnì uniformní køí¾ení. Nicménì èastìji se pou¾ívají operátory specializované, které pøímo vyu¾ívají toho, ¾e jedinci jsou vektory èísel.
 
-Tzv. aritmetickÃ© kÅ™Ã­Å¾enÃ­ vektorÅ¯ poÄÃ­tÃ¡ vÃ¡Å¾enÃ½ prÅ¯mÄ›r dvou rodiÄÅ¯ tak, aby vytvoÅ™ilo potomka, potomci se tedy spoÄÃ­tajÃ­ jako
+Tzv. aritmetické køí¾ení vektorù poèítá vá¾enı prùmìr dvou rodièù tak, aby vytvoøilo potomka, potomci se tedy spoèítají jako
 \begin{align*}
 o_1 & = w*p_1 + (1-w)* p_2\,, \\
 o_2 & = (1-w)*p_1 + w* p_2\,,
 \end{align*}
-kde $p_1$ a $p_2$ jsou rodiÄe a $w \in (0,1)$ je (pÅ™Ã­padnÄ› nÃ¡hodnÄ›) zvolenÃ¡ vÃ¡ha. AÄkoliv se takovÃ© kÅ™Ã­Å¾enÃ­ relativnÄ› Äasto pouÅ¾Ã­vÃ¡ hlavnÄ› v jednoduÅ¡Å¡Ã­ch aplikacÃ­ch, jeho velkou nevÃ½hodou je, Å¾e vÃ½slednÃ­ potomci se nikdy nemohou dostat z konvexnÃ­ho obalu poÄÃ¡teÄnÃ­ populace.
+kde $p_1$ a $p_2$ jsou rodièe a $w \in (0,1)$ je (pøípadnì náhodnì) zvolená váha. Aèkoliv se takové køí¾ení relativnì èasto pou¾ívá hlavnì v jednodu¹¹ích aplikacích, jeho velkou nevıhodou je, ¾e vıslední potomci se nikdy nemohou dostat z konvexního obalu poèáteèní populace.
 
-Mutace pro spojitou optimalizaci se obÄas rozdÄ›lujÃ­ na dva typy --- ovlivnÄ›nÃ© a neovlivnÄ›nÃ©. NeovlivnÄ›nÃ¡ mutace generuje novou hodnotu pro sloÅ¾ku vektoru nezÃ¡visle na aktuÃ¡lnÃ­ hodnotÄ›, ovlivnÄ›nÃ¡ mutace naopak aktuÃ¡lnÃ­ hodnotu pouÅ¾Ã­vÃ¡. TypickÃ½m pÅ™Ã­kladem neovlivnÄ›nÃ© mutace je vygenerovÃ¡nÃ­ novÃ©ho ÄÃ­sla z danÃ©ho rozsahu. OvlivnÄ›nÃ¡ mutace typicky pÅ™iÄÃ­tÃ¡ k danÃ© sloÅ¾ce vektoru ÄÃ­slo z normÃ¡lnÃ­ho rozdÄ›lenÃ­ $\normal{\mu}{\sigma^2}$.
+Mutace pro spojitou optimalizaci se obèas rozdìlují na dva typy --- ovlivnìné a neovlivnìné. Neovlivnìná mutace generuje novou hodnotu pro slo¾ku vektoru nezávisle na aktuální hodnotì, ovlivnìná mutace naopak aktuální hodnotu pou¾ívá. Typickım pøíkladem neovlivnìné mutace je vygenerování nového èísla z daného rozsahu. Ovlivnìná mutace typicky pøièítá k dané slo¾ce vektoru èíslo z normálního rozdìlení $\normal{\mu}{\sigma^2}$.
 
-Jednou z nevÃ½hod vÃ½Å¡e uvedenÃ©ho aritmetickÃ©ho kÅ™Ã­Å¾enÃ­ je, Å¾e potomci jsou velmi Äasto relativnÄ› daleko od svÃ½ch rodiÄÅ¯ a nejsou jim tedy moc podobnÃ­. PrÃ¡vÄ› z toho dÅ¯vodu Deb a Agrawal navrhli simulovanÃ© binÃ¡rnÃ­ kÅ™Ã­Å¾enÃ­ (SBX)\cite{agrawal1995simulated}. HlavnÃ­ inspiracÃ­ pro vytvoÅ™enÃ­ SBX bylo jednobodovÃ© kÅ™Ã­Å¾enÃ¡ binÃ¡rnÃ­ch Å™etÄ›zcÅ¯, kterÃ© reprezentujÃ­ ÄÃ­sla ve dvojkovÃ© soustavÄ›. PÅ™i nÃ¡hodnÃ© volbÄ› bodu pro kÅ™Ã­Å¾enÃ­ velkÃ¡ ÄÃ¡st novÃ½ch potomkÅ¯ je relativnÄ› blÃ­zko k jednomu z rodiÄÅ¯. JednobodovÃ© kÅ™Ã­Å¾enÃ­ mÃ¡ navÃ­c dalÅ¡Ã­ pÄ›knou vlastnost -- oba potomci jsou stejnÄ› daleko od prÅ¯mÄ›ru rodiÄÅ¯. 
+Jednou z nevıhod vı¹e uvedeného aritmetického køí¾ení je, ¾e potomci jsou velmi èasto relativnì daleko od svıch rodièù a nejsou jim tedy moc podobní. Právì z toho dùvodu Deb a Agrawal navrhli simulované binární køí¾ení (SBX)\cite{agrawal1995simulated}. Hlavní inspirací pro vytvoøení SBX bylo jednobodové køí¾ená binárních øetìzcù, které reprezentují èísla ve dvojkové soustavì. Pøi náhodné volbì bodu pro køí¾ení velká èást novıch potomkù je relativnì blízko k jednomu z rodièù. Jednobodové køí¾ení má navíc dal¹í pìknou vlastnost -- oba potomci jsou stejnì daleko od prùmìru rodièù. 
 
-CÃ­lem SBX je prÃ¡vÄ› simulovat velikosti zmÄ›n, kterÃ© se dÄ›jÃ­ pÅ™i jednobodovÃ©m kÅ™Ã­Å¾enÃ­ binÃ¡rnÃ­ch Å™etÄ›zcÅ¯. NovÃ­ potomci se v SBX kÅ™Ã­Å¾enÃ­ spoÄÃ­tajÃ­ jako 
-$$o_{1,2} = \frac{1}{2}(p_1 + p_2) \pm \frac{1}{2}\beta(p_2 - p_1)\,,$$ kde $p_1$ a $p_2$ jsou rodiÄe a $\beta$ je nÃ¡hodnÃ© ÄÃ­slo s pravdÄ›podobnostnÃ­m rozdÄ›lenÃ­m
+Cílem SBX je právì simulovat velikosti zmìn, které se dìjí pøi jednobodovém køí¾ení binárních øetìzcù. Noví potomci se v SBX køí¾ení spoèítají jako 
+$$o_{1,2} = \frac{1}{2}(p_1 + p_2) \pm \frac{1}{2}\beta(p_2 - p_1)\,,$$ kde $p_1$ a $p_2$ jsou rodièe a $\beta$ je náhodné èíslo s pravdìpodobnostním rozdìlením
 $$P(\beta) = \twopartdef{\frac{1}{2} (n+1) \beta^n}{\beta \leq 1}
                         {\frac{1}{2} (n+1) \frac{1}{\beta^{n+2}}}{\beta>1\,,}$$
-kde $n$ je parametr rozdÄ›lenÃ­, kterÃ½ urÄuje, jak Äasto budou hodnoty $\beta$ blÃ­zko $1$. Pro vyÅ¡Å¡Ã­ hodnoty $n$ je tato pravdÄ›podobnost vyÅ¡Å¡Ã­ (viz ObrÃ¡zek~\ref{fig:sbx_beta}). 
+kde $n$ je parametr rozdìlení, kterı urèuje, jak èasto budou hodnoty $\beta$ blízko $1$. Pro vy¹¹í hodnoty $n$ je tato pravdìpodobnost vy¹¹í (viz Obrázek~\ref{fig:sbx_beta}). 
 
 \begin{marginfigure}[-12\baselineskip]
 \centering
 \input{graphics/tikz/sbx.tex}
-\caption{Distribuce $\beta$ v SBX kÅ™Ã­Å¾enÃ­ pro $n=2$ a $n=10\,.$}
+\caption{Distribuce $\beta$ v SBX køí¾ení pro $n=2$ a $n=10\,.$}
 \label{fig:sbx_beta}
 \end{marginfigure}
 
-Podobnou motivaci jako SBX mÃ¡ i tzv. \emph{polynimÃ¡lnÃ­ mutace} (PM)\cite{Deb96acombined}. V tomto pÅ™Ã­padÄ› se simuluje velikost zmÄ›n v bit-flip mutaci binÃ¡rnÄ› kÃ³dovanÃ½ch ÄÃ­sel. To znamenÃ¡, Å¾e novÄ› vytvoÅ™enÃ½ jedinec je s velkou pravdÄ›podobnostÃ­ blÃ­zko svÃ©mu rodiÄi. GaussovskÃ¡ mutace se chovÃ¡ podobnÄ›, ale u PM je pravdÄ›podobnost malÃ½ch zmÄ›n mnohem vÄ›tÅ¡Ã­. NovÃ½ jedinec se v polynomiÃ¡lnÃ­ mutaci vytvoÅ™Ã­ jako 
-$$o = p + \delta \Delta_{max}\,$$ kde $\Delta_{max}$ je maximÃ¡lnÃ­ velikost mutace a $\delta$ je nÃ¡hodnÃ© ÄÃ­slo z rozdÄ›lenÃ­ $$P(\delta) = \frac{1}{2}(n+1)(1-|\delta|)^n\,, \quad \delta \in (-1, 1)\,.$$ PromÄ›nnÃ¡ $n$ mÃ¡ v tomto pÅ™Ã­padÄ› podobnÃ½ vÃ½znam jako u SBX a urÄuje tvar distribuce. OpÄ›t vÄ›tÅ¡Ã­ hodnota $n$ vede k vÄ›tÅ¡Ã­ pravdÄ›podobnosti menÅ¡Ã­ch zmÄ›n.
+Podobnou motivaci jako SBX má i tzv. \emph{polynimální mutace} (PM)\cite{Deb96acombined}. V tomto pøípadì se simuluje velikost zmìn v bit-flip mutaci binárnì kódovanıch èísel. To znamená, ¾e novì vytvoøenı jedinec je s velkou pravdìpodobností blízko svému rodièi. Gaussovská mutace se chová podobnì, ale u PM je pravdìpodobnost malıch zmìn mnohem vìt¹í. Novı jedinec se v polynomiální mutaci vytvoøí jako 
+$$o = p + \delta \Delta_{max}\,$$ kde $\Delta_{max}$ je maximální velikost mutace a $\delta$ je náhodné èíslo z rozdìlení $$P(\delta) = \frac{1}{2}(n+1)(1-|\delta|)^n\,, \quad \delta \in (-1, 1)\,.$$ Promìnná $n$ má v tomto pøípadì podobnı vıznam jako u SBX a urèuje tvar distribuce. Opìt vìt¹í hodnota $n$ vede k vìt¹í pravdìpodobnosti men¹ích zmìn.
 
 \begin{marginfigure}[-10\baselineskip]
 \centering
 \input{graphics/tikz/pm}
-\caption{PravdÄ›podobnostnÃ­ rozdÄ›lenÃ­ $\delta$ v polynomiÃ¡lnÃ­ mutaci pro $n=2$ a $n=10\,.$}
+\caption{Pravdìpodobnostní rozdìlení $\delta$ v polynomiální mutaci pro $n=2$ a $n=10\,.$}
 \end{marginfigure}
 
-\section{DiferenciÃ¡lnÃ­ evoluce}
+\section{Diferenciální evoluce}
 
-VÅ¡echny vÃ½Å¡e popsanÃ© operÃ¡tory majÃ­ jednu zÃ¡sadnÃ­ nevÃ½hodu a tou je, Å¾e operujÃ­ s jedinci po sloÅ¾kÃ¡ch, jsou tedy vhodnÃ© pÅ™edevÅ¡Ã­m pro separabilnÃ­ funkce. \emph{DiferenciÃ¡lnÃ­ evoluce}\cite{Storn1997} pÅ™inÃ¡Å¡Ã­ jinÃ½ pÅ™Ã­stup, kterÃ½ tÃ­mto problÃ©mem netrpÃ­. 
+V¹echny vı¹e popsané operátory mají jednu zásadní nevıhodu a tou je, ¾e operují s jedinci po slo¾kách, jsou tedy vhodné pøedev¹ím pro separabilní funkce. \emph{Diferenciální evoluce}\cite{Storn1997} pøiná¹í jinı pøístup, kterı tímto problémem netrpí. 
 
-V diferenciÃ¡lnÃ­ evoluci se jedinec vytvÃ¡Å™Ã­ pomocÃ­ jedinÃ©ho operÃ¡toru, kterÃ½ v sobÄ› kombinuje jak mutaci, tak kÅ™Ã­Å¾enÃ­. Jeho vstupem jsou hned ÄtyÅ™i jedinci z populace rodiÄÅ¯. Jako rodiÄ $p_4$ se vÄ›tÅ¡inou volÃ­ postupnÄ› vÅ¡ichni jedinci z populace (nenÃ­ tedy volen nÃ¡hodnÄ›), dalÅ¡Ã­ tÅ™i rodiÄe jsou zvoleny nÃ¡hodnÄ›. NovÃ½ jedinec vznikÃ¡ tak, Å¾e se k rodiÄi $p_3$ pÅ™iÄte rozdÃ­l rodiÄÅ¯ $p_2$ a $p_3$ a potom se provede kÅ™Ã­Å¾enÃ­ s rodiÄem $p_4$. Postup se dÃ¡ zapsat jako 
+V diferenciální evoluci se jedinec vytváøí pomocí jediného operátoru, kterı v sobì kombinuje jak mutaci, tak køí¾ení. Jeho vstupem jsou hned ètyøi jedinci z populace rodièù. Jako rodiè $p_4$ se vìt¹inou volí postupnì v¹ichni jedinci z populace (není tedy volen náhodnì), dal¹í tøi rodièe jsou zvoleny náhodnì. Novı jedinec vzniká tak, ¾e se k rodièi $p_3$ pøiète rozdíl rodièù $p_2$ a $p_3$ a potom se provede køí¾ení s rodièem $p_4$. Postup se dá zapsat jako 
 $$o^i = \twopartdefotherwise{p_3^i + F(p_1^i-p_2^i)}{r^i < CR \text{ nebo } i = R}
                    {p_4^i}{\,,}$$
-kde $F$ a $CR$ jsou parametry mutace a kÅ™Ã­Å¾enÃ­, $r_i$ je nÃ¡hodnÃ© ÄÃ­slo z rovnomÄ›rnÃ©ho rozdÄ›lenÃ­ $\uniform{0}{1}$, $R$ je nÃ¡hodnÃ© ÄÃ­slo z mnoÅ¾iny $\{1,\dots,d\}$, kterÃ© zajiÅ¡Å¥uje, Å¾e v kaÅ¾dÃ©m jedinci alespoÅˆ jedna pozice vznikne pomocÃ­ prvnÃ­ Å™Ã¡dky, a $o^i$ a $p_j^i$ znaÄÃ­ $i$-tou sloÅ¾ku potomka resp. $j$-tÃ©ho rodiÄe.
+kde $F$ a $CR$ jsou parametry mutace a køí¾ení, $r_i$ je náhodné èíslo z rovnomìrného rozdìlení $\uniform{0}{1}$, $R$ je náhodné èíslo z mno¾iny $\{1,\dots,d\}$, které zaji¹»uje, ¾e v ka¾dém jedinci alespoò jedna pozice vznikne pomocí první øádky, a $o^i$ a $p_j^i$ znaèí $i$-tou slo¾ku potomka resp. $j$-tého rodièe.
 
-PrÃ¡vÄ› prvnÃ­ ÄÃ¡st definice zajiÅ¡Å¥uje, Å¾e diferenciÃ¡lnÃ­ evoluce je invariantnÃ­ vÅ¯Äi rotacÃ­m, posunÅ¯m a Å¡kÃ¡lovÃ¡nÃ­ prohledÃ¡vanÃ©ho prostoru a tedy funguje lÃ©pe pro neseparabilnÃ­ a Å¡patnÄ› podmÃ­nÄ›nÃ© funkce. Pro toto chovÃ¡nÃ­ je velmi dÅ¯leÅ¾itÃ¡ volba parametru $CR$. Pro vysokÃ© hodnoty $CR$ vÄ›tÅ¡Ã­ ÄÃ¡st jedince vznikÃ¡ prÃ¡vÄ› pomocÃ­ rozdÃ­lu dvou rodiÄÅ¯, pro nÃ­zkÃ© hodnoty $CR$ naopak je vÄ›tÅ¡ina jedince tvoÅ™ena rodiÄem $p_4$. Parametr $CR$ se doporuÄuje nastavovat na niÅ¾Å¡Ã­ hodnoty ($CR=0.2$) pro separabilnÃ­ funkce a na vyÅ¡Å¡Ã­ hodnoty pro neseparabilnÃ­ funkce ($CR=0.9$). 
+Právì první èást definice zaji¹»uje, ¾e diferenciální evoluce je invariantní vùèi rotacím, posunùm a ¹kálování prohledávaného prostoru a tedy funguje lépe pro neseparabilní a ¹patnì podmínìné funkce. Pro toto chování je velmi dùle¾itá volba parametru $CR$. Pro vysoké hodnoty $CR$ vìt¹í èást jedince vzniká právì pomocí rozdílu dvou rodièù, pro nízké hodnoty $CR$ naopak je vìt¹ina jedince tvoøena rodièem $p_4$. Parametr $CR$ se doporuèuje nastavovat na ni¾¹í hodnoty ($CR=0.2$) pro separabilní funkce a na vy¹¹í hodnoty pro neseparabilní funkce ($CR=0.9$). 
 
-Parametr $F$ urÄuje, jak velkÃ¡ ÄÃ¡st rozdÃ­lu dvou jedincÅ¯ se pouÅ¾ije a tedy i to, jak velkÃ© se pÅ™i mutaci dÄ›lajÃ­ kroky. NejÄastÄ›ji se doporuÄuje hodnota okolo $F=0.8$, ale vyskytujÃ­ se nastavenÃ­ mezi 0.5 a 2.0. NÄ›kdy se dokonce $F$ bere jako nÃ¡hodnÃ¡ hodnota z intervalu $[0.5, 1.0]$. 
+Parametr $F$ urèuje, jak velká èást rozdílu dvou jedincù se pou¾ije a tedy i to, jak velké se pøi mutaci dìlají kroky. Nejèastìji se doporuèuje hodnota okolo $F=0.8$, ale vyskytují se nastavení mezi 0.5 a 2.0. Nìkdy se dokonce $F$ bere jako náhodná hodnota z intervalu $[0.5, 1.0]$. 
 
-KromÄ› vÃ½Å¡e uvedenÃ©ho operÃ¡toru se v diferenciÃ¡lnÃ­ evoluci liÅ¡Ã­ i selekce. NovÃ½ potomek se porovnÃ¡vÃ¡ s rodiÄem $p_4$ a v populaci se nechÃ¡ jen lepÅ¡Ã­ z obou. To je i dÅ¯vod, proÄ se Äasto rodiÄ $p_4$ nevolÃ­ nÃ¡hodnÄ›.
+Kromì vı¹e uvedeného operátoru se v diferenciální evoluci li¹í i selekce. Novı potomek se porovnává s rodièem $p_4$ a v populaci se nechá jen lep¹í z obou. To je i dùvod, proè se èasto rodiè $p_4$ nevolí náhodnì.
 
-V prÅ¯bÄ›hu let vznikl systÃ©m pro klasifikaci rÅ¯znÃ½ch variant diferenciÃ¡lnÃ­ evoluce, popsanÃ¡ verze se dnes nazÃ½vÃ¡ \de{rand}{1}{bin}. OznaÄenÃ­ vyjadÅ™uje, Å¾e se jednÃ¡ o diferenciÃ¡lnÃ­ evoluci, kde jsou rodiÄ $p_3$ pro mutaci je volen nÃ¡hodnÄ›, vybÃ­rÃ¡ se jedna dvojice a pouÅ¾Ã­vÃ¡ se binomiÃ¡lnÃ­ kÅ™Ã­Å¾enÃ­. Existuje ale mnoho dalÅ¡Ã­ch variant\cite{Mezura-Montes:2006:CSD:1143997.1144086}. NapÅ™Ã­klad se mÃ­sto nÃ¡hodnÄ› zvolenÃ©ho jedince $p_3$ bere vÅ¾dy nejlepÅ¡Ã­ jedinec z populace (\de{best}{.}{.}) nebo se bere vÃ­ce dvojic pÅ™i mutaci. Pro $k$ dvojic potom vypadÃ¡ operÃ¡tor v diferenciÃ¡lnÃ­ evoluci typu \de{.}{k}{.} jako
+V prùbìhu let vznikl systém pro klasifikaci rùznıch variant diferenciální evoluce, popsaná verze se dnes nazıvá \de{rand}{1}{bin}. Oznaèení vyjadøuje, ¾e se jedná o diferenciální evoluci, kde jsou rodiè $p_3$ pro mutaci je volen náhodnì, vybírá se jedna dvojice a pou¾ívá se binomiální køí¾ení. Existuje ale mnoho dal¹ích variant\cite{Mezura-Montes:2006:CSD:1143997.1144086}. Napøíklad se místo náhodnì zvoleného jedince $p_3$ bere v¾dy nejlep¹í jedinec z populace (\de{best}{.}{.}) nebo se bere více dvojic pøi mutaci. Pro $k$ dvojic potom vypadá operátor v diferenciální evoluci typu \de{.}{k}{.} jako
 $$o^i = \twopartdefotherwise{p_3^i + F\sum_{i=1}^k(p_{1,k}^i-p_{2,k}^i)}{r^i < CR \text{ nebo } i = R}
                    {p_4^i}{\,,}$$
-kde znaÄenÃ­ je stejnÃ© jako vÃ½Å¡e. 
+kde znaèení je stejné jako vı¹e. 
 
-MÃ­sto binomiÃ¡lnÃ­ho kÅ™Ã­Å¾enÃ­ se obÄas pouÅ¾Ã­vÃ¡ tzv. \emph{exponenciÃ¡lnÃ­ kÅ™Ã­Å¾enÃ­}. To pouÅ¾Ã­vÃ¡ stejnÃ½ parametr $CR$, ale jinÃ½m zpÅ¯sobem. JednÃ¡ se vlastnÄ› o obdobu jedno- nebo dvou-bodovÃ©ho kÅ™Ã­Å¾enÃ­. ZaÄne se na nÃ¡hodnÃ© pozici v jedinci a kopÃ­rujÃ­ se parametry z druhÃ©ho jedince, dokud je nÃ¡hodnÄ› zvolenÃ© ÄÃ­slo z $\uniform{0}{1}$ menÅ¡Ã­ neÅ¾ $CR$. Pokud se narazÃ­ dÅ™Ã­ve na konec vektoru, pokraÄuje se znovu od zaÄÃ¡tku. Varianta s tÃ­mto kÅ™Ã­Å¾enÃ­m se nazÃ½vÃ¡ \de{.}{.}{exp} a aÄkoliv je velmi oblÃ­benÃ¡, vyslouÅ¾ila si v poslednÃ­ dobÄ› kritiku\cite{Tanabe2014} kvÅ¯li tomu, Å¾e v kÅ™Ã­Å¾enÃ­ je vÄ›tÅ¡Ã­ pravdÄ›podobnost, Å¾e se pÅ™ekopÃ­rujÃ­ hodnoty, kterÃ© jsou na sousednÃ­ch pozicÃ­ch, a kvÅ¯li tomu je algoritmus zÃ¡vislÃ½ na poÅ™adÃ­ promÄ›nnÃ½ch.
+Místo binomiálního køí¾ení se obèas pou¾ívá tzv. \emph{exponenciální køí¾ení}. To pou¾ívá stejnı parametr $CR$, ale jinım zpùsobem. Jedná se vlastnì o obdobu jedno- nebo dvou-bodového køí¾ení. Zaène se na náhodné pozici v jedinci a kopírují se parametry z druhého jedince, dokud je náhodnì zvolené èíslo z $\uniform{0}{1}$ men¹í ne¾ $CR$. Pokud se narazí døíve na konec vektoru, pokraèuje se znovu od zaèátku. Varianta s tímto køí¾ením se nazıvá \de{.}{.}{exp} a aèkoliv je velmi oblíbená, vyslou¾ila si v poslední dobì kritiku\cite{Tanabe2014} kvùli tomu, ¾e v køí¾ení je vìt¹í pravdìpodobnost, ¾e se pøekopírují hodnoty, které jsou na sousedních pozicích, a kvùli tomu je algoritmus závislı na poøadí promìnnıch.

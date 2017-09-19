@@ -1,43 +1,43 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{GenetickÃ© algoritmy}
+\section{Genetické algoritmy}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\index{GenetickÃ½ algoritmus}
+\index{Genetickı algoritmus}
 
-GenetickÃ© algoritmy jsou asi nejznÃ¡mÄ›jÅ¡Ã­ souÄÃ¡stÃ­ evoluÄnÃ­ch vÃ½poÄtÅ¯ a v~rÅ¯znÃ½ch obmÄ›nÃ¡ch se pouÅ¾Ã­vajÃ­ hlavnÄ› pÅ™i Å™eÅ¡enÃ­ optimalizaÄnÃ­ch Ãºloh. Je zajÃ­mavÃ©, Å¾e pÅ¯vodnÃ­ Hollandovou motivacÃ­ pÅ™i nÃ¡vrhu genetickÃ©ho algoritmu bylo studovat vlastnosti pÅ™Ã­rodou inspirovanÃ© adaptace~\cite{Holland:1992}. VelkÃ¡ ÄÃ¡st pÅ¯vodnÃ­ literatury byla vÄ›novÃ¡na popisu principÅ¯, jak genetickÃ½ algoritmus pracuje pÅ™i hledÃ¡nÃ­ Å™eÅ¡enÃ­ Ãºlohy. ZajÃ­mavÃ© jsou paralely s matematickÃ½m problÃ©mem dvourukÃ©ho bandity, kterÃ½ je pÅ™Ã­kladem na udrÅ¾ovÃ¡nÃ­ optimÃ¡lnÃ­ rovnovÃ¡hy mezi exploracÃ­ a exploatacÃ­. 
+Genetické algoritmy jsou asi nejznámìj¹í souèástí evoluèních vıpoètù a v~rùznıch obmìnách se pou¾ívají hlavnì pøi øe¹ení optimalizaèních úloh. Je zajímavé, ¾e pùvodní Hollandovou motivací pøi návrhu genetického algoritmu bylo studovat vlastnosti pøírodou inspirované adaptace~\cite{Holland:1992}. Velká èást pùvodní literatury byla vìnována popisu principù, jak genetickı algoritmus pracuje pøi hledání øe¹ení úlohy. Zajímavé jsou paralely s matematickım problémem dvourukého bandity, kterı je pøíkladem na udr¾ování optimální rovnováhy mezi explorací a exploatací. 
 
-NejjednoduÅ¡Å¡Ã­ varianta genetickÃ©ho algoritmu pracuje s binÃ¡rnÃ­mi jedinci, to znamenÃ¡, Å¾e parametry Å™eÅ¡enÃ© Ãºlohy je nutno vÅ¾dy zakÃ³dovat jako binÃ¡rnÃ­ Å™etÄ›zce. Tento pÅ™Ã­stup je vÃ½hodnÃ½ z hlediska jednoduchosti pouÅ¾itÃ½ch operÃ¡torÅ¯, ale binÃ¡rnÃ­ zakÃ³dovÃ¡nÃ­ na druhou stranu nemusÃ­ bÃ½t nejvhodnÄ›jÅ¡Ã­ reprezentacÃ­ problÃ©mu. ZpÅ¯sob fungovÃ¡nÃ­ jednoduchÃ©ho genetickÃ©ho algoritmu je takÃ© pomÄ›rnÄ› jednoduchÃ½. Algoritmus pÅ™echÃ¡zÃ­ mezi populacemi Å™eÅ¡enÃ­ tak, Å¾e novÃ¡ populace zcela nahradÃ­ pÅ™edchozÃ­. VÃ½bÄ›r rodiÄÅ¯ je Äasto realizovÃ¡n tzv. ruletovou selekcÃ­, kterÃ¡ vybÃ­rÃ¡ jedince nÃ¡hodnÄ›~s pravdÄ›podobnostÃ­ vÃ½bÄ›ru ÃºmÄ›rnÃ© jejich fitness. RekombinaÄnÃ­m operÃ¡torem je jednobodovÃ© kÅ™Ã­Å¾enÃ­, kterÃ© nÃ¡hodnÄ› zvolÃ­ stejnou pozici v rodiÄÃ­ch a vymÄ›ÅˆÃ­ jejich ÄÃ¡sti. PravdÄ›podobnost uskuteÄnÄ›nÃ­ operace kÅ™Ã­Å¾enÃ­ je jednÃ­m z parametrÅ¯ programu a obvykle je pomÄ›rnÄ› vysokÃ¡ (0,5 i vÃ­ce). Mutace provÃ¡dÃ­ drobnÃ© lokÃ¡lnÃ­ zmÄ›ny tak, Å¾e prochÃ¡zÃ­ jednotlivÃ© bity Å™etÄ›zce a kaÅ¾dÃ½ bit s~velmi malou pravdÄ›podobnostÃ­ zmÄ›nÃ­. PravdÄ›podobnost mutace je typicky nastavena, tak aby doÅ¡lo prÅ¯mÄ›rnÄ› ke zmÄ›nÄ› jednoho bitu v populaci (oblÃ­benÃ¡ dolnÃ­ mez) nebo v jedinci (hornÃ­ mez). 
+Nejjednodu¹¹í varianta genetického algoritmu pracuje s binárními jedinci, to znamená, ¾e parametry øe¹ené úlohy je nutno v¾dy zakódovat jako binární øetìzce. Tento pøístup je vıhodnı z hlediska jednoduchosti pou¾itıch operátorù, ale binární zakódování na druhou stranu nemusí bıt nejvhodnìj¹í reprezentací problému. Zpùsob fungování jednoduchého genetického algoritmu je také pomìrnì jednoduchı. Algoritmus pøechází mezi populacemi øe¹ení tak, ¾e nová populace zcela nahradí pøedchozí. Vıbìr rodièù je èasto realizován tzv. ruletovou selekcí, která vybírá jedince náhodnì~s pravdìpodobností vıbìru úmìrné jejich fitness. Rekombinaèním operátorem je jednobodové køí¾ení, které náhodnì zvolí stejnou pozici v rodièích a vymìòí jejich èásti. Pravdìpodobnost uskuteènìní operace køí¾ení je jedním z parametrù programu a obvykle je pomìrnì vysoká (0,5 i více). Mutace provádí drobné lokální zmìny tak, ¾e prochází jednotlivé bity øetìzce a ka¾dı bit s~velmi malou pravdìpodobností zmìní. Pravdìpodobnost mutace je typicky nastavena, tak aby do¹lo prùmìrnì ke zmìnì jednoho bitu v populaci (oblíbená dolní mez) nebo v jedinci (horní mez). 
 
 \begin{algorithm}
-\caption{SchÃ©ma Hollandova gentickÃ©ho algoritmu}
+\caption{Schéma Hollandova gentického algoritmu}
 \label{obrga}
 \begin{algorithmic}
-\Procedure{JednoduchÃ½ genetickÃ½ algoritmus}{} 
+\Procedure{Jednoduchı genetickı algoritmus}{} 
 \State $t \gets 0$
-\State \emph{Inicializuj} populaci $P_t$ $N$ nÃ¡hodnÄ› vygenerovanÃ½mi binÃ¡rnÃ­mi jedinci dÃ©lky $n$
-\State \emph{OhodnoÅ¥} jedince v populaci $P_t$
-\While{neplatÃ­ \emph{kritÃ©rium ukonÄenÃ­}}
+\State \emph{Inicializuj} populaci $P_t$ $N$ náhodnì vygenerovanımi binárními jedinci délky $n$
+\State \emph{Ohodno»} jedince v populaci $P_t$
+\While{neplatí \emph{kritérium ukonèení}}
 \For{$i \gets 1, \dots, N/2$}
-\State 	vyber z $P_t$ 2 rodiÄe \emph{Ruletovou selekcÃ­}
-\State 	S pravdÄ›podobnostÃ­ $p_C$ \emph{ZkÅ™iÅ¾} rodiÄe
-\State 	S pravdÄ›podobnostÃ­ $p_M$ \emph{Mutuj} potomky
-\State 	\emph{OhodnoÅ¥} potomky
-\State  PÅ™idej potomky do $P_{t+1}$
+\State 	vyber z $P_t$ 2 rodièe \emph{Ruletovou selekcí}
+\State 	S pravdìpodobností $p_C$ \emph{Zkøi¾} rodièe
+\State 	S pravdìpodobností $p_M$ \emph{Mutuj} potomky
+\State 	\emph{Ohodno»} potomky
+\State  Pøidej potomky do $P_{t+1}$
 \EndFor
-\State 	ZahoÄ $P_t$
+\State 	Zahoï $P_t$
 \State $t \gets t+1$
 \EndWhile
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
 
-Ruletovou selekci si dle metafory mÅ¯Å¾eme pÅ™edstavit tak, Å¾e kolo rulety rozdÄ›lÃ­me na vÃ½seÄe odpovÃ­dajÃ­cÃ­ velikostÃ­ hodnotÃ¡m fitness jedincÅ¯ a pÅ™i vÃ½bÄ›ru pak $n$ krÃ¡t vhodÃ­me kuliÄku. ÄŒasto pouÅ¾Ã­vanÃ½m vylepÅ¡enÃ­m ruletovÃ© selekce je tzv. stochastickÃ½ univerzÃ¡lnÃ­ vÃ½bÄ›r, kterÃ½ hodÃ­ kuliÄku do rulety jen jednou a dalÅ¡Ã­ jedince vybÃ­rÃ¡ deterministicky posunem pozice kuliÄky o $1/n$. Tento vÃ½bÄ›r pro malÃ¡ $n$ lÃ©pe aproximuje ideÃ¡lnÃ­ poÄty zastoupenÃ­ jedincÅ¯ v dalÅ¡Ã­ generaci. DalÅ¡Ã­mi varianty rodiÄovskÃ© selekce nepracujÃ­ s absolutnÃ­mi hodnotami fitness, ale vybÃ­rajÃ­ nÃ¡hodnÄ› v zÃ¡vislosti na poÅ™adÃ­ jedince v populaci setÅ™Ã­dÄ›nÃ© podle fitness, coÅ¾ zanedbÃ¡vÃ¡ absolutnÃ­ rozdÃ­ly mezi hodnotami. DalÅ¡Ã­ variantou rodiÄovskÃ© selekce je tzv $k$-turnaj, kdy nejprve vybereme $k$ jedincÅ¯ nÃ¡hodnÄ› a z nich pak vybereme nejlepÅ¡Ã­ho. 
+Ruletovou selekci si dle metafory mù¾eme pøedstavit tak, ¾e kolo rulety rozdìlíme na vıseèe odpovídající velikostí hodnotám fitness jedincù a pøi vıbìru pak $n$ krát vhodíme kulièku. Èasto pou¾ívanım vylep¹ením ruletové selekce je tzv. stochastickı univerzální vıbìr, kterı hodí kulièku do rulety jen jednou a dal¹í jedince vybírá deterministicky posunem pozice kulièky o $1/n$. Tento vıbìr pro malá $n$ lépe aproximuje ideální poèty zastoupení jedincù v dal¹í generaci. Dal¹ími varianty rodièovské selekce nepracují s absolutními hodnotami fitness, ale vybírají náhodnì v závislosti na poøadí jedince v populaci setøídìné podle fitness, co¾ zanedbává absolutní rozdíly mezi hodnotami. Dal¹í variantou rodièovské selekce je tzv $k$-turnaj, kdy nejprve vybereme $k$ jedincù náhodnì a z nich pak vybereme nejlep¹ího. 
 
-\subsection{OperÃ¡tory}
+\subsection{Operátory}
 
-\subsection{GA na ÄÃ­slech}
+\subsection{GA na èíslech}
 
-\subsection{GA na permutacÃ­ch}
+\subsection{GA na permutacích}
 
 
 
-V souÄasnosti se oblast genetickÃ½ch algoritmÅ¯ neomezuje jen na binÃ¡rnÃ­ kÃ³dovÃ¡nÃ­ jedincÅ¯, ÄastÃ© je celoÄÃ­selnÃ©, permutaÄnÃ­ nebo reÃ¡lnÃ© kÃ³dovÃ¡nÃ­, kterÃ¡ ale vyÅ¾adujÃ­ specifickÃ© operace kÅ™Ã­Å¾enÃ­ a mutace~\cite{Michalewicz:1996, Mitchell:1996}. O nÄ›kterÃ½ch se zmÃ­nÃ­me dÃ¡le. 
+V souèasnosti se oblast genetickıch algoritmù neomezuje jen na binární kódování jedincù, èasté je celoèíselné, permutaèní nebo reálné kódování, která ale vy¾adují specifické operace køí¾ení a mutace~\cite{Michalewicz:1996, Mitchell:1996}. O nìkterıch se zmíníme dále. 

@@ -1,5 +1,5 @@
 %!TEX root = main.tex
-\index{EvoluÄnÃ­ algoritmus}
+\index{Evoluèní algoritmus}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Evoluce, geny a DNA}
@@ -7,41 +7,41 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{ObecnÃ© schÃ©ma evoluÄnÃ­ho algoritmu}
+\section{Obecné schéma evoluèního algoritmu}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Oblast evoluÄnÃ­ch vÃ½poÄtÅ¯ Äi algoritmÅ¯ (v angliÄtinÄ› evolutionary computing) zastÅ™eÅ¡uje nÄ›kolik proudÅ¯, kterÃ© se zpoÄÃ¡tku vyvÃ­jely samostatnÄ›. Za prehistorii tÃ©to disciplÃ­ny lze povaÅ¾ovat Turingovy nÃ¡vrhy na vyuÅ¾itÃ­ evoluÄnÃ­ho prohledÃ¡vÃ¡nÃ­ z roku 1948~\cite{Turing:1948}\missingref a Bremermannovy prvnÃ­ pokusy o implementaci optimalizace pomocÃ­ evoluce a rekombinace z roku 1962~\cite{Bremermann:1962}\missingref. BÄ›hem Å¡edesÃ¡tÃ½ch let se objevily tÅ™i skupiny vÃ½zkumnÃ­kÅ¯, kteÅ™Ã­ nezÃ¡visle na sobÄ› vyvÃ­jely a navrhly svÃ© varianty pouÅ¾itÃ­ evoluÄnÃ­ch principÅ¯ v informatice. Holland publikoval v roce 1975 svÅ¯j nÃ¡vrh genetickÃ½ch algoritmÅ¯~\cite{Holland:1992}, \index{GenetickÃ½ algoritmus}
-zatÃ­mco skupina Fogela a spolupracovnÃ­kÅ¯ vyvinula metodu nazvanou evoluÄnÃ­ programovÃ¡nÃ­~\cite{Fogel:1995}. 
-\index{EvoluÄnÃ­ programovÃ¡nÃ­}
-NezÃ¡visle na nich pÅ™iÅ¡li Rechenberg a Schwefel v NÄ›mecku na metodu nazvanou evoluÄnÃ­ strategie~\cite{Beyer:2002}.
-\index{EvoluÄnÃ­ strategie}
-AÅ¾ do pÅ™elomu osmdesÃ¡tÃ½ch a devadesÃ¡tÃ½ch let existovaly tyto smÄ›ry bez vÃ½raznÄ›jÅ¡Ã­ interakce, ale potÃ© se spojily do obecnÄ›jÅ¡Ã­ oblasti evoluÄnÃ­ch algoritmÅ¯. V tÃ© dobÄ›  Koza vytvÃ¡Å™Ã­ metodu genetickÃ©ho programovÃ¡nÃ­, Dorigo publikuje disertaci s nÃ¡vrhem mravenÄÃ­ch optimalizaÄnÃ­ch algoritmÅ¯ a vznikajÃ­ prvnÃ­ pokusy o aplikaci evoluce na vÃ½voj umÄ›lÃ½ch neuronovÃ½ch sÃ­tÃ­. 
+Oblast evoluèních vıpoètù èi algoritmù (v angliètinì evolutionary computing) zastøe¹uje nìkolik proudù, které se zpoèátku vyvíjely samostatnì. Za prehistorii této disciplíny lze pova¾ovat Turingovy návrhy na vyu¾ití evoluèního prohledávání z roku 1948~\cite{Turing:1948}\missingref a Bremermannovy první pokusy o implementaci optimalizace pomocí evoluce a rekombinace z roku 1962~\cite{Bremermann:1962}\missingref. Bìhem ¹edesátıch let se objevily tøi skupiny vızkumníkù, kteøí nezávisle na sobì vyvíjely a navrhly své varianty pou¾ití evoluèních principù v informatice. Holland publikoval v roce 1975 svùj návrh genetickıch algoritmù~\cite{Holland:1992}, \index{Genetickı algoritmus}
+zatímco skupina Fogela a spolupracovníkù vyvinula metodu nazvanou evoluèní programování~\cite{Fogel:1995}. 
+\index{Evoluèní programování}
+Nezávisle na nich pøi¹li Rechenberg a Schwefel v Nìmecku na metodu nazvanou evoluèní strategie~\cite{Beyer:2002}.
+\index{Evoluèní strategie}
+A¾ do pøelomu osmdesátıch a devadesátıch let existovaly tyto smìry bez vıraznìj¹í interakce, ale poté se spojily do obecnìj¹í oblasti evoluèních algoritmù. V té dobì  Koza vytváøí metodu genetického programování, Dorigo publikuje disertaci s návrhem mravenèích optimalizaèních algoritmù a vznikají první pokusy o aplikaci evoluce na vıvoj umìlıch neuronovıch sítí. 
 
-U zrodu rÅ¯znÃ½ch variant evoluÄnÃ­ch algoritmÅ¯ stÃ¡la inspirace pÅ™Ã­rodnÃ­mi fenomÃ©ny, konkrÃ©tnÄ› jde o Darwinovu teorii pÅ™Ã­rodnÃ­ho vÃ½bÄ›ru a zjednoduÅ¡enÃ© principy genetiky, kterÃ© poprvÃ© naÄrtl Mendel. Z genetiky se evoluÄnÃ­ algoritmy inspirujÃ­ diskrÃ©tnÃ­ reprezentacÃ­ genotypu, z biologickÃ© evoluÄnÃ­ teorie pouÅ¾Ã­vajÃ­ Darwinovu myÅ¡lenku o vÃ½bÄ›ru jedincÅ¯ v prostÅ™edÃ­ s omezenÃ½mi zdroji, kterÃ½ zÃ¡visÃ­ na mÃ­Å™e pÅ™izpÅ¯sobenÃ­ se jedincÅ¯ danÃ©mu prostÅ™edÃ­.
+U zrodu rùznıch variant evoluèních algoritmù stála inspirace pøírodními fenomény, konkrétnì jde o Darwinovu teorii pøírodního vıbìru a zjednodu¹ené principy genetiky, které poprvé naèrtl Mendel. Z genetiky se evoluèní algoritmy inspirují diskrétní reprezentací genotypu, z biologické evoluèní teorie pou¾ívají Darwinovu my¹lenku o vıbìru jedincù v prostøedí s omezenımi zdroji, kterı závisí na míøe pøizpùsobení se jedincù danému prostøedí.
 
-ZÃ¡kladnÃ­ obecnou myÅ¡lenku evoluÄnÃ­ch algoritmÅ¯ lze vyjÃ¡dÅ™it nÃ¡sledujÃ­cÃ­m zpÅ¯sobem. MÄ›jme populaci jedincÅ¯ v prostÅ™edÃ­, kterÃ© urÄuje jejich ÃºspÄ›Å¡nost --- fitness. Tito jedinci navzÃ¡jem soupeÅ™Ã­ o moÅ¾nost reprodukce a pÅ™eÅ¾itÃ­, kterÃ¡ zÃ¡visÃ­ prÃ¡vÄ› na hodnotÄ› fitness. Jde tedy o mnoÅ¾inu kandidÃ¡tÅ¯ na Å™eÅ¡eni problÃ©mu definovanÃ©ho prostÅ™edÃ­m. ZpÅ¯soby reprezentace jedincÅ¯, jejich vÃ½bÄ›ru a rekombinace zÃ¡visÃ­ na konkrÃ©tnÃ­m dialektu evoluÄnÃ­ch algoritmÅ¯, kterÃ© probereme vzÃ¡pÄ›tÃ­. 
+Základní obecnou my¹lenku evoluèních algoritmù lze vyjádøit následujícím zpùsobem. Mìjme populaci jedincù v prostøedí, které urèuje jejich úspì¹nost --- fitness. Tito jedinci navzájem soupeøí o mo¾nost reprodukce a pøe¾ití, která závisí právì na hodnotì fitness. Jde tedy o mno¾inu kandidátù na øe¹eni problému definovaného prostøedím. Zpùsoby reprezentace jedincù, jejich vıbìru a rekombinace závisí na konkrétním dialektu evoluèních algoritmù, které probereme vzápìtí. 
 
 \begin{algorithm}
-\caption{SchÃ©ma evoluÄnÃ­ho algoritmu}
+\caption{Schéma evoluèního algoritmu}
 \label{obreva}
 \begin{algorithmic}
-\Procedure{EvoluÄnÃ­ algoritmus}{} 
+\Procedure{Evoluèní algoritmus}{} 
 \State $t \gets 0$
-\State \emph{Inicializuj} populaci $P_t$ nÃ¡hodnÄ› vygenerovanÃ½mi jedinci
-\State \emph{OhodnoÅ¥} jedince v populaci $P_t$
-\While{neplatÃ­ \emph{kritÃ©rium ukonÄenÃ­}}
-\State 	vyber z $P_t$ rodiÄe \emph{RodiÄovskou selekcÃ­}
-\State 	\emph{RekombinacÃ­} rodiÄÅ¯ vzniknou potomci
+\State \emph{Inicializuj} populaci $P_t$ náhodnì vygenerovanımi jedinci
+\State \emph{Ohodno»} jedince v populaci $P_t$
+\While{neplatí \emph{kritérium ukonèení}}
+\State 	vyber z $P_t$ rodièe \emph{Rodièovskou selekcí}
+\State 	\emph{Rekombinací} rodièù vzniknou potomci
 \State 	\emph{Mutuj} potomky
-\State 	\emph{OhodnoÅ¥} potomky
-\State 	\emph{EnviromentÃ¡lnÃ­ selekcÃ­} vyber $P_{t+1}$ z $P_t$ a potomkÅ¯
+\State 	\emph{Ohodno»} potomky
+\State 	\emph{Enviromentální selekcí} vyber $P_{t+1}$ z $P_t$ a potomkù
 \State $t \gets t+1$
 \EndWhile
-%\Until{kritÃ©rium ukonÄenÃ­}
+%\Until{kritérium ukonèení}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
 
 
-ZÃ¡kladnÃ­ princip fungovÃ¡nÃ­ evoluÄnÃ­ch algoritmÅ¯ je tedy nÃ¡sledujÃ­cÃ­~\cite{Eiben:2003}. Na zaÄÃ¡tku algoritmu vygenerujeme (nejÄastÄ›ji nÃ¡hodnÄ›) prvnÃ­ iniciÃ¡lnÃ­ populaci jedincÅ¯. VÅ¡echny jedince v populaci ohonotÃ­me ohodnocovacÃ­ funkcÃ­. Hodnota tÃ©to funkce urÄuje Å¡anci vÃ½bÄ›ru jedincÅ¯ bÄ›hem rodiÄovskÃ© selekce. VybranÃ­ jedinci jsou potom rekombinovÃ¡ni pomocÃ­ rekombinaÄnÃ­ho operÃ¡toru, kterÃ½ typicky ze dvou jedincÅ¯ vytvÃ¡Å™Ã­ jednoho Äi dva potomky, a pomoci operÃ¡toru mutace, kterÃ½ typicky provÃ¡dÃ­ drobnÃ© zmÄ›ny jednoho jedince. TÃ­mto postupem si vytvoÅ™Ã­me mnoÅ¾inu novÃ½ch kandidÃ¡tÅ¯ Å™eÅ¡enÃ­, a tito novÃ­ jedinci potom soutÄ›Å¾Ã­ s pÅ¯vodnÃ­mi jedinci o mÃ­sto v novÃ© populaci. VÃ½bÄ›r jedincÅ¯ do novÃ© populace (tedy jakÃ©si slitÃ­ rodiÄÅ¯ a potomkÅ¯) mÃ¡ na starosti enviomentÃ¡lnÃ­ selekce beroucÃ­ v Ãºvahu fitness jedincÅ¯ a pÅ™ipadnÄ› dalÅ¡Ã­ ukazatele jako je napÅ™Ã­klad stÃ¡Å™Ã­ jedincÅ¯. TÃ­m je vytvoÅ™ena novÃ¡ generace a tento cyklus pokraÄuje do splnÄ›nÃ­ urÄitÃ©ho kritÃ©ria ukonÄenÃ­, coÅ¾ je nejÄastÄ›ji dostateÄnÄ› dobrÃ½ nejlepÅ¡Ã­ jedinec nebo pÅ™edem urÄenÃ½ poÄet generacÃ­.
+Základní princip fungování evoluèních algoritmù je tedy následující~\cite{Eiben:2003}. Na zaèátku algoritmu vygenerujeme (nejèastìji náhodnì) první iniciální populaci jedincù. V¹echny jedince v populaci ohonotíme ohodnocovací funkcí. Hodnota této funkce urèuje ¹anci vıbìru jedincù bìhem rodièovské selekce. Vybraní jedinci jsou potom rekombinováni pomocí rekombinaèního operátoru, kterı typicky ze dvou jedincù vytváøí jednoho èi dva potomky, a pomoci operátoru mutace, kterı typicky provádí drobné zmìny jednoho jedince. Tímto postupem si vytvoøíme mno¾inu novıch kandidátù øe¹ení, a tito noví jedinci potom soutì¾í s pùvodními jedinci o místo v nové populaci. Vıbìr jedincù do nové populace (tedy jakési slití rodièù a potomkù) má na starosti enviomentální selekce beroucí v úvahu fitness jedincù a pøipadnì dal¹í ukazatele jako je napøíklad stáøí jedincù. Tím je vytvoøena nová generace a tento cyklus pokraèuje do splnìní urèitého kritéria ukonèení, co¾ je nejèastìji dostateènì dobrı nejlep¹í jedinec nebo pøedem urèenı poèet generací.
 

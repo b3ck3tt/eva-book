@@ -1,37 +1,37 @@
-EvoluÄnÃ­ programovÃ¡nÃ­ je oblast, kterÃ¡ je na rozdÃ­l od genetickÃ½ch algoritmÅ¯ charakterizovÃ¡na velmi benevolentnÃ­m pÅ™Ã­stupem ke kÃ³dovÃ¡nÃ­ jedincÅ¯. PrvnÃ­ varianty tohoto pÅ™Ã­stupu vznikly jako metoda pro automatickou evoluci koneÄnÃ½ch automatÅ¯ \cite{fogel}. Jedincem v populaci je v tomto pÅ™ipadÄ› tedy koneÄnÃ½ automat (zakÃ³dovanÃ½ jakkoliv) a variaÄnÃ­ operace se omezujÃ­ na nÄ›kolik rÅ¯znÃ½ch mutacÃ­. Pro evoluÄnÃ­ programovÃ¡nÃ­ je charakteristickÃ©, Å¾e mutace jsou pÅ™izpÅ¯sobenÃ© problÃ©mu a je jich Äasto vÃ­ce, zatÃ­mco kÅ™Ã­Å¾enÃ­ se vÅ¯bec nepouÅ¾Ã­vÃ¡. 
+Evoluèní programování je oblast, která je na rozdíl od genetickıch algoritmù charakterizována velmi benevolentním pøístupem ke kódování jedincù. První varianty tohoto pøístupu vznikly jako metoda pro automatickou evoluci koneènıch automatù \cite{fogel}. Jedincem v populaci je v tomto pøipadì tedy koneènı automat (zakódovanı jakkoliv) a variaèní operace se omezují na nìkolik rùznıch mutací. Pro evoluèní programování je charakteristické, ¾e mutace jsou pøizpùsobené problému a je jich èasto více, zatímco køí¾ení se vùbec nepou¾ívá. 
 
 \subsection{EP na KA}
 
-\subsection{EP na ÄÃ­slech}
+\subsection{EP na èíslech}
 
-V dalÅ¡Ã­m textu popÃ­Å¡eme variantu evoluÄnÃ­ho programovÃ¡nÃ­, kterÃ¡ pracuje s jedinci reprezentovanÃ½mi vektory reÃ¡lnÃ½ch ÄÃ­sel. RodiÄovskÃ¡ selekce je jednoduchÃ¡, kaÅ¾dÃ½ rodiÄ je jednou vybrÃ¡n a mutacÃ­ dÃ¡ vznik jednomu potomkovi. EnviromentÃ¡lnÃ­ selekce potom z mnoÅ¾iny rodiÄÅ¯ a potomkÅ¯ vybere turnajovou selekcÃ­ polovinu, kterÃ¡ se stane dalÅ¡Ã­ generacÃ­. 
+V dal¹ím textu popí¹eme variantu evoluèního programování, která pracuje s jedinci reprezentovanımi vektory reálnıch èísel. Rodièovská selekce je jednoduchá, ka¾dı rodiè je jednou vybrán a mutací dá vznik jednomu potomkovi. Enviromentální selekce potom z mno¾iny rodièù a potomkù vybere turnajovou selekcí polovinu, která se stane dal¹í generací. 
 
 \begin{algorithm}
-\caption{SchÃ©ma meta-evoluÄnÃ­ho programovÃ¡nÃ­ nad vektorem reÃ¡lnÃ½ch Äisel}
+\caption{Schéma meta-evoluèního programování nad vektorem reálnıch èisel}
 \label{obrep}
 \begin{algorithmic}
 \Procedure{Meta-EP}{} 
 \State $t \gets 0$
-\State \emph{Inicializuj} populaci $P_t$ $N$ nÃ¡hodnÄ› vygenerovanÃ½mi reÃ¡lnÃ½mi vektory $\vec{x^t}=(x_1^t,\dots,x_n^t,\sigma_1^t,\dots,\sigma_n^t)$
-\State \emph{OhodnoÅ¥} jedince v populaci $P_t$
-\While{neplatÃ­ \emph{kritÃ©rium ukonÄenÃ­}}
+\State \emph{Inicializuj} populaci $P_t$ $N$ náhodnì vygenerovanımi reálnımi vektory $\vec{x^t}=(x_1^t,\dots,x_n^t,\sigma_1^t,\dots,\sigma_n^t)$
+\State \emph{Ohodno»} jedince v populaci $P_t$
+\While{neplatí \emph{kritérium ukonèení}}
 \For{$i \gets 1, \dots, N$}
-\State 	k rodiÄi $\vec{x_i^t}$ vygenruj potomka $\vec{y_i^t}$ \emph{mutacÃ­}:
+\State 	k rodièi $\vec{x_i^t}$ vygenruj potomka $\vec{y_i^t}$ \emph{mutací}:
 \For{$j \gets 1, \dots, n$}
 \State $\sigma'_j \gets \sigma_j \cdot (1+\alpha \cdot N(0,1))$
 \State $x'_j \gets x_j + \sigma'_j \cdot N(0,1)$
 
 \EndFor
-\State vloÅ¾ $\vec{y_i^t}$ do kandidÃ¡tskÃ© populace potomkÅ¯ $P'_t$
+\State vlo¾ $\vec{y_i^t}$ do kandidátské populace potomkù $P'_t$
 \EndFor
-\State 	\emph{Turnajovou selekcÃ­} vyber $P_{t+1}$ z rodiÄÅ¯ $P_t$ a potomkÅ¯ $P'_t$
-\State 	ZahoÄ $P_t$ a $P'_t$
+\State 	\emph{Turnajovou selekcí} vyber $P_{t+1}$ z rodièù $P_t$ a potomkù $P'_t$
+\State 	Zahoï $P_t$ a $P'_t$
 \State $t \gets t+1$
 \EndWhile
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
  
-Mutace v naÅ¡em pÅ™ipadÄ› pracuje tak, Å¾e se snaÅ¾Ã­ o malou zmÄ›nu reÃ¡lnÃ© hodnoty, kterou realizuje vÃ½bÄ›rem z normÃ¡lnÃ­ho rozdÄ›lenÃ­. UkÃ¡zalo se, Å¾e hodnoty rozptylu normÃ¡lnÃ­ho rozdÄ›lenÃ­ jednotlivÃ½ch parametrÅ¯ jsou podstatnÃ© pro dobrÃ© fungovÃ¡nÃ­ algoritmu. Jedno z navrÅ¾enÃ½ch Å™eÅ¡enÃ­ je zaÄlenit tyto rozptyly do kaÅ¾dÃ©ho jedince a upravovat je takÃ© v prÅ¯bÄ›hu algoritmu. JelikoÅ¾ tak vlastnÄ› upravujeme parametry, kterÃ© zÃ¡roveÅˆ pouÅ¾Ã­vÃ¡me pÅ™i vlastnÃ­ mutaci, hovoÅ™Ã­me o meta-evoluci.
+Mutace v na¹em pøipadì pracuje tak, ¾e se sna¾í o malou zmìnu reálné hodnoty, kterou realizuje vıbìrem z normálního rozdìlení. Ukázalo se, ¾e hodnoty rozptylu normálního rozdìlení jednotlivıch parametrù jsou podstatné pro dobré fungování algoritmu. Jedno z navr¾enıch øe¹ení je zaèlenit tyto rozptyly do ka¾dého jedince a upravovat je také v prùbìhu algoritmu. Jeliko¾ tak vlastnì upravujeme parametry, které zároveò pou¾íváme pøi vlastní mutaci, hovoøíme o meta-evoluci.
 
-\subsection{VÃ½znam kÅ™Ã­Å¾enÃ­ pro EA}
+\subsection{Vıznam køí¾ení pro EA}

@@ -1,33 +1,33 @@
-GentickÃ© programovÃ¡nÃ­ je zajÃ­mavÃ© tÃ­m, Å¾e pÅ™inÃ¡Å¡Ã­ prÃ¡ci s jedinci odliÅ¡nÃ©ho typu --- jde o stromy reprezentujÃ­cÃ­ programy \cite{koza}. Strom je sestaven z mnoÅ¾iny neterminÃ¡lnÃ­ch symbolÅ¯ reprezentujÃ­cÃ­ch funkce a mnoÅ¾iny terminÃ¡lnÃ­ch symbolÅ¯ (listÅ¯) reprezentujÃ­cÃ­ch promÄ›nnÃ© a konstanty. PromÄ›nnÃ© jsou charakterizovÃ¡ny Ãºlohou k Å™eÅ¡enÃ­, neterminÃ¡lnÃ­ symboly urÄujÃ­ programovacÃ­ jazyk, ve kterÃ©m budou programy vznikat. Stromy jsou vhodnÃ© jednak proto, Å¾e pÅ™edstavujÃ­ kompaktnÃ­ reprezentaci programÅ¯, a takÃ© proto, Å¾e na nich lze elegantnÄ› provÃ¡dÄ›t kÅ™Ã­Å¾enÃ­ realizovanÃ© jako vÃ½mÄ›na nÃ¡hodnÄ› zvolenÃ½ch podstromÅ¯ mezi dvÄ›ma jedinci. Mutace je realizovÃ¡na jako nahrazenÃ­ podstromu nÃ¡hodnÄ› vygenerovanÃ½m podstromem. Je zajÃ­mavÃ©, Å¾e v kontrastu s jinÃ½mi oblastmi evoluÄnÃ­ch algoritmÅ¯, nehraje mutace v genetickÃ©m programovÃ¡nÃ­ tak vÃ½znamnou roli a obvykle mÃ­vÃ¡ malou pravdÄ›podobnost. Je to pravdÄ›podobnÄ› zpÅ¯sobeno tÃ­m, Å¾e kÅ™Ã­Å¾enÃ­ pÅ™edstavuje ve stromu programu velkÃ© zmÄ›ny, kterÃ© tak suplujÃ­ i ÃºÄinek mutace.
+Gentické programování je zajímavé tím, ¾e pøiná¹í práci s jedinci odli¹ného typu --- jde o stromy reprezentující programy \cite{koza}. Strom je sestaven z mno¾iny neterminálních symbolù reprezentujících funkce a mno¾iny terminálních symbolù (listù) reprezentujících promìnné a konstanty. Promìnné jsou charakterizovány úlohou k øe¹ení, neterminální symboly urèují programovací jazyk, ve kterém budou programy vznikat. Stromy jsou vhodné jednak proto, ¾e pøedstavují kompaktní reprezentaci programù, a také proto, ¾e na nich lze elegantnì provádìt køí¾ení realizované jako vımìna náhodnì zvolenıch podstromù mezi dvìma jedinci. Mutace je realizována jako nahrazení podstromu náhodnì vygenerovanım podstromem. Je zajímavé, ¾e v kontrastu s jinımi oblastmi evoluèních algoritmù, nehraje mutace v genetickém programování tak vıznamnou roli a obvykle mívá malou pravdìpodobnost. Je to pravdìpodobnì zpùsobeno tím, ¾e køí¾ení pøedstavuje ve stromu programu velké zmìny, které tak suplují i úèinek mutace.
 
-NÃ¡hodnÃ© generovÃ¡nÃ­ stromÅ¯ je dÅ¯leÅ¾itou operacÃ­ jak pro inicializaci populace tak pro mutace. Byly navrÅ¾eny dvÄ› metody, kterÃ© se snaÅ¾Ã­ buÄ nÃ¡hodnÄ› generovat kompletnÃ­ strom danÃ© hloubky, anebo nÃ¡hodnÄ› rostou vÄ›tve stromÅ¯. DruhÃ¡ metoda generuje tedy Å™idÅ¡Ã­ stromy s nestejnÄ› dlouhÃ½mi vÄ›tvemi. Pro inicializaci se doporuÄuje kombinace tÄ›chto metod v pomÄ›ru 1:1 (ramped half-and-half).
+Náhodné generování stromù je dùle¾itou operací jak pro inicializaci populace tak pro mutace. Byly navr¾eny dvì metody, které se sna¾í buï náhodnì generovat kompletní strom dané hloubky, anebo náhodnì rostou vìtve stromù. Druhá metoda generuje tedy øid¹í stromy s nestejnì dlouhımi vìtvemi. Pro inicializaci se doporuèuje kombinace tìchto metod v pomìru 1:1 (ramped half-and-half).
 
 \begin{algorithm}
-\caption{SchÃ©ma Kozova algoritmu genetickÃ©ho programovÃ¡nÃ­ nad syntaktickÃ½mi stromy}
+\caption{Schéma Kozova algoritmu genetického programování nad syntaktickımi stromy}
 \label{obrsgp}
 \begin{algorithmic}
-\Procedure{GenetickÃ© programovÃ¡nÃ­}{} 
+\Procedure{Genetické programování}{} 
 \State $t \gets 0$
 \State \emph{Inicializuj} populaci $P_t$ metodou \emph{ramped half-and-half}
-\State \emph{OhodnoÅ¥} jedince v populaci $P_t$
-\While{neplatÃ­ \emph{kritÃ©rium ukonÄenÃ­}}
+\State \emph{Ohodno»} jedince v populaci $P_t$
+\While{neplatí \emph{kritérium ukonèení}}
 \State $i \gets 0$
 \Repeat
-\State vyber pravdÄ›podobnostnÄ› variaÄnÃ­ operaci $o\in\{C,M\}$
-\If{o=C} \Comment KÅ™Ã­Å¾enÃ­
-\State vyber z $P_t$ 2 rodiÄe
-\State \emph{ZkÅ™iÅ¾} rodiÄe
-\State vloÅ¾ potomky do $P_{t+1}$
+\State vyber pravdìpodobnostnì variaèní operaci $o\in\{C,M\}$
+\If{o=C} \Comment Køí¾ení
+\State vyber z $P_t$ 2 rodièe
+\State \emph{Zkøi¾} rodièe
+\State vlo¾ potomky do $P_{t+1}$
 \State $i \gets i + 2$
 \Else \Comment Mutace
-\State vyber z $P_t$ 1 rodiÄe
-\State \emph{Mutuj} rodiÄe
-\State vloÅ¾ potomka do $P_{t+1}$
+\State vyber z $P_t$ 1 rodièe
+\State \emph{Mutuj} rodièe
+\State vlo¾ potomka do $P_{t+1}$
 \State $i \gets i + 1$
 \EndIf
 \Until{$i\geq n$}
-\State \emph{OhodnoÅ¥} jedince v populaci $P_{t+1}$
-\State 	ZahoÄ $P_t$
+\State \emph{Ohodno»} jedince v populaci $P_{t+1}$
+\State 	Zahoï $P_t$
 \State $t \gets t+1$
 \EndWhile
 %\Until{kr
