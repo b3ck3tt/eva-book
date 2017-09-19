@@ -1,0 +1,37 @@
+Evoluční programování je oblast, která je na rozdíl od genetických algoritmů charakterizována velmi benevolentním přístupem ke kódování jedinců. První varianty tohoto přístupu vznikly jako metoda pro automatickou evoluci konečných automatů \cite{fogel}. Jedincem v populaci je v tomto připadě tedy konečný automat (zakódovaný jakkoliv) a variační operace se omezují na několik různých mutací. Pro evoluční programování je charakteristické, že mutace jsou přizpůsobené problému a je jich často více, zatímco křížení se vůbec nepoužívá. 
+
+\subsection{EP na KA}
+
+\subsection{EP na číslech}
+
+V dalším textu popíšeme variantu evolučního programování, která pracuje s jedinci reprezentovanými vektory reálných čísel. Rodičovská selekce je jednoduchá, každý rodič je jednou vybrán a mutací dá vznik jednomu potomkovi. Enviromentální selekce potom z množiny rodičů a potomků vybere turnajovou selekcí polovinu, která se stane další generací. 
+
+\begin{algorithm}
+\caption{Schéma meta-evolučního programování nad vektorem reálných čisel}
+\label{obrep}
+\begin{algorithmic}
+\Procedure{Meta-EP}{} 
+\State $t \gets 0$
+\State \emph{Inicializuj} populaci $P_t$ $N$ náhodně vygenerovanými reálnými vektory $\vec{x^t}=(x_1^t,\dots,x_n^t,\sigma_1^t,\dots,\sigma_n^t)$
+\State \emph{Ohodnoť} jedince v populaci $P_t$
+\While{neplatí \emph{kritérium ukončení}}
+\For{$i \gets 1, \dots, N$}
+\State 	k rodiči $\vec{x_i^t}$ vygenruj potomka $\vec{y_i^t}$ \emph{mutací}:
+\For{$j \gets 1, \dots, n$}
+\State $\sigma'_j \gets \sigma_j \cdot (1+\alpha \cdot N(0,1))$
+\State $x'_j \gets x_j + \sigma'_j \cdot N(0,1)$
+
+\EndFor
+\State vlož $\vec{y_i^t}$ do kandidátské populace potomků $P'_t$
+\EndFor
+\State 	\emph{Turnajovou selekcí} vyber $P_{t+1}$ z rodičů $P_t$ a potomků $P'_t$
+\State 	Zahoď $P_t$ a $P'_t$
+\State $t \gets t+1$
+\EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+ 
+Mutace v našem připadě pracuje tak, že se snaží o malou změnu reálné hodnoty, kterou realizuje výběrem z normálního rozdělení. Ukázalo se, že hodnoty rozptylu normálního rozdělení jednotlivých parametrů jsou podstatné pro dobré fungování algoritmu. Jedno z navržených řešení je začlenit tyto rozptyly do každého jedince a upravovat je také v průběhu algoritmu. Jelikož tak vlastně upravujeme parametry, které zároveň používáme při vlastní mutaci, hovoříme o meta-evoluci.
+
+\subsection{Význam křížení pro EA}

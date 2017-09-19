@@ -1,0 +1,38 @@
+
+Rojové algoritmy mají některé společné rysy s evolučními algoritmy, jako je populační prohledávání, ale jsou charakteistické tím, že kladou důraz na modelování pohybu populace v prostoru parametrů inspirovaném různými druhy organizace sociálního hmyzu nebo jiných živočichů v hejnech. Počáteční výzkum Reynoldse vedl k návrhu jednoduchého lokálního algoritmu tzv. boidů, kteří velice jednoduše a překvapivě dobře modelují organizaci roje a koordinovaný pohyb v něm. Teprve algoritmus optimalizace rojem částic (PSO) ale přinesl využití těchto principů do prohledávacích algoritmů. V současnosti existuje celá řada dalších přibuzných algoritmů od ant colony optimization přes umělé imunitní systémy až ke včelím algoritmům \cite{swarm}. 
+
+Principem fungování rojově optimalizace je organizovaný pohyb roje částic (jedinců) po prostoru parametrů. Každá částice je charakterizována svou polohou a vektorem rychlosti. Každá častice si také pamatuje ze své historie nejlepší místo (ve smyslu hodnoty účelové funkce), které ona sama v historii navštívila a globální dosud nejlepší místo nalezené celým rojem. V každém kroku pak částice upraví svou rychlost jako součet tři vektorů: současné rychlosti, směru k lokálnimu extrému častice a směru ke globálnímu extrému celého roje. Tato suma je vážena dílem vstupními parametry algoritmu nastavovanými experimentátorem (jde o nelehký problém závisející na typu dat) a dílem náhodně vygenreovanými koeficienty pro každý krok. 
+
+\begin{algorithm}
+\caption{Schéma optimalizace rojem částic minimalizujících $f:\Real^n\to\Real$}
+\label{obrswarm}
+\begin{algorithmic}
+\Procedure{Optimalizace rojem částic}{}
+\State $\vec{g} \gets \arg\max_{\vec{y}} f(\vec{y})$ \Comment inicializace globální nejlepší pozice
+\For{$i \gets 1, \dots, l$}
+\State Inicializuj pozici částice $\vec{x_i}$ náhodně z rovnoměrného rozdělení
+\State $\vec{p_i} \gets \vec{x_i}$ \Comment inicializace nejlepší známé pozice částice
+\If{$f(\vec{p_i})<f(\vec{g})$}
+\State $\vec{g} \gets \vec{p_i}$ \Comment update globální nejlepší pozice
+\EndIf
+\State Inicializuj rychlost částice $\vec{v_i}$ náhodně z rovnoměrného rozdělení
+\EndFor
+\While{$\left(f(\vec{x^t})>\mbox{\emph{kritérium ukončení}}\right)$}
+\For{$i \gets 1, \dots, l$}
+\State 	zvol $r_g$ a $r_p$ z ronvoměrného rozdělení $U(0,1)$
+\For{$d \gets 1, \dots, n$} \Comment update rychlosti částice
+\State $v_{i,d} \gets \omega v_{i,d} + \varphi_p r_p (p_{i,d} - x_{i,d}) + \varphi_g r_g (g_{i,d} - x_{i,d})$
+\EndFor
+\State $\vec{x_i} \gets \vec{x_i} + \vec{v_i}$ \Comment update pozice částice
+\If{$f(\vec{x_i})<f(\vec{p_i})$}
+\State $\vec{p_i} \gets \vec{x_i}$ \Comment update nejlepší pozice částice
+\If{$f(\vec{p_i})<f(\vec{g})$}
+\State $\vec{g} \gets \vec{p_i}$ \Comment update nejlepší globální pozice
+\EndIf
+\EndIf
+\EndFor
+\EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
