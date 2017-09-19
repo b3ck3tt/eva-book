@@ -1,0 +1,37 @@
+Gentické programování je zajímavé tím, že přináší práci s jedinci odlišného typu --- jde o stromy reprezentující programy \cite{koza}. Strom je sestaven z množiny neterminálních symbolů reprezentujících funkce a množiny terminálních symbolů (listů) reprezentujících proměnné a konstanty. Proměnné jsou charakterizovány úlohou k řešení, neterminální symboly určují programovací jazyk, ve kterém budou programy vznikat. Stromy jsou vhodné jednak proto, že představují kompaktní reprezentaci programů, a také proto, že na nich lze elegantně provádět křížení realizované jako výměna náhodně zvolených podstromů mezi dvěma jedinci. Mutace je realizována jako nahrazení podstromu náhodně vygenerovaným podstromem. Je zajímavé, že v kontrastu s jinými oblastmi evolučních algoritmů, nehraje mutace v genetickém programování tak významnou roli a obvykle mívá malou pravděpodobnost. Je to pravděpodobně způsobeno tím, že křížení představuje ve stromu programu velké změny, které tak suplují i účinek mutace.
+
+Náhodné generování stromů je důležitou operací jak pro inicializaci populace tak pro mutace. Byly navrženy dvě metody, které se snaží buď náhodně generovat kompletní strom dané hloubky, anebo náhodně rostou větve stromů. Druhá metoda generuje tedy řidší stromy s nestejně dlouhými větvemi. Pro inicializaci se doporučuje kombinace těchto metod v poměru 1:1 (ramped half-and-half).
+
+\begin{algorithm}
+\caption{Schéma Kozova algoritmu genetického programování nad syntaktickými stromy}
+\label{obrsgp}
+\begin{algorithmic}
+\Procedure{Genetické programování}{} 
+\State $t \gets 0$
+\State \emph{Inicializuj} populaci $P_t$ metodou \emph{ramped half-and-half}
+\State \emph{Ohodnoť} jedince v populaci $P_t$
+\While{neplatí \emph{kritérium ukončení}}
+\State $i \gets 0$
+\Repeat
+\State vyber pravděpodobnostně variační operaci $o\in\{C,M\}$
+\If{o=C} \Comment Křížení
+\State vyber z $P_t$ 2 rodiče
+\State \emph{Zkřiž} rodiče
+\State vlož potomky do $P_{t+1}$
+\State $i \gets i + 2$
+\Else \Comment Mutace
+\State vyber z $P_t$ 1 rodiče
+\State \emph{Mutuj} rodiče
+\State vlož potomka do $P_{t+1}$
+\State $i \gets i + 1$
+\EndIf
+\Until{$i\geq n$}
+\State \emph{Ohodnoť} jedince v populaci $P_{t+1}$
+\State 	Zahoď $P_t$
+\State $t \gets t+1$
+\EndWhile
+%\Until{kr
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+

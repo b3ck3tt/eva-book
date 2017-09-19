@@ -32,4 +32,12 @@ Nejjednodušší varianta genetického algoritmu pracuje s binárními jedinci, 
 
 Ruletovou selekci si dle metafory můžeme představit tak, že kolo rulety rozdělíme na výseče odpovídající velikostí hodnotám fitness jedinců a při výběru pak $n$ krát vhodíme kuličku. Často používaným vylepšením ruletové selekce je tzv. stochastický univerzální výběr, který hodí kuličku do rulety jen jednou a další jedince vybírá deterministicky posunem pozice kuličky o $1/n$. Tento výběr pro malá $n$ lépe aproximuje ideální počty zastoupení jedinců v další generaci. Dalšími varianty rodičovské selekce nepracují s absolutními hodnotami fitness, ale vybírají náhodně v závislosti na pořadí jedince v populaci setříděné podle fitness, což zanedbává absolutní rozdíly mezi hodnotami. Další variantou rodičovské selekce je tzv $k$-turnaj, kdy nejprve vybereme $k$ jedinců náhodně a z nich pak vybereme nejlepšího. 
 
+\subsection{Operátory}
+
+\subsection{GA na číslech}
+
+\subsection{GA na permutacích}
+
+
+
 V současnosti se oblast genetických algoritmů neomezuje jen na binární kódování jedinců, časté je celočíselné, permutační nebo reálné kódování, která ale vyžadují specifické operace křížení a mutace~\cite{Michalewicz:1996, Mitchell:1996}. O některých se zmíníme dále. 
