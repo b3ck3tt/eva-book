@@ -28,4 +28,35 @@ $$\sigma = \sigma\exp^{1/\sqrt{d+1}}(\mathbb{1}_{f(\vec{x_1})<f(\vec{x})}-\fifth
 
 \section{Sebe-adaptivní evoluční strategie}
 
-Jiný přístup k sebe-adaptaci endogenních parametrů zvolil Schweffel\cite{schwefel1977numerische}, ten pro jejich ladění použil podobné genetické operátory, jako se používají pro samotné zakódované řešení. Konkrétně se každý endogenní parametr vynásobí číslem $\exp(\normal{0}{I})$.
+Jiný přístup k sebe-adaptaci endogenních parametrů zvolil Schweffel\cite{schwefel1977numerische}, ten pro jejich ladění použil podobné genetické operátory, jako se používají pro samotné zakódované řešení. Základní myšlenka je, že se každý endogenní parametr vynásobí číslem $\exp(\normal{0}{I})$. Hlavním důvodem pro použití takové ``multiplikativní'' mutace je to, že relativní velikost změn oběma směry je stejná a navíc se vyvíjí vyvíjí rozptyly pro mutaci, které musí být vždy kladné. Aditivní mutace se v takovém případě moc nehodí.
+
+Celkově se dá tato evoluční strategie (nazývaná $(\mu/\mu, \lambda)-\sigma\text{SA-ES}$ zapsat jako v algoritmu \ref{alg:sigmaSAES} níže. Můžeme si všimnout hned několika věcí -- mutace pro jedince i pro parametry je podobná, až na to, že mutace parametrů je multiplikativní a mutace jedince aditivní. Rekombinace se chová opět stejně pro jedince i pro jim příslušné parametry mutace -- počítá se průměr přes všechny jedince v populaci. Díky tomu, že je rekombinace deterministická, stačí ji dělat jen jednou za iteraci, proto se dělá mimo \code{for} cyklus.
+
+\begin{algorithm}
+\caption{Evoluční strategie s adaptací rozptylů mutace, $d$ značí počet proměnných problému, $\circ$ je operace násobení vektoru po složkách}
+\label{alg:sigmaSAES}
+\begin{algorithmic}
+\Require $d \in \Nat_+, \lambda \geq 5d, \mu \approx \lambda/4, \tau \approx 1/\sqrt{d}, \tau_i \approx 1/d^{1/4}$
+\Procedure{$(\mu/\mu, \lambda)$-$\sigma\text{SA-ES}$}{} 
+\State inicializuj $\vec{x} \in \Real^n, \vec{\sigma} \in \Real^n_+$
+\While {není konec}
+	\For {$k \in {1, \dots, \lambda}$}
+		\State $\xi_k = \tau\normal{0}{1}$ \Comment{globální rozptyl}
+		\State $\vec{\xi_k} = \tau_i\normal{0}{\identity}$ \Comment{rozptyl pro souřadnice}
+		\State $\vec{z_k} = \normal{0}{\identity}$ \Comment{změna řešení $\vec{x}$}
+		\State $\vec{\sigma_k} = \sigma \circ \exp(\vec{\xi_k})\exp(\xi_k)$
+		\State $\vec{x_k} = \vec{x} + \vec{\sigma_k}\circ\vec{z_k}$
+	\EndFor
+	\State $\mathcal{P} = \text{vyber } \mu \text{ nejlepších z } \{(\vec{x_i}, \vec{\sigma_i})\,|\,i \in \{1, \dots, k\}\}$
+	\State $\vec{\sigma} = \frac{1}{\mu}\sum_{\vec{\sigma_k} \in \mathcal{P}}\vec{\sigma_k}$
+	\State $\vec{x} = \frac{1}{\mu}\sum_{\vec{x_k} \in \mathcal{P}}\vec{x_k}$
+\EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+Mezi Rechenbergovým a Schwefelovým přístupem je rozdíl i v tom, že ten druhý nastavuje různé rozptyly mutace pro různé souřadnice, původní Rechenbergův přístup pracuje jen s jedním rozptylem a tedy se sférickou mutací.
+
+Přestože jsou relativní změny rozptylů nestranné, ukazuje se, že algoritmus má v případě neutrální selekce\sidenote{Neutrální selekce je nezávislá na fitness jedince, dá se implementovat např. tak, že je fitness konstantní a nejlepší jedinci se vybírají náhodně. Občas se používá při analýze chování algoritmů.} tendenci velikost rozptylu zvyšovat. Tomu se dá předejít použití větší velikosti populace. Nicméně moderní evoluční strategie z tohoto důvodu přistupují k deterministickým (někdy se používá termín ``derandomizovaným'') metodám nastavení endogenních parametrů.
+
+
