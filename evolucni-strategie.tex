@@ -35,7 +35,7 @@ Celkově se dá tato evoluční strategie (nazývaná $(\mu/\mu, \lambda)-\sigma
 \begin{algorithm}
 \caption{Evoluční strategie s adaptací rozptylů mutace, $d$ značí počet proměnných problému, $\circ$ je operace násobení vektoru po složkách}
 \label{alg:sigmaSAES}
-\begin{algorithmic}
+\begin{algorithmic}[1]
 \Require $d \in \Nat_+, \lambda \geq 5d, \mu \approx \lambda/4, \tau \approx 1/\sqrt{d}, \tau_i \approx 1/d^{1/4}$
 \Procedure{$(\mu/\mu, \lambda)$-$\sigma\text{SA-ES}$}{} 
 \State inicializuj $\vec{x} \in \Real^n, \vec{\sigma} \in \Real^n_+$
@@ -59,4 +59,30 @@ Mezi Rechenbergovým a Schwefelovým přístupem je rozdíl i v tom, že ten dru
 
 Přestože jsou relativní změny rozptylů nestranné, ukazuje se, že algoritmus má v případě neutrální selekce\sidenote{Neutrální selekce je nezávislá na fitness jedince, dá se implementovat např. tak, že je fitness konstantní a nejlepší jedinci se vybírají náhodně. Občas se používá při analýze chování algoritmů.} tendenci velikost rozptylu zvyšovat. Tomu se dá předejít použití větší velikosti populace. Nicméně moderní evoluční strategie z tohoto důvodu přistupují k deterministickým (někdy se používá termín ``derandomizovaným'') metodám nastavení endogenních parametrů.
 
+\section{Kumulativní adaptace velikosti kroku}
+
+Jedním ze způsobů odstranění náhody z adaptace evolučních strategií je použití tzv. \emph{evoluční cesty}, je to vlastně vektor, ve kterém se ukládají průměrné změny v každém směru u jedinců, kteří projdou selekcí. Z velikosti těchto změn se potom spočítá nový vektor rozptylů. Právě takovou techniku používá algoritmus založený na kumulativní změně velikosti kroku (Cumulative Step-Size Adaptation -- CSA)\sidenote{Rozptyl gaussovské mutace se v evolučních strategiích také označuje jako velikost kroku -- anglicky ``step-size''} vytvořený Ostermeierm \emph{a spol.}\cite{Ostermeier1994} Přesný popis CSA je uveden jako Algoritmus \ref{alg:CSA}. 
+
+Základ algoritmu je podobný výše uvedenému algoritmu z adaptací rozptylů, ale vidíme, že adaptace nyní není založena na náhodně, ale počítá se právě z evoluční cesty $\vec{s_\sigma}$. Aby se zabránilo přílišným oscilacím evoluční cesty způsobeným náhodným samplováním, vektor se průměruje s vektorem z předcházejícího kroku. Relativně složité koeficienty, které se při výpočtu průměru používají, jsou zvoleny tak, aby se očekávaná velikost kroku neměnila při neutrální selekci.
+
+\begin{algorithm}
+\caption{Evoluční strategie s koordinovanou adaptací velikosti kroku, $d$ značí počet proměnných problému, $\circ$ je operace násobení vektoru po složkách}
+\label{alg:CSA}
+\begin{algorithmic}[1]
+\Require{$d \in \Nat_+, \lambda \in \Nat, \mu \approx \lambda/4, c_\sigma \approx \sqrt{\mu/(d+\mu)}, f \approx 1 + \sqrt{\mu/d}, f_i \approx 3d$}
+\Procedure{$(\mu/\mu,\lambda)$-ES s evoluční cestou}{}
+\State Inicializuj $\vec{x} \in \Real^d, \vec{\sigma} \in \Real^n_+$
+\While{není konec}
+	\For{$k \in \{1, \dots, \lambda\}$}
+	  \State $\vec{z_k} = \normal{0}{\identity}$
+	  \State $\vec{x_k} = \vec{x} + \vec{\sigma} \circ \vec{z_k}$ \Comment{mutace}
+	\EndFor
+	\State $\mathcal{P} = \text{vyber } \mu \text{ nejlepších jedinců z } \{(\vec{x_k}, \vec{z_k}) | 1 \leq k \leq \lambda\}$
+	\State $\vec{s_\sigma} = (1 - c_\sigma)\vec{s_\sigma} + \sqrt{c_\sigma(2-c_\sigma)}\frac{\sqrt{\mu}}{\mu}\sum_{z_k \in \mathcal{P}}\vec{z_k} $ \Comment{evoluční cesta}
+	\State $\vec{\sigma} = \vec{\sigma} \circ \exp^{1/f_i}\big(\frac{|\vec{s_\sigma}|}{\mathbb{E}|\normal{0}{1}|}\big)\exp^{c_\sigma/f}\big(\frac{||\vec{s_\sigma}||}{\mathbb{E}||\normal{0}{\identity}||} \big)$
+	\State $\vec{x} = \frac{1}{\mu} \sum_{\vec{x_k}\in\mathcal{P}}\vec{x_k}$ \Comment{rekombinace}
+\EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
