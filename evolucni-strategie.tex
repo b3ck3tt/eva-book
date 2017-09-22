@@ -1,6 +1,6 @@
 %!TEX root = main.tex
 
-\emph{Evoluční strategie}\cite{rechenberg1973,schwefel1977numerische} jsou z historického hlediska jistou alternativou Hollandova genetického algoritmu. Jsou o něco starší a je na nich zajímavé, že jsou o něco komplikovanější. V současnosti se používají především pro řešení problémů spojité optimalizace, ale myšlenky, které se v této oblasti vyskytují, se dají použít i jinde.
+\emph{Evoluční strategie}\cite{rechenberg1973,schwefel1977numerische} jsou z historického hlediska jistou alternativou Hollandova genetického algoritmu. Jsou o něco starší a je na nich zajímavé, že jsou o něco komplikovanější. V současnosti se používají především pro řešení problémů spojité optimalizace, ale myšlenky, které se v této oblasti vyskytují, se dají použít i jinde. V této kapitole představíme základní myšlenky evolučních strategií. Text je inspirován pěkným shrnutím moderních evolučních strategií od Nikolause Hansena \emph{a spol.}\cite{hansen2015evolution}, které rozhodně doporučujeme těm, kdo se o evolučních strategiích chtějí dozvědět více, případně je zajímají i teoretické výsledky týkající se evolučních strategií.
 
 Evoluční strategie se dělí do dvou skupin podle způsobu, jakým pracují s populacemi rodičů a potomků. V obou případech jsou důležité parametry $\mu$ a $\lambda$, které označují počet rodičů a počet potomků, kteří z nich vznikají. Pro druhy evolučních strategií potom existuje ustálené značení $(\mu, \lambda)$-ES a $(\mu + \lambda)$-ES. V prvním případě (``čárková selekce'') máme populaci $\mu$ rodičů, ze kterých vytvoříme $\lambda$ potomků ($\lambda > \mu$), z těch potom vybereme nejlepších $\mu$ jako rodiče do další generace.  Ve druhém případě (``plus selekce'') z $\mu$ rodičů vytvoříme opět $\lambda$ potomků, ale před selekcí napřed sloučíme rodiče a potomky do jedné populace velikosti $\mu + \lambda$. Z té se potom opět vybere $\mu$ nejlepších jedinců jako rodiče do další generace. 
 
@@ -8,7 +8,7 @@ Jednou ze základních vlastností evolučních strategií, které je odlišují
 
 Důležitou součástí evolučních strategií je rekombinace. Ta v zásadě odpovídá křížení v genetických algoritmech a jejím cílem je vytvořit nového jedince kombinací jedinců z populace. V evolučních strategiích se ale velmi často používají rekombinace, které kombinují všechny jedince. Častá je tzv. \emph{interpolační rekombinace}, která jednoduše spočítá průměr všech jedinců v populaci -- nový jedinec je vlastně centroid celé populace. Používá se i její varianta, která používá vážený součet, kde lepší jedinci v populaci mají větší váhu při výpočtu průměru (nejhorší jedinci se dokonce mohou úplně ignorovat). Kromě těchto dvou nejčastěji používaných rekombinací se dají používat i křížení známá z genetických algoritmů, není to ale moc obvyklé. Existuje i uniformní rekombinace, která každou složku vektoru jedince vybírá z náhodného jedince v populace. 
 
-Použitá rekombinace se občas objevuje i v notaci evolučních strategií, v takovém případě se píše jako $(\lambda/\rho + \mu)$, kde právě $\rho$ označuje použitou rekombinaci.
+Použitá rekombinace se občas objevuje i v notaci evolučních strategií, v takovém případě se píše jako $(\lambda/\rho_R + \mu)$, kde právě $\rho$ označuje počet jedinců použitých pro rekombinaci a $R$ označuje konkrétní typ rekombinace ($I$ pro interpolační, $W$ pro váženou interpolační rekombinaci).
 
 Základním operátorem v evolučních strategiích ale je mutace. Typicky jde o gaussovskou mutaci s určitým rozptylem. Zde se objevuje několik možností, kde nejjednodušší je sférická mutace, která přičítá k jedinci vektor z normálního rozdělení $\sigma\normal{0}{I}$, kde $I$ je jednotková matice. O něco složitější varianta potom používá jiný rozptyl pro každou souřadnici vektoru, tj. k jedinci se přičítá hodnota z normálního rozdělení $\normal{0}{\mathrm{diag}({\vec{\sigma}})}$, kde $\mathrm{diag}(\sigma)$ značí diagonální matici s vektorem $\vec{\sigma}$ na hlavní diagonále. Konečně v nejkomplikovanějším případě se jedinci generují s normálního rozdělení s plnou kovarianční matici $\normal{0}{\Sigma}$. Ačkoliv první dva způsoby vyžadují mnohem nižší množství endogenních parametrů (1 respektive $d$), jejich nevýhoda spočívá v tom, že nejsou schopny zachytit závislosti mezi parametry a hodí se tak především pro separabilní problémy. Na druhou stranu způsob s plnou kovarianční maticí je invariantní vůči rotacím a škálovaní prohledávaného prostoru (a díky dalším vlastnostem evolučních strategií i k monotónnímu škálování fitness funkce).
 
@@ -86,3 +86,35 @@ Základ algoritmu je podobný výše uvedenému algoritmu z adaptací rozptylů,
 \end{algorithmic}
 \end{algorithm}
 
+\section{Adaptace kovarianční matice}
+
+Všechny výše uvedené algoritmy adaptovaly jen různé rozptyly pro různé složky vektoru, tedy nebyly schopny postihnout závislosti mezi proměnnýma, tj. byly vhodné především pro separabilní problémy. V této části si představíme evoluční strategii, která adaptuje celou kovarianční matici (CMA-ES)\sidenote{V angličtině ``Covariance Matrix Adaptation Evolution Strategy''} a změny v jedincích tedy sampluje z vícerozměrného normálního rozdělení. Díky tomu se podobně jako diferenciální evoluce stává invariantní vůči rotacím a škálování prohledávaného prostoru a díky tomu, že používá jen porovnávání hodnot fitness, je nezávislá i na monotónních škálováních fitness funkce.
+
+Algoritmus CMA-ES\cite{Hansen:2001:CDS:1108839.1108843} je vlastně zobecněním předchozího algoritmu, k evoluční cestě pro $\sigma$ se přidává evoluční cesta i pro kovarianční matici $C$. Níže uvedený pseudokód popisuje $(\mu/\mu_W,\lambda)$-CMA-ES, tj. verzi, kde se používá vážený součet jedinců při rekombinaci (viz řádka 13). Jedná se o jednu z nejobecnějších verzí algoritmu CMA-ES. Ačkoliv vypadá komplikovaně, neliší se moc od předchozího algoritmu. Pořád obsahuje evoluční cestu pro $\sigma$ ($\vec{s_\sigma}$), která určuje globální velikost kroku $\sigma$ (řádky 9 a 11), navíc ale obsahuje jen evoluční cestu pro kovarianční matici $C$ ($\vec{s_c}$), která se používá při její aktualizaci. Myšlenka aktualizace je podobná jako u aktualizace $\sigma$, tj. počítá se vážený součet předcházející hodnoty $C$, aktuální evoluční cesty pro $C$ a kovariance aktuálních změn. Cílem opět je vyhnout se prudkým změnám $C$. 
+
+\begin{algorithm}
+\caption{Evoluční strategie s koordinovanou adaptací velikosti kroku, $d$ značí počet proměnných problému, $\circ$ je operace násobení vektoru po složkách}
+\label{alg:CSA}
+\begin{algorithmic}[1]
+\Require{$d \in \Nat_+, \lambda \geq 5 \in \Nat, \mu \approx \lambda/2, w_k = w'(k)/\sum_{k}^{\mu}w'(k), w'(k) = \log(\lambda/2 + 1/2) - \log\,\mathrm{rank}(f(\vec{x}_k)), \mu_w = 1/\sum_{k}^{\mu} w^2_k, c_\sigma \approx \mu_w/(d+\mu_w), f \approx 1 + \sqrt{\mu_w/d}, c_{\vec{c}} \approx (4+\mu_w/d)/(d+4+2\mu_w/d), c_1 = 2/(d^2 + \mu_w), c_\mu \approx \mu_w/(d^2+\mu_w), c_m = 1, h_\sigma = \charf_{||s_\sigma||^2/d < 4/(d+1)}, c_h = c_1(1-h^2_\sigma)c_{\vec{c}}(2-c_{\vec{c}}), C^{1/2}C^{1/2} = C $}
+\Procedure{$(\mu/\mu_W,\lambda)$-CMA-ES}{}
+\State Inicializuj $\vec{x} \in \Real^d, \vec{\sigma} \in \Real^n_+, C = I, \vec{s_c} = 0, \vec{s_\sigma} = 0$
+\While{není konec}
+	\For{$k \in \{1, \dots, \lambda\}$}
+	  \State $\vec{z_k} = \normal{0}{\identity}$
+	  \State $\vec{x_k} = \vec{x} + \sigma C^{1/2}\vec{z_k}$ \Comment{mutace}
+	\EndFor
+	\State $\mathcal{P} = \text{vyber } \mu \text{ nejlepších jedinců z } \{(\vec{x_k}, \vec{z_k}) | 1 \leq k \leq \lambda\}$
+	\State $\vec{s_\sigma} = (1 - c_\sigma)\vec{s_\sigma} + \sqrt{c_\sigma(2-c_\sigma)}\sqrt{\mu_w}\sum_{\vec{z_k} \in \mathcal{P}}w_k\vec{z_k} $ \Comment{evoluční cesta}
+	\State $\vec{s_c} = (1-c_{\vec{c}})\vec{s_c} + h_\sigma\sqrt{c_{\vec{c}}(2-c_{\vec{c}})}\sqrt{\mu_w}\sum_{\vec{z_k} \in \mathcal{P}}w_kC^{1/2}\vec{z_k}$
+	\State $\vec{\sigma} = \vec{\sigma} \exp^{c_\sigma/f}\big(\frac{||\vec{s_\sigma}||}{\mathbb{E}||\normal{0}{\identity}||} - 1 \big)$
+	\State $C = (1-c_1+c_h-c_\mu)C + c_1\vec{s_c}\vec{s_c}^\mathrm{T}+c_\mu\sum_{\vec{z_k} \in \mathcal{P}}w_kC^{1/2}\vec{z_k}(C^{1/2}\vec{z_k})^\mathrm{T}$
+	\State $\vec{x} = \vec{x} + c_m \sigma C^{1/2} \sum_{\vec{z_k}\in\mathcal{P}}w_k\vec{z_k}$ \Comment{rekombinace}
+\EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+Velké množství relativně složitých výrazů v kódu opět zajišťuje nestrannost algoritmu při neutrální selekci.
+
+Algoritmus CMA-ES aktuálně patří mezi nejlepší evoluční algoritmy pro spojitou optimalizaci, práce na něm stále pokračují a algoritmus se dále vyvíjí. Hledají se například jiné cesty pro adaptaci velikosti kroku v algoritmu. 
