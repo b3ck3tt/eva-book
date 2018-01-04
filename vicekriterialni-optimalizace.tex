@@ -1,0 +1,33 @@
+%!TEX root = main.tex
+
+Zatím jsme se zabývali jen řešením problémů, které obsahují jen jedno kritérium. řešení takových problémů pomocí evoluce je často přímočaré - to jediné kritérium se použije přímo jako fitness, případně se tato fitness může nějakým způsobem škálovat. Nicméně prakticky se často vyskytují problémy, kde je potřeba optimalizovat zároveň kritérií více. Typickým příkladem může třeba být optimalizace tvaru křídla u letadla, od kterého chceme co největší vztlak při co nejmenším čelním odporu. Takové problémy se řeší v oblasti vícekriteriální optimalizace. 
+
+Obecně máme tedy optimalizační problém typu
+\begin{equation*}
+  \begin{aligned}
+  & \underset{x}{\text{min}} 	& & f_1(x), \dots, f_n(x) \\
+  & \text{za podmínek} 				& & g_i(x) \leq 0 \\
+  & 													& & h_i(x) = 0 \,,\\
+  \end{aligned}
+\end{equation*}
+kde $f_i: D \to \Real$ jsou kritéria a $g_i, h_i: D \to \Real$ jsou omezující podmínky, přičemž $D$ je nějaký prostor parametrů všech těchto funkcí. Například ve spojité optimalizaci to je nějaká podmnožina $\Real^n$, v kombinatorické optimalizaci například množina všech permutací na $\{1, \dots, n\}$.
+
+Prvním z problémů ve vícekriteriální evoluci je, že kritéria si typicky navzájem odporují, tedy dobrá hodnota jednoho kritéria typicky znamená špatnou hodnotu jiného. Řešením problému vícekriteriální evoluce tedy není jeden bod, ale je to celá množina bodů, tzv. Pareto optimální množina. Ta je definována na základě tzv. Pareto dominance. Říkáme, že bod $x$ dominuje bod $y$ pokud $f_i(x) \leq f_i(y)$ pro všechna $i$ a zároveň $f_j(x) < f_j(y)$ pro alespoň jedno $j$. Pareto optimální množina je potom definovaná jako množina bodů z $D$, které nejsou dominované žádným jiným bodem z $D$. Občas se definuje i tzv. Parto optimální fronta, která se skládá z funkčních hodnot bodů v Pareto optimální množině, tedy pro Pareto optimální množinu $P$ a kritéria $f_1, \dots, f_n$, Pareto optimální fronta je množina $\{(f_1(x), \dots, f_n(x)| x \in P\}$. 
+
+Pareto optimální množina je v typickém případě velká, často dokonce nekonečná (obzvlášť ve spojité optimalizaci), není tedy možné najít jí celou a algoritmy vrací jen nějakou její konečnou aproximaci. Po takové aproximaci typicky chceme, aby body v ní byly blízko skutečně Pareto optimálním bodům (tj. takovým, že je žádný bod nedominuje) a zároveň by měly být víceméně rovnoměrně rozprostřeny po celé Pareto optimální frontě. Těmto dvěma požadavkům se říká konvergence a rozprostření.
+
+\section{Metriky pro porovnání algoritmů}
+
+Problém s porovnáním dvou řešení se opakuje znovu na vyšší úrovni, pokud chceme porovnat dvě různé aproximace Pareto optimální množiny, např. v případě, že chceme sledovat konvergenci algoritmu, nebo chceme porovnat dva různé algoritmy pro vícekriteriální evoluci. Existuje několik různých metrik, které nějakým způsobem porovnávají dvě aproximace Pareto optimální množiny (vetšinou pracují s Pareto optimální frontou). 
+
+Jednou z prvních bylo tzv. pokrytí (cover), které je pro dvě stejně velké aproximace Pareto fronty $A, B$ definované jako 
+$$\mathcal{C}(A, B) = \frac{\text{počet bodů z množiny $B$ dominovaných body z množiny $A$}}{\text{počet bodů v množině $A$}}\,.$$
+Nevýhodou tohoto kritéria je, že je binární, tj. pokud chceme porovnávat více aproximací, musíme porovnání udělat pro každou dvojici. Navíc kritérium vyjadřuje hlavně konvergenci k Pareto optimální frontě.
+
+Častěji se používají tzv. unární indikátory, které vyjadřují kvalitu nalezené aproximace jako jedno číslo. Příkladem může být například tzv. generační vzdálenost (generational distance, GD), která je pro aproximaci $A$ Pareto optimální fronty $P$ definována jako průměrná vzdálenost bodu z $A$ k bodu z $P$. Lepší aproximace mají menší hodnoty GD. Zásadní problém GD je, že vyjadřuje jen konvergenci, pokud budou všechny body z $A$ těsně u sebe a blízko k Pareto optimální frontě, hodnota GD bude nízká. Tento problém řeší inverzní GD (IGD), která místo toho počítá vzdálenost od každého bodu z $P$ k nejbližšímu bodu z $A$. Tímto postupem se započítá jako konvergence tak rozprostření.
+
+V současnosti se nejčastěji jako indikátor kvality nalezeného řešení používá hyperobjem prostoru dominovaného danou aproximací Pareto optimální fronty. Formálně se dá pro aproximaci Pareto optimální fronty $A$ a referenční bod $r\in \mathbb{R^n}$ jako 
+$$
+\mathrm{H}(A,r)=\int_{\Real^n}\mathrm{Char}(\{x\in O\,\exists a\in A\, a\preceq x\preceq r\})(z)\, dz\,,
+$$
+kde $\mathrm{Char}(X)$ je charakteristická funkce množiny $X$. Jako referenční bod $r$ se často volí vektor $(1, \dots, 1)$ po té, co se celá aproximace naškáluje na interval $[0,1]$. Výhodou hyperbojemu je, že (podobně jako IGD) kombinuje jak konvergenci tak rozprostření. Jeho nevýhodou naopak je, že jeho výpočet roste s počtem kritérií a problém jeho výpočtu je ve skutečnosti $\#\mathrm{P}$-úplný.
