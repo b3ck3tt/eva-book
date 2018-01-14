@@ -6,9 +6,9 @@ IF (podmínka) THEN (výsledek)
 
 Problém tedy je, jak navrhnout evoluční algoritmus, který bude vyvíjet daná pravidla nebo jejich množiny. Důležitým faktorem, který ovlivňuje návrh takového algoritmu, je typ učení, pro který ho chceme použít. Evoluce pravidlových systémů se historicky uvažuje v kontextu učení s učitelem (např. úlohy klasifikace) a zpětnovazebného učení (vývoj řídících mechanismů pro agenty či roboty). 
 
-Obecně se dá říci, že pro vývoj pravidel v úlohách učení s učitelem máme jedodušší způsob výpočtu a práce s fitness, zatímco v úlohách zpětnovazebného učení (někdy též nazývané on-line učení) je mechanismus interakce pravidlového systému s prostředím a distribuce odměn mezi pravidly složitější.  
+Obecně se dá říci, že pro vývoj pravidel v úlohách učení s učitelem máme jednodušší způsob výpočtu a práce s fitness, zatímco v úlohách zpětnovazebného učení (někdy též nazývané on-line učení) je mechanismus interakce pravidlového systému s prostředím a distribuce odměn mezi pravidly složitější.  
 
-Základní principy pro evoluci pravidlových systémů byly položeny v 80.letech 20.století v rámci tzv. Michiganského a Pittsburghského přístupu. Od poloviny 90.let pak mluvíme o nové generaci klasifikačních systémů reprezentované algoritmem Rozčířený klasifikační systém (XCS). 
+Základní principy pro evoluci pravidlových systémů byly položeny v 80.letech 20.století v rámci tzv. Michiganského a Pittsburghského přístupu. Od poloviny 90.let pak mluvíme o nové generaci klasifikačních systémů reprezentované algoritmem Rozšířený klasifikační systém (XCS). 
 
 
 \section{Michiganský a Pittsburghský přístup}
@@ -21,7 +21,7 @@ Hlavním rozdílem mezi oběma přístupy je, že v Hollandově případě je je
 
 Jako typický příklad Michiganského přístupu si ukážeme klasický model Hollandova LCS, což je nástupce algoritmu CS-1,který se snaží řešit adaptivní učení agentů, kde zpětná vazba od prostředí přichází jen pro určité stavy a ne po každé akci agenta. 
 
-Jedincem v Hollandově LCS je jedno pravidlo, které má co nejjednodušší tvar. Podmínka je tvořena bitovou maskou pro detekci jednotlivých vstupů/příznaků a může obsahovat hodnoty 0 - příznak není přítomen, 1 - příznak je přítomen a * - na příznaku nezáleží. Vstupy pravidla jsou buď přímo informace z prostředí poskytované receptory, anebo přiznaky z interních zpráv, které jsou generovány THEN částí pravidel. Tato pravá strana pravidel tedy obsahuje tzv. zprávu, kterou pravidlo, když je aktivováno, vyšle do globální paměti typu black board. Zpráva slouží jednak k zakódování akcí agenta (např. robot postoupí o krok kupředu) a jednak k přenosu informací mezi pravidly (např. robotu dochází baterie). 
+Jedincem v Hollandově LCS je jedno pravidlo, které má co nejjednodušší tvar. Podmínka je tvořena bitovou maskou pro detekci jednotlivých vstupů/příznaků a může obsahovat hodnoty 0 - příznak není přítomen, 1 - příznak je přítomen a * - na příznaku nezáleží. Vstupy pravidla jsou buď přímo informace z prostředí poskytované receptory, anebo příznaky z interních zpráv, které jsou generovány THEN částí pravidel. Tato pravá strana pravidel tedy obsahuje tzv. zprávu, kterou pravidlo, když je aktivováno, vyšle do globální paměti typu black board. Zpráva slouží jednak k zakódování akcí agenta (např. robot postoupí o krok kupředu) a jednak k přenosu informací mezi pravidly (např. robotu dochází baterie). 
 
 Formálně je jeden jedinec reprezentující pravidlo jednoduchým řetězcem v ternární abecedě, takže genetické operátory křížení a mutace jsou standardní a jednoduché. Holland používá také standardní genetický algoritmus, který ale přechod mezi generacemi realizuje jen zřídka --- po mnoha krocích interakce agentů s prostředím --- a nemění celou populaci, ale nahradí jen nějakou část nejhorších jedinců. 
 
@@ -63,9 +63,9 @@ Mutace 0<->1, rozšíření 0->1, zúžení 1->0,
 
 \section{ZCS a XCS}
 
-\subsection{Klasifikační systém nulté úrovně}
+\subsection{ZCS: Klasifikační systém nulté úrovně}
 
-V roce 1994 navrhl Wilson výrazně zjednodušenou verzi LCS, kterou nazval učícím se klasifikátorem nulté úrovně (ZCS). Hlavnim rysem algoritmu bylo nahrazení distribuce odměny požárním družstvem pomocí přehledného a jednuššího algoritmu, a zavední nového operátoru pokrytí. 
+V roce 1994 navrhl Wilson výrazně zjednodušenou verzi LCS, kterou nazval učícím se klasifikátorem nulté úrovně (ZCS). Hlavním rysem algoritmu bylo nahrazení distribuce odměny požárním družstvem pomocí přehledného a jednoduššího algoritmu, a zavedení nového operátoru pokrytí. 
 
 ZCS v každém kroku identifikuje množinu $M$ (matching) pravidel, která jsou aplikovatelná na daný stav prostředí, z nich se vybere to, které se aplikuje čistě na základě fitness jednotlivých pravidel. Všechna pravidla z $M$, která navrhují stejnou akci jako vítězné pravidlo, tvoří pak množinu $A$ (action set). 
 
@@ -75,14 +75,14 @@ Pokud systém v aktuálním kroku obdrží odměnu od prostředí, je od ní ode
 
 Nakonec je ještě zmenšena fitness pravidel z množiny $M-A$ (těch, která jsou aplikovatelná na danou situaci, ale navrhují jinou akci než vítězné pravidlo) o malý faktor $\tau$. 
 
-Vlastní prohledávání je realizováno kombinací stabilního GA (steady-state GA) a operátoru pokrytí. V každém kroku je s určitou pravděpodobností realzována jedna iterace genetického algoritmu, který ruletovou selekcí vybere dva rodiče, vygeneruje dva potomky, a těmi nahradí dva jedince z populace, vybrané opět ruletovou selekcí. Rodiče předjí potomkům polovinu své fitness.
+Vlastní prohledávání je realizováno kombinací stabilního GA (steady-state GA) a operátoru pokrytí. V každém kroku je s určitou pravděpodobností realizována jedna iterace genetického algoritmu, který ruletovou selekcí vybere dva rodiče, vygeneruje dva potomky, a těmi nahradí dva jedince z populace, vybrané opět ruletovou selekcí. Rodiče předají potomkům polovinu své fitness.
 
 Operátor pokrytí se aplikuje tehdy, když je množina M v daném kroku prázdná (nebo pokud obsahuje jen podprůměrné jedince), jeho cílem je zajistit, aby celý systém pokrýval co nejvíce případů, které prostředí poskytuje. Operátor pokrytí vygeneruje pravidlo s podmínkou odpovídající aktuálnímu vstupu a náhodnou akcí na pravé straně. 
 
-\subsection{Rozšířený klasifikační systém}
+\subsection{XCS: Rozšířený klasifikační systém}
 
-Dodnes nejúspěšnějším přístupem v oblasti klasifikačních systémů je druhý algoritmus navržený Wilsonem, tak zvaný rozšířený klasífikační systém (XCS). Autor v něm explicitně aplikoval principy zpětnovazebného Q-učení, které se snaží o úplnost reprezentace problému výběru akce. Algoritmus byl navržen po zkušenostech se ZCS, který, ač byl na řadě úloh úspěšný, vykazuje tendenci soustředit prohledávání jen do oblastí přinášejících velkou odměnu od prostředí. 
-Algoritmus XCS nepočíta fitness pravidel na základě hodnotz této odměny, ale na přesnosti předpovědi pravidel. 
+Dodnes nejúspěšnějším přístupem v oblasti klasifikačních systémů je druhý algoritmus navržený Wilsonem, tak zvaný rozšířený klasifikační systém (XCS). Autor v něm explicitně aplikoval principy zpětnovazebného Q-učení, které se snaží o úplnost reprezentace problému výběru akce. Algoritmus byl navržen po zkušenostech se ZCS, který, ač byl na řadě úloh úspěšný, vykazuje tendenci soustředit prohledávání jen do oblastí přinášejících velkou odměnu od prostředí. 
+Algoritmus XCS nepočítá fitness pravidel na základě hodnoty této odměny, ale na přesnosti předpovědi pravidel. 
 
 Ke každému pravidlu je přiřazena trojice hodnot --- fitness $F$, chyba $\epsilon$ a predikce $p$. Algoritmus zpětnovazebného učení pak upravuje tyto hodnoty následujícím způsobem:  
 
