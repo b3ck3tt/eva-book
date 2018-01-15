@@ -30,7 +30,7 @@ Pro práci s fitness navrhl Holland komplikovaný algoritmus hasičského družs
 Již jsme zmínili, že systém obsahuje sdílenou paměť, která uchovává aktuální zprávy jak od prostředí tak od předchozí aplikace pravidel. V jedné iteraci se zprávy z paměti porovnají se všemi pravidly a vyberou se ta pravidla, jejíchž levá strana odpovídá nějaké zprávě. Tato pravidla vsadí část své síly jako poplatek za účast v soutěži, které pravidlo se skutečně uplatní. Hodnota sázky se počítá jako součin síly pravidla, jeho specificity (počtu 0 a 1 na v podmínce) a konstanty. Pravidlo, které vsadí nejvíce, vyhrává a je aplikováno --- v další iteraci umístí svou zprávu do paměti, ale zároveň musí svou sázku zaplatit. Tato hodnota je pak distribuována mezi pravidla, která byla aplikována v minulých krocích. Tím dochází k tomu, že pravidla, která jsou součástí řetězce akcí vedoucího k dobrému výsledku, posilují (metafora řady hasičů předávající si vědro).
 
 \begin{figure}
-\includegraphics{graphics/bucketbrigade.png}
+\includegraphics{bucketbrigade.png}
 \caption{Hollandův LCS s algoritmem požárního družstva.}
 \end{figure}
 

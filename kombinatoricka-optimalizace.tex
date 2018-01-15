@@ -1,0 +1,228 @@
+%\section{Kombinatorická optimalizace}
+%
+%
+
+\section{Problém obchodního cestujícího}
+
+Problém obchodního cestujícího (POC) je jedním z nejznámějších NP-úplných problémů. Jde o nalezení nejkratší cesty mezi $n$ městy, která navštíví všechna města právě jednou a skončí v počátečním městě~\footnote{V daném ohodnoceném úplném grafu máme najít nejkratší hamiltonovskou kružnici.}. 
+
+Evoluční řešení problému obchodního cestujícího má zřejmou fitness --- délku cesty --- zatímco reprezentací řešení existuje několik a genetické operátory (hlavně operátor křížení) jsou na těchto reprezentacích velmi závislé. V následujícím ukážeme nejprve nejčastější reprezentaci pomocí cesty (permutace)~\footnote{Permutační zakódování jedinců je přirozené i u jiných problémů, zapamatujme si jej.}, které je sice velmi přímočará, ale vyžaduje specifické operátory křížení. O operátorech mutace a inicializace se zmíníme poté.   
+
+
+\subsection{Reprezentace cestou}
+
+Reprezentace cestou je velmi názorná, jde o posloupnost celočíselných hodnot označujících pořadí měst tak, jak je navštívíme. Jedinci evolučního algoritmu tedy permutaci o $n$ prvcích.  $(412876935)$ tedy říká, že řešení reprezentuje cestu městy v pořadí $4-1-2-8-7-6-9-3-5$. Zjevnou nevýhodou této reprezentace je, že jednobodové křížení dvou permutací typicky nevyrobí potomky jako validní permutace. 
+
+Jednotlivé návrhy křížení proto pracují tak, aby opravily nebo doplnily jedince, který od svých rodičů zdědí vlastnosti, jež autoři považují za důležité. V různých kříženích se proto (kromě zachování permutace) zrcadlí heuristický přístup k tomu, co by měla rekombinace dvou cest v problému POC zohlednit. 
+
+Prvním návrhem křížení je PMX --- křížení částečné shody nebo také částečného zobrazení.\footnote{Partially mapped/matched crossover} Goldberga a Linglea. Snahou tohoto křížení je zachovat co nejvíce měst na svých původních pozicích. Jde o dvoubodové křížení, které dvěma náhodnými řezy rozdělí každého rodiče na tři části, přičemž střední část použije k definici zobrazení, která města na stejných pozicích spolu korespondují. V příkladu na obr.~\ref{PMX} definujeme tedy zobrazení měst: $1\leftrightarrow 4, 8\leftrightarrow 5, 7\leftrightarrow 6, 6\leftrightarrow 7$. Křížení PMX vymění středy jedinců a dále doplní z původních cest ta města, která nezpůsobí konflikt, t.j. nejsou ve vyměněných středních částech. Nakonec se pro doplnění zbylých měst použije korespondence dané zobrazením dle střední části.   
+
+\begin{figure}%
+\begin{verbatim}
+(123|4567|89) PMX (452|1876|93) :
+(...|1876|..)  (...|4567|..) 
+a zobrazení: 1-4 8-5 7-6 6-7 
+lze doplnit (.23|1876|.9)  (..2|4567|93)
+a dle zobr. (423|1876|59)  (182|4567|93)
+\end{verbatim}
+\caption{Příklad křížení PMX.}%
+\label{PMX}%
+\end{figure}
+
+Davis navrhl jiný přístup ke křížení, tzv. křížení zachovávající pořadí (OX)~\footnote{Order crossover}, které se snaží co nejvíce zachovat relativní pořadí jednotlivých měst v cestě. Obdobně jako v případě PMX jde o dvoubodové křížení, které nejprve vymění středy jedinců. Dále přeuspořádáme cestu druhého rodiče od druhého bodu křížení a popořadě doplňujeme prvního potomka tak, že vynecháváme města, která již jsou v nové střední části. Druhý potomek vznikne stejným způsobem z přeuspořádané cesty prvního rodiče, viz obr.~\ref{OX}.   
+
+
+\begin{figure}%
+\begin{verbatim}
+(123|4567|89) OX (452|1876|93) : 
+(...|1876|..)  (...|4567|..) 
+a přeuspořádáme cestu 2 od druhého bodu 
+křížení: 9-3-4-5-2-1-8-7-6
+vyhodíme překřížená města z 1, zbyde: 9-3-2-1-8
+doplníme potomka 1: (218|4567|93)
+obdobně potomek 2: (345|1876|92)
+\end{verbatim}
+\caption{Příklad křížení OX.}%
+\label{OX}%
+\end{figure}
+
+Na základě křížení OX vznikl algoritmus křížení modifikovaného křížení (ModX)~\footnote{Modified crossover}, které se ukázalo jako úspěšné v řešení problémů rozvrhování. ModX je vlastně OX jen s jedním křížícím bodem, kde oba rodiče přeuspořádáme tak, aby cesta začínala za křížícím bodem a pak křížíme dle principu OX od začátku obou jedinců, viz obr.~\ref{ModX}.    
+
+\begin{figure}%
+\begin{verbatim}
+(0845|671239) ModX (6712|483590)
+
+potomek 1: (6712084539)
+potomek 2: (0845671239) 
+\end{verbatim}
+\caption{Příklad křížení ModX.}%
+\label{ModX}%
+\end{figure}
+
+Posledním z klasických křížení permutačních řešení POC, které si uvedeme, je cyklické křížení (CX)~\footnote{Cycle crossover} navržené Davisem a Hollandem. Snahou autorů bylo, aby každá pozice v potomkovi odpovídala, pokud možno, jednomu s rodičů. Za tímto účelem se při tvorbě potomka pohybujeme v cyklech po permutaci podle odpovídajících měst. První pozici si zvolíme náhodně z jednoho z rodičů, pak se snažíme vzít to město, které je na stejné pozici u druhého z rodičů, ale bereme z pozice v prvním rodiči, atd., dokud nedokončíme cyklus. Pak doplníme městy a pozicemi z druhého rodiče, viz obr.~\ref{CX}.  
+
+\begin{figure}%
+\begin{verbatim}
+(123456789) CX (412876935)
+první pozice, náhodně třeba z prvního P1=(1........), 
+teď musíme vzít 4, P1=(1..4....), pak 8, 3 a 2
+P1=(1234...8.), dál už nelze, doplníme z druhého
+P1=(123476985)
+Obdobně P2=(412856739)
+\end{verbatim}
+\caption{Příklad křížení CX.}%
+\label{CX}%
+\end{figure}
+
+
+\subsection{Křížení rekombinací hran}
+
+Hlavní myšlenkou křížení rekombinací hran (ER)~\footnote{Edge recombination crossover} je přesun pozornosti od uzlů grafu (městům) k hranám (cestám). Autoři Whitley s kolegy zjistili, že výše zmíněné operátory ve skutečnosti nezachovávají více jak 60\% hran z obou rodičů. Algoritmus ER (a jeho vylepšení ER2) se tedy snaží pracovat tak, že v potomcích zachová co nejvíce již existujících hran. Pracuje ve dvou fázích --- nejprve si vybuduje seznam sousedů všech vrcholů, a potom tvoří nové jedince s pomocí tohoto seznamu, viz alg.~\ref{alger}.
+
+\begin{algorithm}
+\caption{Křížení rekombinací hran}
+\label{alger}
+\begin{algorithmic}
+\Procedure{ER}{} 
+\State $K \gets []$ prázdný seznam
+\State $N \gets $ první uzel náhodného rodiče
+\While{Length(K) $<$ Length(Parent)}
+\State $K \gets [K,N]$ 
+\State Vyhoď $N$ ze všech seznamů sousedů
+\If{seznam sousedů $N \not\=\emptyset$} 
+\State 	$N^* \gets$ soused s nejméně sousedy v seznamu (nebo náhodný z více takových)
+\Else 
+\State 	$N^* \gets$ náhodně zvolený uzel $\notin K$
+\EndIf
+\State 	$N \gets N^*$
+\EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+
+Obr.~\ref{ER} a~\ref{ER2} ukazují práci původní varianty algoritmu a jejího vylepšení, které dává přednost výběru měst, která jsou v seznamu dvakrát (označené \#). Dodejme, že algoritmus se může zastavit ještě před sestavením kompletní permutace, ale to se dle praktických zkušeností děje jen zřídka (v 1--1,5\% případů). Algoritmy křížení ER jsou v praxi velmi úspěšné. 
+
+\begin{figure}%
+\begin{verbatim}
+(123456789) ER (412876935)
+1:   9 2 4
+2:   1 3 8
+3:   2 4 9 5
+4:   3 5 1
+5:   4 6 3
+6:   5 7 9
+7:   6 8
+8:   7 9 2
+9:   8 1 6 3
+
+Začnu v 1, následníci jsou 9, 2, 4
+9 vypadává, má 4 násl., z 2  a 4 náhodně vyberu 4
+násl. 4 jsou 3 a 5, beru 5, 
+neboť 5 má 3 násl, zatímco 3 má 4 násl. 
+Teď máme (145......), podobně pokračujeme
+... (145678239)
+\end{verbatim}
+\caption{Příklad křížení ER.}%
+\label{ER}%
+\end{figure}
+
+\begin{figure}%
+\begin{verbatim}
+(123456789) ER (412876935)
+1:   9 #2 4
+2:   #1 3 8
+3:   2 4 9 5
+4:   3 #5 1
+5:   #4 6 3
+6:   5 #7 9
+7:   #6 #8
+8:   #7 9 2
+9:   8 1 6 3
+
+(12.......), (128......), (1287.....), (12876....)
+náhodně např. (128765...), (1287654..), (12876543.)
+(128765439)
+\end{verbatim}
+\caption{Příklad křížení ER2.}%
+\label{ER2}%
+\end{figure}
+
+\subsection{Další operátory}
+
+Zatím jsme hovořili jen o kříženích, zastavme se nyní u dalších operátorů pro problém POC. 
+
+Inicializaci jedinců na začátku algoritmu můžeme provést generováním náhodných permutací, ale lze využít i heuristik pro lepší výchozí řešení. Jednou z nich je jednoduchý algoritmus hladového typu, který inicializuje tak, začne náhodným městem a pak postupně vybírá nejbližšího souseda k již určenému městu. Jinou možností inicializace je algoritmus vkládání hran~viz alg.~\ref{alginr}.
+
+
+\begin{algorithm}
+\caption{Inicializace vkládáním hran}
+\label{alginr}
+\begin{algorithmic}
+\Procedure{Vkládání hran}{} 
+\State cesta $T \gets$ náhodná hrana
+\While{Length(K) $<n$}
+\State vyber nejbližší město $c$ k cestě $T$
+\State najdi hranu $(k-j)\in T$ tak, že minimalizuje rozdíl mezi $(k-c-j)$ a $(k-j)$
+\State Vyhoď $(k-j)$ z $T$
+\State Vlož $(k-c)$ do $T$
+\State Vlož $(c-j)$ do $T$
+\EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+Mutačních operátorů vhodných pro POC je celá řada, i když nejjednodušší (změna jednoho města) naopak použít nelze. Oblíbené jsou ale mutace 
+Posun podcesty, Záměna 2 měst, Záměna podcest nebo heuristiky jako je 2-opt~viz alg.~\ref{dvaopt}~\footnote{G. A. CROES (1958). A method for solving traveling salesman problems. Operations Res. 6 (1958) , pp., 791-812.}. 
+Zajímavé na permutační reprezentaci také je, že u ní funguje inverze. 
+
+
+\begin{algorithm}
+\caption{Heuristika 2-opt pro lokální zlepšení cesty}
+\label{dvaopt}
+\begin{algorithmic}
+\Procedure{2-opt}{cesta, i, k} 
+\State new1 $\gets$ cesta[1] .. cesta[i-1]
+\State new2 $\gets$ cesta[i] .. cesta[k] v převráceném pořadí
+\State new3 $\gets$ cesta[k+1] .. cesta[n]
+\Return new1+new2+new3
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+
+\subsection{Jiné reprezentace}
+
+Přesto, že permutační zakódování jedinců POC je nejčastější, zkoumají se i jiné možnosti reprezentace cest. 
+
+Jednou z nich je reprezentace sousednosti~\footnote{Adjacency representation}, která cestu reprezentuje také jako seznam měst, ale 
+platí že město $j$ je na pozici $i$, vede-li cesta z $i$ do $j$. Takže např. 
+(248397156) odpovídá cestě 1-2-4-3-8-5-9-6-7. Každá cesta má jen 1 reprezentaci, ale některé seznamy negenerují přípustnou cestu
+Klasické křížení v této reprezentaci také nefunguje (a navrhují se různé opravy), ale hlavní motivací pro její zavedení bylo, že 
+v ní mají dobrý význam klasická schémata. Např  (*3*...) značí všechny cesty s hranou 2-3
+
+Problém fungování klasického jednobodového křížení se snaží řešit ordinální reprezentace~\footnote{reprezentace bufferem}. Ta je založena na myšlence, že číslo reprezentující jedno město nebude označovat jeho absolutní název ale jen relativní pozici (pořadí) v bufferu všech měst, ze kterého při konstrukci jedince použitá města mažeme. Takže například máme-li buffer (123456789) a cestu 1-2-4-3-8-5-9-6-7, její reprezentace je (112141311).
+Relativita ordinální reprezentace způsobí, že nyní můžeme dva jedince křížit jednobodově (potomci jsou syntakticky správně), ale význam takového křížení není zřejmý, jde spíše o makromutaci.
+
+Existuje i několik pokusů o  maticové reprezentace cest jako jedinců evolučního algoritmu, většinou jde o binární matice, kde jednička na pozici $(i,j)$ znamená buď, že v cestě vede hrana $i\to j$, anebo (častěji), že město $i$ předchází v cestě město $j$. Operátory nad maticemi používají často logické operace nad prvky matic a opravné mechanismy. Většinou tyto reprezentace nedosahují výrazných výsledků. 
+
+\section{Jiné problémy}
+
+\subsection{Batoh}
+
+
+Evoluční algoritmy jsou aplikovány i na řešení dalších kombinatorických problémů, přičemž je zajímavé, že některé problémy, ač jsou např. také NP-těžké jako POC, představují jiné překážky pro EVA. Uvažme například problém 0-1 batohu, který je definován následovně: 
+
+Mějme množinu věcí očíslovaných od 1 do $n$, každá má hmotnost $w_i$a cenu $v_i$, a maximální nosnost batohu W. Úkolem je
+maximalizovat: $$\sum _{i=1}^{n}v_{i}x_{i}$$ za podmínek $$\sum _{i=1}^{n}w_{i}x_{i}\leq W\;\;\; \mbox{a zároveň}\;\;\; x_{i}\in \{0,1\}$$.
+$x_i$ representuje počet věci $i$ v batohu, my počítáme s tím, že každou věc vezmeme maximálně jednou, proto 0-1 batoh. Zakódování problému se zdá --- na rozdíl od POC --- triviální, můžeme použít bitovou mapu pro věci určené do batohu. Operátory křížení a mutace se zdají být také jednoduché. Problémem v tomto případě je fitness jedince. Za prvé chceme maximalizovat cenu, za druhé nechceme překročit kapacitu $W$, ale blížit se k ní. Lze využít multi-kriteriální EVA, ale v praxi se osvědčilo i velmi jednoduché řešení z rodiny opravných algoritmů dekódování jedince, které bývá překvapivě efektivní. Dekodér procházející bitový vektor jedince interpretuje jedničku na místě $i$ jako: dej věc $i$ do batohu, pokud by se nepřeplní. 
+
+\subsection{Rozvrhování}
+
+Rozvrhování je dalším těžkým problémem, kde se evoluční algoritmy osvědčují jako heuristika pro nalezení přibližných řešení. Rozvrh reprezentujeme přímočaře maticí, kde řádky odpovídají učitelům, sloupce hodinám a hodnoty jsou kódy předmětů. Mutace většinou míchají předměty, křížení mění lepší řádky z jedinců. Problémem u rozvrhování je, jak určit fitness a jak pracovat s omezujícími podmínkami. Obecně se ukazuje, že dobré je definovat fitness řádku (t.j. jak je spokojen učitel) a tu pak zkombinovat s dalšími (často měkkými) kritérii kvality rozvrhu. Existující tvrdá omezení (kdy mohou učitelé, co kde lze učit, $\dots$) je z důvodů efektivity často nutné řešit již v operátorech, aby se zbytečně negenerovala řada nepřípustných řešení.   
+
+\subsection{Plánování výroby}
+Na problému plánování výroby~\footnote{shop scheduling} si můžeme ukázat, že různá zakódování nám vyřeší různé těžkosti s řešením (a přinesou jiná). Problém je definován takto: Mějme výrobky $o_1,\dots o_N$, sestávající z částí $p_1, \dots p_K$. Pro každou část máme stejný (flow shop) nebo více (job shop) plánů, jak jí vyrobit na strojích $m_1, \dots m_M$, a stroje mají různé doby nastavení na jiný výrobek. Úkolem samozřejmě je minimalizovat čas výroby. Tento čas se také jednoduše může stát fitness. 
+
+Evoluční řešení volí dvě cesty jak zakódovat jedince, První typ kódování je jednoduchý permutační --– vyvíjený plán je jen permutace pořadí výrobků. Dekodér pak musí zvolit plány pro jejich části. Výhody jsou jednoduchá reprezentace a možnost použít křížení např. z problému POC. Ale ukazuje se, že tento přístup není efektivní. Dekodér je nucen řešit tu komplikovanou část úlohy, výběr plánu, a také většina operátorů z POC není vhodná.
+Na druhou stranu, přímá reprezentace jedince jako celého plánu (nazývá se paralelní kódování strojů) klade nároky na specializované (komplexní) evoluční operátory~\cite{Werner:2013}.
